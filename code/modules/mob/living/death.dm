@@ -60,7 +60,7 @@ GLOBAL_LIST_EMPTY(last_words)
 		new /obj/item/fertilizer/ash(loc)
 
 
-/mob/living/proc/death(gibbed)
+/mob/living/proc/death(gibbed, datum/mind/death_mind = null)
 	var/was_dead_before = stat == DEAD
 	set_stat(DEAD)
 	unset_machine()

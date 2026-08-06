@@ -432,13 +432,20 @@ GLOBAL_LIST_INIT(oldhc, sortList(
 
 /**
  * Gets the mind from a variable, whether it be a mob, or a mind itself.
- * Also works on brains - it will try to fetch the brainmob's mind.
- * If [include_last] is true, then it will also return last_mind for carbons if there isn't a current mind.
+ * Also works on brains and severed heads - it will try to fetch the brainmob's mind.
+ * If [include_last] is true, then it will also return last_mind for carbons if there isn't a current mind,
+ * and will search for a nearby severed head belonging to that carbon.
  */
 /proc/get_mind(target, include_last = FALSE) as /datum/mind
 	RETURN_TYPE(/datum/mind)
 	if(istype(target, /datum/mind))
 		return target
+	else if(istype(target, /obj/item/bodypart/head))
+		var/obj/item/bodypart/head/head = target
+		if(!QDELETED(head.brainmob?.mind))
+			return head.brainmob.mind
+		if(head.brain && !QDELETED(head.brain.brainmob?.mind))
+			return head.brain.brainmob.mind
 	else if(ismob(target))
 		var/mob/mob_target = target
 		if(!QDELETED(mob_target.mind))
@@ -447,6 +454,14 @@ GLOBAL_LIST_INIT(oldhc, sortList(
 			var/mob/living/carbon/carbon_target = mob_target
 			if(!QDELETED(carbon_target.last_mind))
 				return carbon_target.last_mind
+			var/turf/T = get_turf(carbon_target)
+			if(T)
+				for(var/obj/item/bodypart/head/head in range(3, T))
+					if(head.real_name && head.real_name != carbon_target.real_name)
+						continue
+					. = get_mind(head)
+					if(.)
+						return
 	else if(istype(target, /obj/item/organ/brain))
 		var/obj/item/organ/brain/brain = target
 		if(!QDELETED(brain.brainmob?.mind))

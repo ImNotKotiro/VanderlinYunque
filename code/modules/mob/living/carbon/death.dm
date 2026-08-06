@@ -1,4 +1,4 @@
-/mob/living/carbon/death(gibbed)
+/mob/living/carbon/death(gibbed, datum/mind/death_mind = null)
 	if(stat == DEAD)
 		return
 	stop_looking()
@@ -9,7 +9,7 @@
 //	if(!gibbed)
 //		emote("deathgasp")
 
-	. = ..()
+	. = ..(gibbed, death_mind)
 
 	for(var/datum/brain_trauma/BT as anything in get_traumas())
 		BT.on_death()

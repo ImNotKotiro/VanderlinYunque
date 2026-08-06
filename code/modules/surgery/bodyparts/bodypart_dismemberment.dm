@@ -224,7 +224,7 @@
 	was_owner.update_body()
 
 	if(CHECK_BITFIELD(limb_flags, BODYPART_VITAL))
-		was_owner.death()
+		was_owner.death(death_mind = get_mind(src) || get_mind(was_owner, TRUE))
 
 	// drop_location = null happens when a "dummy human" used for rendering icons on prefs screen gets its limbs replaced.
 	if(!drop_location)
@@ -361,7 +361,8 @@
 		for(var/obj/item/worn_item in worn_items)
 			owner.dropItemToGround(worn_item, force = TRUE)
 
-	name = "[owner.real_name]'s head"
+		real_name = owner.real_name
+		name = "[owner.real_name]'s head"
 	. = ..()
 
 //Attach a limb to a human and drop any existing limb of that type.

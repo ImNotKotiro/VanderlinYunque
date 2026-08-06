@@ -21,7 +21,7 @@
 
 	var/list/mob/corpses = list()
 	for(var/mob/living/C in GLOB.dead_mob_list)
-		if(!C.mind || !is_in_zweb(C.z, owner.z))
+		if(!get_mind(C, TRUE) || !is_in_zweb(C.z, owner.z))
 			continue
 
 		var/time_dead = 0

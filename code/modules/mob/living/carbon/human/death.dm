@@ -27,7 +27,7 @@
 			if(L.is_blind())
 				. -= L
 
-/mob/living/carbon/human/death(gibbed)
+/mob/living/carbon/human/death(gibbed, datum/mind/death_mind = null)
 	if(stat == DEAD)
 		return
 
@@ -109,7 +109,7 @@
 
 	dna.species.spec_death(gibbed, src) // parent call deletes dna
 
-	. = ..()
+	. = ..(gibbed, death_mind)
 
 	if(SSticker.HasRoundStarted())
 		SSblackbox.ReportDeath(src)
