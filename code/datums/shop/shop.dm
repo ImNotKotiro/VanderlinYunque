@@ -118,8 +118,11 @@
 
 		slot++
 
-	player.prefs.save_preferences()
-	player.prefs.save_character()
+	if(length(player.prefs.single_round_loadout) || length(player.prefs.single_round_loadout_colors))
+		player.prefs.single_round_loadout = list()
+		player.prefs.single_round_loadout_colors = list()
+		player.prefs.save_preferences()
+		player.prefs.save_character()
 
 /proc/apply_item_colors(obj/item/spawned_item, datum/mind/mind)
 	if(!spawned_item || !mind?.loadout_item_colors)
@@ -585,7 +588,6 @@
 	))
 	owner.prefs.save_preferences()
 	owner.prefs.save_character()
-
 	log_game("TRIUMPH SHOP: [owner.ckey] converted [amount] triumphs into a triumph ticket.")
 	to_chat(owner.mob, span_notice("Converted <b>[amount] triumphs</b> into a tradeable ticket!"))
 	return TRUE
@@ -673,20 +675,16 @@
 		to_chat(owner.mob, span_warning("All [MAX_LOADOUT_SLOTS] loadout slots are in use."))
 		return FALSE
 	owner.prefs.equipped_loadout += path_str
-	owner.prefs.save_preferences()
-	owner.prefs.save_character()
 	return TRUE
 
 /datum/tgui_triumph_shop/proc/handle_unequip(path_str)
 	if(path_str in owner.prefs.equipped_loadout)
 		owner.prefs.equipped_loadout -= path_str
-		owner.prefs.save_preferences()
-		owner.prefs.save_character()
 		return TRUE
 	if(path_str in owner.prefs.single_round_loadout)
 		owner.prefs.single_round_loadout -= path_str
-		owner.prefs.save_preferences()
-		owner.prefs.save_character()
+		var/datum/loadout_item/item = GLOB.loadout_items[text2path(path_str)]
+		adjust_triumphs(owner, CEILING(item.triumph_cost_permanent * 0.05, 1), TRUE, "Triumph Shop: refund rent [item.name]", FALSE, TRUE)
 		return TRUE
 	return FALSE
 
@@ -744,6 +742,7 @@
 	adjust_triumphs(owner, -cost, TRUE, "Triumph Shop: specific special [path_str]", FALSE, TRUE)
 	owner.prefs.next_special_trait = trait_type
 	owner.prefs.save_preferences()
+	owner.prefs.save_character()
 	print_special_text(owner, owner.prefs.next_special_trait)
 	owner.mob.playsound_local(owner.mob, 'sound/misc/alert.ogg', 100)
 	log_game("TRIUMPH SHOP: [owner.ckey] purchased specific special [path_str] ([trait?.name]) for [cost] triumphs.")
@@ -805,8 +804,6 @@
 		color_store[path_str] = list("base" = null, "detail" = null)
 
 	color_store[path_str][layer] = hex
-	owner.prefs.save_preferences()
-	owner.prefs.save_character()
 
 	log_game("TRIUMPH SHOP: [owner.ckey] set [layer] color of [path_str] to [hex].")
 	return TRUE
@@ -827,6 +824,4 @@
 		return TRUE // already clear
 
 	color_store[path_str][layer] = null
-	owner.prefs.save_preferences()
-	owner.prefs.save_character()
 	return TRUE

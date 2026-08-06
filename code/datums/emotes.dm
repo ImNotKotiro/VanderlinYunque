@@ -128,7 +128,7 @@
 			for(var/mob/M in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, user))
 				if(M == user || !M.client?.translate_chat_enabled)
 					continue
-				if(audible_emote ? !M.can_hear() : M.is_blind())
+				if(audible_emote ? HAS_TRAIT(M, TRAIT_DEAF) : M.is_blind())
 					continue
 				M.handle_translated_hear(translate_content, user, TRUE)
 
