@@ -6,8 +6,7 @@
 	department_flag = OUTSIDERS
 	job_flags = (JOB_EQUIP_RANK | JOB_NEW_PLAYER_JOINABLE | JOB_SHOW_IN_CREDITS)
 	display_order = JDO_BANDIT
-	
-	faction = list(FACTION_NEUTRAL)
+	factions = list(FACTION_NEUTRAL)
 	total_positions = 3
 	spawn_positions = 3
 	antag_job = TRUE
