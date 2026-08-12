@@ -309,4 +309,5 @@
 
 	if(only_forced_audio && intentional)
 		return FALSE
+
 	return TRUE
