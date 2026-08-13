@@ -1,10 +1,10 @@
 {
-    "map_name": "Bellmourne",
-    "map_path": "map_files/blueveil",
-    "map_file": "blueveil.dmm",
-	"immigrant_origin": "Faience",
-	"monarch_title": "Baron",
-	"monarch_title_f": "Baroness",
+    "map_name": "Tavella",
+    "map_path": "map_files/tavella",
+    "map_file": "tavella.dmm",
+	"immigrant_origin": "Andalvia",
+	"monarch_title": "Mayor",
+	"monarch_title_f": "Mayor",
 	"traits": [
 		{"Up": true, "Turf Weather Effects": true},
 		{"Up": true, "Down": true, "Turf Weather Effects": true},
@@ -13,7 +13,7 @@
 		{"Down": true, "Turf Weather Effects": true}
 	],
 	"other_z": [
-		"map_files/blueveil/blueveil_outlands"
+		"map_files/tavella/tavella_outlands"
 	],
 	"minetype": null,
 	"space_empty_levels": 0,

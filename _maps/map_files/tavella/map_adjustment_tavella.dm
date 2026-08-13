@@ -4,69 +4,63 @@
 	These 'map_adjustment.dm' files shouldn't be included in 'dme'
 */
 
-#define POINTY_EARS list(\
-	SPEC_ID_ELF,\
-	SPEC_ID_HALF_ELF\
-)
-
-/datum/map_adjustment/blueveil
-	map_file_name = "blueveil.dmm"
-	species_adjust = list(
-		/datum/job/lord = POINTY_EARS,
-		/datum/job/consort = POINTY_EARS,
-		/datum/job/prince = POINTY_EARS,
-		/datum/job/hand = POINTY_EARS,
-	)
-
-
+/datum/map_adjustment/tavella
+	map_file_name = "tavella.dmm"
 	blacklist = list(
+		/datum/job/archivist,
+		/datum/job/courtphys,
+		/datum/job/minor_noble,
+		/datum/job/sunlord,
+		/datum/job/men_at_arms,
+		/datum/job/dungeoneer,
+		/datum/job/town_elder,
+		/datum/job/tomb_warden,
+		/datum/job/butler,
+		/datum/job/servant,
+		/datum/job/advclass/combat/swordmaster,
+		/datum/job/advclass/mercenary/grenzelhoftzwei,
+		/datum/job/advclass/mercenary/grenzelhofthalb,
+		/datum/job/advclass/mercenary/grenzelhoftgun,
+		/datum/job/advclass/pilgrim/rare/grenzelhoft,
+		/datum/job/advclass/pilgrim/rare/preacher,
 	)
 	// Limited positions to ensure core roles are filled.
 	slot_adjust = list(
+		// Existing Tavella limits.
 		/datum/job/prince = 1,
-		/datum/job/captain = 1,
-		/datum/job/steward = 1,
-		/datum/job/magician = 1,
-		/datum/job/archivist = 1,
-		/datum/job/courtphys = 1,
-		/datum/job/minor_noble = 1,
-		/datum/job/royalknight = 2,
-		/datum/job/guardsman = 8,
-		/datum/job/men_at_arms = 8,
-		/datum/job/town_elder = 1,
-		/datum/job/tomb_warden = 1,
-		/datum/job/priest = 1,
-		/datum/job/gmtemplar = 1,
+		/datum/job/royalknight = 1,
 		/datum/job/monk = 3,
 		/datum/job/undertaker = 1,
 		/datum/job/templar = 3,
 		/datum/job/orthodoxist = 1,
-		/datum/job/innkeep = 1,
 		/datum/job/blacksmith = 1,
-		/datum/job/tailor = 1,
-		/datum/job/alchemist = 1,
 		/datum/job/artificer = 1,
-		/datum/job/butler = 1,
 		/datum/job/farmer = 2,
-		/datum/job/miner = -2,
+		/datum/job/miner = 2,
 		/datum/job/cook = 1,
 		/datum/job/carpenter = 1,
 		/datum/job/mason = 1,
-		/datum/job/jester = 1,
-		/datum/job/hunter = 2,
-		/datum/job/fisher = 2,
-		/datum/job/bard = 2,
-		/datum/job/bapprentice = 1,
-		/datum/job/servant = 2,
-		/datum/job/clinicapprentice = 2,
-		/datum/job/innkeep_son = 1,
-		/datum/job/orphan = 3,
-		/datum/job/merchant = 1,
-		/datum/job/shophand = 1,
-		/datum/job/grabber = 1,
-		/datum/job/adventurer = 1,
+		/datum/job/hunter = 1,
+		/datum/job/fisher = 1,
+		/datum/job/bard = 1,
+		/datum/job/bandit = 2,
+		/datum/job/courtagent = 1,
+		/datum/job/guardsman = 5,
+		/datum/job/vagrant = 5,
 		/datum/job/bogwitch = 1,
 		/datum/job/bog_apprentice = 1,
+		/datum/job/tapster = 1,
+		/datum/job/clinicapprentice = 1,
+		/datum/job/squire = 1,
+		/datum/job/bapprentice = 1,
+		/datum/job/mageapprentice = 1,
+		/datum/job/shophand = 1,
+		/datum/job/grabber = 1,
+		/datum/job/orphan = 3,
+		/datum/job/churchling = 1,
+		/datum/job/soilchild = 1,
+		/datum/job/mercenary = 3,
+		/datum/job/pilgrim = 10,
 		/datum/job/adept = 1,
 	)
 
@@ -79,8 +73,7 @@
 		/datum/job/forestwarden = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
 		/datum/job/tomb_warden = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
 	)
+	
 	migrant_blacklist = list(
 		/datum/migrant_wave/grenzelhoft_visit,
 	)
-
-#undef POINTY_EARS

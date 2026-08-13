@@ -1,0 +1,10 @@
+{
+    "map_name": "Tavella Coast",
+    "map_path": "map_files/tavella",
+    "map_file": "tavella_outlands.dmm",
+	"traits": [
+        {"Up": true, "Leylines": true},
+        {"Up": true, "Down": true, "Leylines": true},
+        {"Down": true, "Leylines": true}
+    ]
+}
