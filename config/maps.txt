@@ -20,6 +20,10 @@ map blueveil
     votable
 endmap
 
+map tavella
+    maxplayers 30
+endmap
+
 map Vanderlin
 	minplayers 90
 	votable
