@@ -13,13 +13,9 @@ Format:
 	votable (is this map votable)
 endmap
 
-map tavella
-    default
-    maxplayers 30
-    votable
-endmap
 
 map blueveil
+    default
     maxplayers 40
     votable
 endmap
