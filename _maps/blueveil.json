@@ -8,7 +8,7 @@
 	"traits": [
 		{"Up": true, "Turf Weather Effects": true},
 		{"Up": true, "Down": true, "Turf Weather Effects": true},
-		{"Up": true, "Down": true, "Turf Weather Effects": true, "Leylines": false},
+		{"Up": true, "Down": true, "Turf Weather Effects": true, "Leylines": true},
 		{"Up": true, "Down": true, "Turf Weather Effects": true},
 		{"Down": true, "Turf Weather Effects": true}
 	],

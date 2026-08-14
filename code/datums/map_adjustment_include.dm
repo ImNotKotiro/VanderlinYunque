@@ -13,3 +13,5 @@
 #include "..\..\_maps\map_files\vanderlin\map_adjustment_vanderlin.dm"
 #include "..\..\_maps\map_files\voyager\map_adjustment_voyager.dm"
 #include "..\..\_maps\map_files\weirwenpass\map_adjustment_weirwenpass.dm"
+#include "..\..\_maps\map_files\blueveil\map_adjustment_blueveil.dm"
+#include "..\..\_maps\map_files\tavella\map_adjustment_tavella.dm"

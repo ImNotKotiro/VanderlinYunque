@@ -13,10 +13,15 @@ Format:
 	votable (is this map votable)
 endmap
 
+
 map blueveil
     default
     maxplayers 40
     votable
+endmap
+
+map tavella
+    maxplayers 30
 endmap
 
 map Vanderlin
