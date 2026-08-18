@@ -289,9 +289,7 @@ SUBSYSTEM_DEF(vote)
 		mode = vote_type
 		initiator = initiator_key
 		started_time = world.time
-		for(var/client/C in GLOB.clients)
-			if(C?.mob)
-				C.mob.playsound_local(C.mob, 'sound/misc/vote_start.ogg', 80, FALSE)
+		world << sound('sound/misc/vote_start.ogg', volume = 80)
 		var/text = "[capitalize(mode)] vote started by [initiator]."
 		if(mode == "storyteller")
 			text = initiator
