@@ -5,7 +5,7 @@
 	weight = 8
 	earliest_start = 15 MINUTES
 	max_occurrences = 1
-	min_players = 30
+	min_players = 5
 	dedicated_storytellers = list(/datum/storyteller/ravox)
 	allowed_storytellers = DIVINE_STORYTELLERS
 

@@ -5,7 +5,7 @@
 	weight = 2
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
-	min_players = 15
+	min_players = 10
 	dedicated_storytellers = list(/datum/storyteller/dendor)
 	allowed_storytellers = DIVINE_STORYTELLERS
 
@@ -39,7 +39,7 @@
 	earliest_start = 10 MINUTES
 	weight = 2
 	max_occurrences = 2
-	min_players = 15
+	min_players = 5
 	dedicated_storytellers = list(/datum/storyteller/dendor)
 	allowed_storytellers = DIVINE_STORYTELLERS
 
@@ -72,7 +72,7 @@
 	weight = 2
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
-	min_players = 15
+	min_players = 5
 	dedicated_storytellers = list(/datum/storyteller/dendor)
 	allowed_storytellers = DIVINE_STORYTELLERS
 
@@ -90,7 +90,7 @@
 	weight = 2
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
-	min_players = 15
+	min_players = 10
 	dedicated_storytellers = list(/datum/storyteller/dendor)
 	allowed_storytellers = DIVINE_STORYTELLERS
 

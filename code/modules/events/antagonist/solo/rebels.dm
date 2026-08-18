@@ -15,7 +15,7 @@
 
 	base_antags = 1
 	maximum_antags = 4
-	min_players = (LOWPOP_THRESHOLD+5) * READYUP_AVG
+	min_players = 15
 
 	earliest_start = 0 SECONDS
 	weight = 6

@@ -29,7 +29,7 @@ GLOBAL_VAR_INIT(vamp_detection, FALSE)
 
 	max_occurrences = 1
 
-	min_players = 20
+	min_players = 15
 	weight = 10
 	typepath = /datum/round_event/antagonist/solo/ghost/daewalker
 	var/exp_requirements = list(

@@ -17,7 +17,7 @@ GLOBAL_LIST_INIT(animal_migration_points, list())
 	typepath = /datum/round_event/animal_migration/passive
 	weight = 5
 	max_occurrences = 8
-	min_players = 0
+	min_players = 5
 	earliest_start = 5 MINUTES
 
 	tags = list(

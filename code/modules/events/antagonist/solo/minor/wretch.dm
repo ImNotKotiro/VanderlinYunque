@@ -35,8 +35,8 @@
 
 	base_antags = 1
 	maximum_antags = 3
-	denominator = (LOWPOP_THRESHOLD*0.6) * READYUP_AVG
-	min_players = 10
+	denominator = 20
+	min_players = 15
 	cost = 0.3 // super cheap so can usually be thrown in somehow
 
 	earliest_start = 0 SECONDS

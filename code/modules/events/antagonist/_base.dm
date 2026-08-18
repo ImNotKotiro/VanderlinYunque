@@ -13,7 +13,7 @@
 	var/list/needed_job
 	var/event_icon_state
 	var/minor_roleset = FALSE
-	///these events are secondary triggers that will only spawn when there are more than 45 players.
+	///these events are secondary triggers that will only spawn at 15+ players.
 	var/list/secondary_events = list(
 		/datum/round_event_control/antagonist/solo/wretch = 1.5,
 		/datum/round_event_control/antagonist/solo/aspirant = 1,
@@ -63,7 +63,7 @@
 
 	var/players_amt = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
 
-	if(players_amt <= LOWPOP_THRESHOLD)
+	if(players_amt < 15)
 		return
 
 	if(!prob(secondary_prob))

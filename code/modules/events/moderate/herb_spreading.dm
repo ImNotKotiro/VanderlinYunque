@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(herb_locations, list())
 	typepath = /datum/round_event/herb_spread
 	weight = 7
 	max_occurrences = 8
-	min_players = 0
+	min_players = 5
 
 	tags = list(
 		TAG_NATURE,

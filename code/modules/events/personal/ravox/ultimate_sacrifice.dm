@@ -5,7 +5,7 @@
 	weight = 5
 	earliest_start = 20 MINUTES
 	max_occurrences = 1
-	min_players = 35
+	min_players = 5
 
 	tags = list(
 		TAG_RAVOX,

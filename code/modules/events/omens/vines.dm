@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/vines
 	weight = 4
 	max_occurrences = 1
-	min_players = 3
+	min_players = 10
 	req_omen = TRUE
 	todreq = list(DUSK, NIGHT, DAWN, DAY)
 
