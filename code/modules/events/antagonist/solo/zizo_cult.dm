@@ -14,7 +14,7 @@
 	base_antags = 1
 	maximum_antags = 4
 	denominator = (LOWPOP_THRESHOLD*0.5) * READYUP_AVG
-	min_players = LOWPOP_THRESHOLD * READYUP_AVG
+	min_players = 15
 	cost = 0.9
 
 	weight = 0
@@ -46,6 +46,7 @@
 		/datum/job/forestpreacher,
 		/datum/job/bogwitch,
 		/datum/job/bog_apprentice,
+		/datum/job/admin,
 	)
 
 /datum/round_event/antagonist/solo/zizo_cultist

@@ -3,7 +3,7 @@
 	wave_type = /datum/migrant_wave/bandit
 
 	weight = 8
-	min_players = LOWPOP_THRESHOLD
+	min_players = 15
 	earliest_start = 20 MINUTES
 	shared_occurence_type = SHARED_MINOR_THREAT
 

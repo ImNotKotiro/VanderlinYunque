@@ -31,7 +31,7 @@
 
 	base_antags = 1
 	maximum_antags = 1
-	min_players = (LOWPOP_THRESHOLD*0.8) * READYUP_AVG
+	min_players = 15
 	cost = 0.8
 
 	earliest_start = 0 SECONDS
@@ -81,6 +81,8 @@
 		if(!helper.client || !helper.mind)
 			continue
 		if(is_antag_banned(helper.client.ckey, ROLE_ASPIRANT))
+			continue
+		if(!(ROLE_ASPIRANT in helper.client.prefs?.be_special))
 			continue
 		if(!is_type_in_list(helper.mind.assigned_role, helping))
 			continue

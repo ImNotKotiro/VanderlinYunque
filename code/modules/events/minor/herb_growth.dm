@@ -6,7 +6,7 @@ GLOBAL_LIST_INIT(harvested_herbs, list())
 	typepath = /datum/round_event/herb_growth
 	weight = 5
 	max_occurrences = 8
-	min_players = 0
+	min_players = 5
 	earliest_start = 20 MINUTES
 
 	tags = list(

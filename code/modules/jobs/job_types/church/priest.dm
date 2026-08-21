@@ -157,7 +157,7 @@
 			continue
 		if(!HU.head)
 			continue
-		if(!istype(HU.head, /obj/item/clothing/head/crown/serpcrown))
+		if(!istype(HU.head, /obj/item/clothing/head/crown/serpcrown) && !istype(HU.wear_mask, /obj/item/clothing/head/crown/serpcrown))
 			continue
 
 		coronated = HU

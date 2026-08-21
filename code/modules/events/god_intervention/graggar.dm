@@ -8,7 +8,7 @@ GLOBAL_LIST_EMPTY(graggar_cullings)
 	weight = 8
 	earliest_start = 20 MINUTES
 	max_occurrences = 1
-	min_players = 35
+	min_players = 10
 	dedicated_storytellers = list(/datum/storyteller/graggar)
 	allowed_storytellers = INHUMEN_STORYTELLERS
 

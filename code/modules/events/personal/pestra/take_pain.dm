@@ -5,7 +5,7 @@
 	weight = 7
 	earliest_start = 5 MINUTES
 	max_occurrences = 1
-	min_players = 30
+	min_players = 5
 
 	tags = list(
 		TAG_PESTRA,

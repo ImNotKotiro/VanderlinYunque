@@ -12,8 +12,8 @@
 
 	base_antags = 1
 	maximum_antags = 2
-	min_players = (LOWPOP_THRESHOLD+5) * READYUP_AVG
-	denominator = LOWPOP_THRESHOLD * READYUP_AVG
+	min_players = 15
+	denominator = 20
 
 	earliest_start = 0 SECONDS
 	weight = 12
@@ -42,6 +42,7 @@
 		/datum/job/forestpreacher,
 		/datum/job/bogwitch,
 		/datum/job/bog_apprentice,
+		/datum/job/admin,
 	)
 
 

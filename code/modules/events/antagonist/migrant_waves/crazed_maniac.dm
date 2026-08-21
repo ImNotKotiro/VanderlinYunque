@@ -1,8 +1,9 @@
+/*
 /datum/round_event_control/antagonist/migrant_wave/maniac
 	name = "Crazed Adventurer"
 	wave_type = /datum/migrant_wave/maniac
 
-	min_players = LOWPOP_THRESHOLD
+	min_players = 15
 	weight = 8
 	earliest_start = 20 MINUTES
 	shared_occurence_type = SHARED_MINOR_THREAT
@@ -18,3 +19,4 @@
 	if(GLOB.maniac_highlander) // Has a Maniac already TRIUMPHED?
 		return FALSE
 	. = ..()
+*/

@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/price_fluctuation
 	weight = 10
 	max_occurrences = 4
-	min_players = 0
+	min_players = 5
 	earliest_start = 15 MINUTES
 
 	tags = list(
