@@ -44,6 +44,12 @@
 	///who use to hold us
 	var/atom/movable/holder
 
+	/// assoc list of form define (or ATTUNEMENT_INSIGHT_TECHNIQUE) -> insight banked toward
+	/// the next point, left over from attunement circles.
+	var/list/attunement_insight
+	/// How many points have been drawn out of attunement circles so far.
+	var/attunement_points_drawn = 0
+
 /datum/spell_mastery/New(datum/mana_pool/owner, atom/contained_source)
 	src.owner = owner
 	if(contained_source)
@@ -56,6 +62,7 @@
 	owner = null
 	technique_levels = null
 	form_levels = null
+	attunement_insight = null
 	unlocked_spells = null
 	granted_actions = null
 	spellbook_granted_actions = null
@@ -537,6 +544,49 @@
 		to_chat(holder, span_boldwarning("I lost all my technique mastery points!"))
 
 	recalculate_unspent_points()
+
+/// Insight required for the next point drawn out of an attunement circle.
+/datum/spell_mastery/proc/get_attunement_threshold()
+	return ATTUNEMENT_CIRCLE_BASE_THRESHOLD + (attunement_points_drawn * ATTUNEMENT_CIRCLE_THRESHOLD_STEP)
+
+/// How much insight is banked toward the next point in a given bucket.
+/datum/spell_mastery/proc/get_banked_insight(key)
+	if(!key)
+		return 0
+	return nulltozero(LAZYACCESS(attunement_insight, key))
+
+/**
+ * Banks insight from an attunement circle and converts it into innate points once
+ * the threshold is met.
+ *
+ * Args
+ * * caster - the mob the points are granted to. Needed because the points live on the
+ *   mob-level helpers, which also refresh leyline recharge and spell availability.
+ * * key - a form define, or ATTUNEMENT_INSIGHT_TECHNIQUE for formless insight.
+ * * amount - raw insight to bank.
+ *
+ * Returns how many points were granted by this call.
+ */
+/datum/spell_mastery/proc/absorb_attunement_insight(mob/living/caster, key, amount)
+	if(QDELETED(src) || QDELETED(caster) || !key || amount <= 0)
+		return 0
+
+	LAZYSET(attunement_insight, key, get_banked_insight(key) + amount)
+
+	var/granted = 0
+	while(attunement_points_drawn < ATTUNEMENT_CIRCLE_MAX_POINTS)
+		var/threshold = get_attunement_threshold()
+		if(get_banked_insight(key) < threshold)
+			break
+		attunement_insight[key] = get_banked_insight(key) - threshold
+		attunement_points_drawn++
+		granted++
+		if(key == ATTUNEMENT_INSIGHT_TECHNIQUE)
+			caster.adjust_technique_mastery_points(1)
+		else
+			caster.adjust_form_mastery_points(1, FALSE, key)
+
+	return granted
 
 /datum/spell_mastery/proc/pass_spell_cast(datum/action/cooldown/spell/spell, atom/cast_on)
 	SIGNAL_HANDLER

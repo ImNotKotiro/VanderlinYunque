@@ -32,10 +32,6 @@
 	form_points = 7
 	technique_points = 2
 
-	traits = list(
-		TRAIT_SORCERER,
-	)
-
 	attribute_sheet = /datum/attribute_holder/sheet/job/spellsword
 
 	spells = list(

@@ -20,6 +20,10 @@
 	var/is_cut = FALSE
 	var/arcyne_potency = 20
 	var/datum/attunement/attuned
+	/// Insight this gem yields when rendered down on an arcyne attunement circle.
+	/// Leave at 0 for anything that can be conjured or mass-produced, or the circle
+	/// turns into an infinite source of innate magic points.
+	var/attunement_insight = 0
 
 /obj/item/gem/Initialize()
 	. = ..()
@@ -47,6 +51,9 @@
 	. += get_socketing_description()
 	if(is_cut)
 		. += span_notice("This gem has been professionally cut.")
+	if(attunement_insight && GET_MOB_SKILL_VALUE(user, /datum/attribute/skill/magic/arcane) > SKILL_LEVEL_NONE)
+		var/form = attuned ? GLOB.attunement_to_form[attuned] : null
+		. += span_notice("Something [form ? "of [LOWER_TEXT(form)]" : "formless"] sleeps inside it. An attunement circle could pry it out.")
 
 /obj/item/gem/on_consume(mob/living/eater)
 	. = ..()
@@ -170,6 +177,7 @@
 	desc = "Something about this gem just doesn't sit right with you. Holding it makes the blood leave your fingertips."
 	smeltresult = /obj/item/ingot/component/glutcrystal
 	dropshrink = 1
+	attunement_insight = 40
 
 /obj/item/gem/blood_diamond/examine(mob/user)
 	. = ..()
@@ -193,6 +201,7 @@
 	attuned = /datum/attunement/earth
 	effect_template = /datum/gem_effect/gemerald
 	item_weight = 24 GRAMS
+	attunement_insight = 20
 
 /obj/item/gem/blue
 	name = "blortz"
@@ -205,6 +214,7 @@
 	attuned = /datum/attunement/ice
 	effect_template = /datum/gem_effect/blortz
 	item_weight = 18 GRAMS
+	attunement_insight = 30
 
 /obj/item/gem/yellow
 	name = "toper"
@@ -217,6 +227,7 @@
 	attuned = /datum/attunement/electric
 	effect_template = /datum/gem_effect/toper
 	item_weight = 21 GRAMS
+	attunement_insight = 15
 
 /obj/item/gem/violet
 	name = "saffira"
@@ -229,6 +240,7 @@
 	attuned = /datum/attunement/arcyne
 	effect_template = /datum/gem_effect/saffira
 	item_weight = 21 GRAMS
+	attunement_insight = 25
 
 /obj/item/gem/diamond
 	name = "dorpel"
@@ -241,6 +253,7 @@
 	attuned = /datum/attunement/light
 	effect_template = /datum/gem_effect/dorpel
 	item_weight = 15 GRAMS
+	attunement_insight = 35
 
 /obj/item/gem/red
 	name = "rontz"
@@ -251,6 +264,7 @@
 	attuned = /datum/attunement/fire
 	effect_template = /datum/gem_effect/rubor
 	item_weight = 24 GRAMS
+	attunement_insight = 30
 
 /obj/item/gem/onyxa
 	name = "raw onyxa"
@@ -259,6 +273,7 @@
 	icon_state = "raw_onyxa"
 	sellprice = 30
 	item_weight = 45 GRAMS
+	attunement_insight = 15
 
 /obj/item/gem/jade
 	name = "raw joapstone"
@@ -267,6 +282,7 @@
 	icon_state = "raw_jade"
 	sellprice = 50
 	item_weight = 60 GRAMS
+	attunement_insight = 20
 
 /obj/item/gem/oyster
 	name = "fossilized clam"
@@ -283,6 +299,7 @@
 	icon_state = "raw_coral"
 	sellprice = 60
 	item_weight = 54 GRAMS
+	attunement_insight = 25
 
 /obj/item/gem/turq
 	name = "raw ceruleabaster"
@@ -291,6 +308,7 @@
 	icon_state = "raw_turq"
 	sellprice = 75
 	item_weight = 66 GRAMS
+	attunement_insight = 25
 
 /obj/item/gem/amber
 	name = "raw petriamber"
@@ -299,6 +317,7 @@
 	icon_state = "raw_amber"
 	sellprice = 50
 	item_weight = 36 GRAMS
+	attunement_insight = 20
 
 /obj/item/gem/opal
 	name = "raw opaloise"
@@ -307,6 +326,7 @@
 	icon_state = "raw_opal"
 	sellprice = 80
 	item_weight = 30 GRAMS
+	attunement_insight = 30
 
 /// riddle
 

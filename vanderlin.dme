@@ -1621,6 +1621,7 @@
 #include "code\datums\relics\relic_triggers\_trigger_base.dm"
 #include "code\datums\relics\relic_triggers\secure.dm"
 #include "code\datums\rituals\runes\_base.dm"
+#include "code\datums\rituals\runes\arcane\attunement_circle.dm"
 #include "code\datums\rituals\runes\arcane\crafting.dm"
 #include "code\datums\rituals\runes\arcane\deconstruction.dm"
 #include "code\datums\rituals\runes\arcane\empowerment.dm"

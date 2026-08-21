@@ -274,6 +274,38 @@ GLOBAL_LIST_INIT(all_forms, list(
 	FORM_WATER,
 ))
 
+/// Bucket key used for attunement insight that belongs to no form, which pays into
+/// the generic technique pool instead.
+#define ATTUNEMENT_INSIGHT_TECHNIQUE "technique"
+
+/// Insight needed for the first innate point drawn out of an attunement circle.
+#define ATTUNEMENT_CIRCLE_BASE_THRESHOLD 100
+/// Added to the threshold for every point already drawn, from any bucket, so that
+/// spreading gems across elements is never cheaper than specialising in one.
+#define ATTUNEMENT_CIRCLE_THRESHOLD_STEP 60
+/// Ceiling on how many innate points a single caster can ever draw from circles.
+#define ATTUNEMENT_CIRCLE_MAX_POINTS 8
+/// Mana burned per point of insight offered to a circle.
+#define ATTUNEMENT_CIRCLE_MANA_PER_INSIGHT 2
+/// How many gems a single circle can cradle at once.
+#define ATTUNEMENT_CIRCLE_MAX_GEMS 6
+
+/// Which form a gem's attunement feeds. Attunements absent from this list have no
+/// form of their own and pay into the technique pool instead.
+GLOBAL_LIST_INIT(attunement_to_form, list(
+	/datum/attunement/fire = FORM_FIRE,
+	/datum/attunement/ice = FORM_ICE,
+	/datum/attunement/electric = FORM_LIGHTNING,
+	/datum/attunement/earth = FORM_EARTH,
+	/datum/attunement/arcyne = FORM_ARCANE,
+	/datum/attunement/light = FORM_ARCANE,
+	/datum/attunement/life = FORM_LIFE,
+	/datum/attunement/death = FORM_DEATH,
+	/datum/attunement/dark = FORM_DEATH,
+	/datum/attunement/aeromancy = FORM_AIR,
+	/datum/attunement/blood = FORM_WATER,
+))
+
 #define CHARGETIME_POKE 0.5 SECONDS // Staple poke spells
 #define CHARGETIME_MINOR 1 SECONDS // Minor utility / support spells
 #define CHARGETIME_MAJOR 1.5 SECONDS // Major projectiles
