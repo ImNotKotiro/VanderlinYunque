@@ -62,6 +62,10 @@
 			log_admin("[key_name(src)] has attempted to advertise in LOOC: [msg]")
 			return
 
+	// Otherwise LOOC is a free bypass for lobby slowmode, everyone waiting is stacked on the same turfs
+	if(isnewplayer(mob) && !try_lobby_slowmode())
+		return
+
 
 	msg = emoji_parse(msg)
 	msg = parsemarkdown_basic(msg, limited = TRUE, barebones = TRUE)

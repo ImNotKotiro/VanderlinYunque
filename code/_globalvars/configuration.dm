@@ -12,6 +12,10 @@ GLOBAL_VAR_INIT(ooc_allowed, TRUE)	// used with admin verbs to disable ooc - not
 GLOBAL_VAR_INIT(looc_allowed, TRUE)
 GLOBAL_VAR_INIT(dooc_allowed, TRUE)
 GLOBAL_VAR_INIT(enter_allowed, TRUE)
+/// Admins can turn this on to rate limit lobby chat, admins themselves are never throttled
+GLOBAL_VAR_INIT(lobby_slowmode, FALSE)
+/// How long players have to wait between lobby messages while slowmode is on
+GLOBAL_VAR_INIT(lobby_slowmode_delay, 30 SECONDS)
 
 // Debug is used exactly once (in living.dm) but is commented out in a lot of places.  It is not set anywhere and only checked.
 // Debug2 is used in conjunction with a lot of admin verbs and therefore is actually legit.

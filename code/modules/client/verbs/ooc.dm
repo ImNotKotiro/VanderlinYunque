@@ -80,6 +80,10 @@ GLOBAL_LIST_INIT(oocpronouns_required, list(
 		to_chat(src, span_danger("I have OOC muted."))
 		return
 
+	// Lobby players talk over OOC while it is unmuted, so slowmode has to cover this channel too
+	if(isnewplayer(mob) && !try_lobby_slowmode())
+		return
+
 	mob.log_talk(raw_msg, LOG_OOC)
 
 	var/keyname = get_display_ckey(ckey)
@@ -149,6 +153,9 @@ GLOBAL_LIST_INIT(oocpronouns_required, list(
 		to_chat(src, span_danger("I have OOC muted."))
 		return
 
+	if(!try_lobby_slowmode())
+		return
+
 	mob.log_talk(raw_msg, LOG_OOC)
 
 	var/keyname = get_display_ckey(ckey)
@@ -176,6 +183,43 @@ GLOBAL_LIST_INIT(oocpronouns_required, list(
 				msg_to_send = "<font color='[color2use]'><EM>LOBBY: [keyname][real_key]:</EM></font> <font color='[admin_message_color ? admin_message_color : GLOB.OOC_COLOR]'><span class='message linkify'>[msg]</span></font>"
 
 			to_chat(C, "[span_ooc(msg_to_send)]")
+
+/**
+ * Enforces the admin toggled lobby slowmode.
+ *
+ * Returns TRUE if the message is allowed through, starting the client's cooldown as it does,
+ * and FALSE if the client still has to wait.
+ */
+/client/proc/try_lobby_slowmode()
+	if(!GLOB.lobby_slowmode || holder)
+		return TRUE
+
+	if(!COOLDOWN_FINISHED(src, lobby_slowmode_cooldown))
+		to_chat(src, span_danger("The lobby is in slowmode. Wait [DisplayTimeText(COOLDOWN_TIMELEFT(src, lobby_slowmode_cooldown), 1)] before speaking again."))
+		return FALSE
+
+	COOLDOWN_START(src, lobby_slowmode_cooldown, GLOB.lobby_slowmode_delay)
+	return TRUE
+
+/proc/toggle_lobby_slowmode(toggle = null)
+	if(toggle != null)
+		if(toggle == GLOB.lobby_slowmode)
+			return
+		GLOB.lobby_slowmode = toggle
+	else
+		GLOB.lobby_slowmode = !GLOB.lobby_slowmode
+
+	var/announcement = span_boldannounce("Lobby slowmode has been lifted.")
+	if(GLOB.lobby_slowmode)
+		announcement = span_boldannounce("The lobby has been put in slowmode, one message every [DisplayTimeText(GLOB.lobby_slowmode_delay, 1)].")
+
+	// Only bother the people who actually talk in the lobby channel
+	for(var/client/C in GLOB.clients)
+		if(!isnewplayer(C.mob) && (SSticker.current_state != GAME_STATE_FINISHED))
+			continue
+		to_chat(C, announcement)
+
+	message_admins("<B>Lobby slowmode has been [GLOB.lobby_slowmode ? "enabled ([DisplayTimeText(GLOB.lobby_slowmode_delay, 1)] between messages)" : "disabled"].</B>")
 
 /proc/toggle_ooc(toggle = null)
 	if(toggle != null) //if we're specifically en/disabling ooc
