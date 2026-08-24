@@ -217,6 +217,7 @@ SUBSYSTEM_DEF(ticker)
 
 			current_state = GAME_STATE_PREGAME
 			SEND_SIGNAL(src, COMSIG_TICKER_ENTER_PREGAME)
+			toggle_lobby_slowmode(TRUE)
 			fire()
 		if(GAME_STATE_PREGAME)
 			//lobby stats for statpanels
