@@ -217,7 +217,6 @@ SUBSYSTEM_DEF(ticker)
 
 			current_state = GAME_STATE_PREGAME
 			SEND_SIGNAL(src, COMSIG_TICKER_ENTER_PREGAME)
-			toggle_lobby_slowmode(TRUE)
 			fire()
 		if(GAME_STATE_PREGAME)
 			//lobby stats for statpanels
@@ -273,6 +272,7 @@ SUBSYSTEM_DEF(ticker)
 			if(!roundend_check_paused && SSgamemode.check_finished(force_ending) || force_ending)
 				SSgamemode.refresh_alive_stats()
 				current_state = GAME_STATE_FINISHED
+				toggle_lobby_slowmode(FALSE)
 				toggle_ooc(TRUE) // Turn it on
 				toggle_dooc(TRUE)
 				declare_completion(force_ending)
@@ -359,6 +359,8 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
+	toggle_lobby_slowmode(TRUE)
+	
 	var/init_start = world.timeofday
 
 	CHECK_TICK
