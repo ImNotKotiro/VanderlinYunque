@@ -3,7 +3,7 @@
 		STAT_STRENGTH = 1,
 		STAT_INTELLIGENCE = 1,
 		STAT_SPEED = -1,
-		/datum/attribute/skill/combat/swords = 30,
+		/datum/attribute/skill/combat/swords = 35,
 		/datum/attribute/skill/combat/wrestling = 10,
 		/datum/attribute/skill/combat/unarmed = 20,
 		/datum/attribute/skill/misc/athletics = 30,
@@ -29,8 +29,8 @@
 	blacklisted_species = list(SPEC_ID_HALFLING)
 	exp_types_granted = list(EXP_TYPE_MERCENARY, EXP_TYPE_COMBAT, EXP_TYPE_MAGICK)
 	magic_user = TRUE
-	form_points = 7
-	technique_points = 2
+	form_points = 8
+	technique_points = 4
 
 	traits = list(
 		TRAIT_SORCERER,
@@ -42,7 +42,6 @@
 		/datum/action/cooldown/spell/undirected/touch/prestidigitation,
 		/datum/action/cooldown/spell/bind_weapon,
 		/datum/action/cooldown/spell/recall_weapon,
-		/datum/action/cooldown/spell/empower_weapon,
 		/datum/action/cooldown/spell/essence/mend/spell,
 	)
 
