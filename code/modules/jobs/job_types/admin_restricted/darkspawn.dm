@@ -83,6 +83,7 @@
 		TRAIT_STEELHEARTED,
 		TRAIT_SORCERER,
 		TRAIT_NOPAIN,
+		TRAIT_VITAE_USER,
 	)
 
 	languages = list(
@@ -95,6 +96,7 @@
 		/datum/language/thievescant,
 		/datum/language/undead
 	)
+	book_type = /obj/item/recipe_book/arcyne
 
 /datum/job/admin/darkspawn/after_spawn(mob/living/carbon/human/spawned, client/player_client)
 	. = ..()
