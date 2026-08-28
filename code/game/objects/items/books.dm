@@ -156,7 +156,7 @@
 			curpage = 1
 //		var/curdat = pages[curpage]
 		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-					<html><head><style type=\"text/css\">
+					<html><head><meta charset=\"UTF-8\"><style type=\"text/css\">
 					body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 		for(var/A in pages)
 			dat += A
@@ -532,7 +532,7 @@
 	desc = "By [player_book_author]"
 	icon_state = "[player_book_icon]_0"
 	base_icon_state = "[player_book_icon]"
-	pages = list("<b3><h3>Title: [player_book_title]<br>Author: [player_book_author]</b><h3>[player_book_text]")
+	pages = list("<b3><h3>Title: " + player_book_title + "<br>Author: " + player_book_author + "</b><h3>" + player_book_text)
 
 /obj/item/book/playerbook/Initialize(mapload, in_round_player_generated, mob/living/in_round_player_mob, text, title)
 	. = ..()
@@ -601,9 +601,9 @@
 	desc = "A [number_of_pages]-page written piece, with aspirations of becoming a book."
 	update_appearance(UPDATE_ICON_STATE)
 
-	compiled_pages = null
+	compiled_pages = ""
 	for(var/obj/item/paper/page as anything in pages)
-		compiled_pages += "<p>[page.info]</p>\n"
+		compiled_pages += "<p>" + page.info + "</p>\n"
 
 /obj/item/manuscript/item_interaction(mob/living/user, obj/item/tool, list/modifiers)
 	if(user.cmode)
@@ -716,6 +716,7 @@
 	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 	<html>
 		<head>
+			<meta charset="UTF-8">
 			<style type="text/css">
 				body {
 					background-image:url('book.png');
