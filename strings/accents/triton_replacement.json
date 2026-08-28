@@ -1,21 +1,25 @@
 {
 
     "triton": {
-		"hello": "ahoy",
-		"dead": "belly up",
-		"tired": "wassshed",
-		"kid": "tiddler",
-		"child": "tiddler",
-		"arm": "fin",
-		"lung": "gill",
-		"caught": "hooked",
-		"captured": "netted",
-		"coward": "ssshell-hider",
-		"buddy": "guppy",
-		"dummy": "clam-brain",
-		"idiot": "bubble-head",
-		"fucker": "crab-kicker",
-		"fuck": "barnaclesss"
+        "hola": "ahoy",
+        "muerto": "panza arriba",
+        "cansado": "agotado",
+        "niño": "pececito",
+        "niña": "pececita",
+        "niños": "pececitos",
+        "niñas": "pececitas",
+        "brazo": "aleta",
+        "brazos": "aletas",
+        "pulmón": "branquia",
+        "pulmones": "branquias",
+        "atrapado": "enganchado",
+        "atrapada": "enganchada",
+        "atrapados": "enganchados",
+        "capturado": "enredado",
+        "capturada": "enredada",
+        "capturados": "enredados",
+		"ss": "sss",
+        "s": "ss"
 		}
 
 }
