@@ -13,7 +13,7 @@
 	slot_adjust = list(
 		/datum/job/absolver = 1,
 		/datum/job/adept = 1,
-		/datum/job/adventurer = 4,
+		/datum/job/adventurer = 3,
 		/datum/job/alchemist = 1,
 		/datum/job/apothecary = 1,
 		/datum/job/archivist = 1,
@@ -58,7 +58,7 @@
 		/datum/job/magician = 1,
 		/datum/job/royalknight = 1,
 		/datum/job/matron = 1,
-		/datum/job/mercenary = 4,
+		/datum/job/mercenary = 3,
 		/datum/job/merchant = 1,
 		/datum/job/miner = 1,
 		/datum/job/minor_noble = 2,
