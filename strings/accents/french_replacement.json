@@ -46,9 +46,9 @@
 		"verdad": "vegdad",
 		"favor": "favógh",
 		"corazón": "coghazón",
-		"señor": "monsieur",
-		"señora": "madame",
 		"señorita": "mademoiselle",
+		"señora": "madame",
+		"señor": "monsieur",
 		"amor": "amour",
 		"ustedes": "ustedé",
 		"dos": "dó",
@@ -70,8 +70,7 @@
 		"perdon": "pardon",
 		"perdón": "pardon",
 		"querido": "cher",
-		"querida": "chère",
-		"mi señor": "monseigneur"
+		"querida": "chère"
 		}
 		
 }
