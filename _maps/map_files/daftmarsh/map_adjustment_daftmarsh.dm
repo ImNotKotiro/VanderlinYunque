@@ -87,12 +87,5 @@
 	)
 
 	ages_adjust = list(
-		/datum/job/bogwitch = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/forestguard = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/forestsupport = list(AGE_CHILD, AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/bog_apprentice = list(AGE_CHILD, AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/forestenforcer = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/forestpreacher = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
-		/datum/job/forestwarden = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
 		/datum/job/tomb_warden = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
 	)

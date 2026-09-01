@@ -37,7 +37,7 @@
 	bypass_lastclass = TRUE
 	selection_color = "#0d6929"
 
-	allowed_ages = list(AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
+	allowed_ages = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL)
 	allowed_races = RACES_PLAYER_ALL
 	blacklisted_species = list(SPEC_ID_HALFLING, SPEC_ID_KOBOLD)
 

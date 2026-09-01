@@ -30,7 +30,9 @@
 		/datum/job/forestwarden_classic = 1,
 		/datum/job/forestguard_classic = 4,
 	)
-
+	ages_adjust = list(
+		/datum/job/tomb_warden = list(AGE_ADULT, AGE_MIDDLEAGED, AGE_OLD, AGE_IMMORTAL),
+	)
 	migrant_blacklist = list(
 		/datum/migrant_wave/grenzelhoft_visit,
 	)
