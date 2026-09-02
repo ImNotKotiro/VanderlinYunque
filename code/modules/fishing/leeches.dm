@@ -292,8 +292,8 @@
 				"¡¡PSYDON NUNCA VOLVERÁ!!", \
 				"¡¡MUERTE A ASTRATA, MUERTE AL SACERDOTE, MALDITO SEA EL TEMPLO!!", \
 				"¡¡NECIOS AQUELLOS QUE SIGUEN EL CAMINO DE LOS DIEZ!!", \
-				"¡¡ME CAGO EN LA BOCA DE ASTRATA!!"
-			))
+				"¡¡ME CAGO EN LA BOCA DE ASTRATA!!"))
+			
 		V.add_stress(/datum/stress_event/leechcult)
 
 /obj/item/natural/worms/leech/abyssoid
@@ -323,7 +323,7 @@
 				"¡¡RECUERDEN A ABYSSOR!!", \
 				"¡¡ABYSSOR VIVE!!", \
 				"¡¡GLORIA A ABYSSOR!!", \
-				"¡¡ABYSSOR SE ACERCA!!"
-			))
+				"¡¡ABYSSOR SE ACERCA!!"))
+			
 
 #undef MAX_LEECH_EVILNESS

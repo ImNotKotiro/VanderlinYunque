@@ -244,7 +244,7 @@
 			. = message_muffled
 
 	if(!muzzle_ignore && HAS_TRAIT(user, TRAIT_MUTE) && (emote_type & EMOTE_AUDIBLE))
-		return "makes a [pick("strong ", "weak ", "")]noise."
+		return "hace un ruido [pick("fuerte ", "suave ", "sordo")]."
 	if(user.mind && user.mind.miming && message_mime)
 		. = message_mime
 	else if(isanimal(user) && message_simple)
