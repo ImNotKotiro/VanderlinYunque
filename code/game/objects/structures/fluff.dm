@@ -655,7 +655,6 @@
 	name = "statue"
 	desc = ""
 	icon = 'icons/roguetown/misc/tallstructure.dmi'
-	icon_state = "bstatue"
 	density = TRUE
 	anchored = TRUE
 	layer = ABOVE_MOB_LAYER
@@ -663,6 +662,7 @@
 	blade_dulling = DULLING_BASH
 	max_integrity = 300
 	dir = SOUTH
+	abstract_type = /obj/structure/fluff/statue
 
 /obj/structure/fluff/statue/Initialize()
 	. = ..()
@@ -693,6 +693,10 @@
 	if(direction == dir)
 		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
+
+/obj/structure/fluff/statue/necra
+	name = "The Veiled Lady"
+	icon_state = "bstatue"
 
 /obj/structure/fluff/statue/gargoyle
 	icon_state = "gargoyle"
