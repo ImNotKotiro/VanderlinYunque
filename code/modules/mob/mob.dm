@@ -194,21 +194,30 @@ GLOBAL_VAR_INIT(mobids, 1)
 		//This entire if/else chain could be in two lines but isn't for readibilties sake.
 		var/msg = message
 		var/signal = SEND_SIGNAL(M, COMSIG_MOB_VISIBLE_MESSAGE, src, message, vision_distance, ignored_mobs)
+		var/fov_blocked = FALSE
 		if(signal & COMPONENT_NO_VISIBLE_MESSAGE)
 			msg = null
 		else if(signal & COMPONENT_VISIBLE_MESSAGE_BLIND)
+			fov_blocked = TRUE
 			msg = blind_message
-		if(!msg)
+
+		var/can_see_src = M.see_invisible >= invisibility
+		if(!can_see_src)
+			msg = blind_message
+
+		// Hearers are already in view(); FOV cone should not hide emotes/runechat from sighted viewers.
+		var/show_runechat = runechat_message && !M.is_blind() && can_see_src
+		if(fov_blocked && show_runechat)
+			msg = message
+
+		if(!msg && !show_runechat)
 			continue
 
-		if(M.see_invisible < invisibility)//if src is invisible to M
-			msg = blind_message
-		if(!msg)
-			continue
-		if(M != src && !M.is_blind())
-			M.log_message("saw [key_name(src)] emote: [message]", LOG_EMOTE, log_globally = FALSE)
-		M.show_message(msg, MSG_VISUAL, blind_message, MSG_AUDIBLE)
-		if(runechat_message && !HAS_TRAIT(M, TRAIT_DEAF))
+		if(msg)
+			if(M != src && !M.is_blind())
+				M.log_message("saw [key_name(src)] emote: [message]", LOG_EMOTE, log_globally = FALSE)
+			M.show_message(msg, MSG_VISUAL, blind_message, MSG_AUDIBLE)
+		if(show_runechat)
 			M.create_chat_message(src, raw_message = runechat_message, spans = list("emote"))
 
 ///Adds the functionality to self_message.
