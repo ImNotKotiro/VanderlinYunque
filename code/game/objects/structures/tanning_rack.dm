@@ -47,7 +47,7 @@
 			if(!do_after(user, work_time))
 				return
 			playsound(src,pick('sound/items/book_open.ogg','sound/items/book_page.ogg'), 100, FALSE)
-			user.mind.add_sleep_experience(/datum/attribute/skill/craft/tanning, GET_MOB_ATTRIBUTE_VALUE(user, STAT_INTELLIGENCE) * 2) //these numbers may need some revision
+			user.mind.add_sleep_experience(/datum/attribute/skill/craft/tanning, GET_MOB_ATTRIBUTE_VALUE(user, STAT_INTELLIGENCE) * 4)
 			for(var/i = 0; i < pieces_to_spawn; i++)
 				if(prob(skill_level + CLAMP((GET_MOB_ATTRIBUTE_VALUE(user, STAT_FORTUNE) - 10)*2,0,100)))
 					new /obj/item/natural/cured/essence(get_turf(user))

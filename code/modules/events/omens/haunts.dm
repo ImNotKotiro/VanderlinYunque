@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/haunts
 	weight = 10
 	max_occurrences = 2
-	min_players = 0
+	min_players = 10
 	req_omen = TRUE
 	earliest_start = 25 MINUTES
 	todreq = list(NIGHT)

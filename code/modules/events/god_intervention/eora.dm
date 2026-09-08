@@ -6,7 +6,7 @@
 	earliest_start = 15 MINUTES
 	latest_start = 1 HOURS
 	max_occurrences = 1
-	min_players = 30
+	min_players = 15
 	dedicated_storytellers = list(/datum/storyteller/eora)
 	allowed_storytellers = DIVINE_STORYTELLERS
 

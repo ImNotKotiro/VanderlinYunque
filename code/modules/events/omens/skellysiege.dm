@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/skellysiege
 	weight = 10
 	max_occurrences = 2
-	min_players = 0
+	min_players = 20
 	req_omen = TRUE
 	earliest_start = 60 MINUTES
 	todreq = list(DUSK, NIGHT, DAWN, DAY)

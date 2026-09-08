@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/worldsiege
 	weight = 10
 	max_occurrences = 1
-	min_players = 4
+	min_players = 20
 	earliest_start = 35 MINUTES
 	track = EVENT_TRACK_RAIDS
 

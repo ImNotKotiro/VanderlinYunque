@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/gobinvade
 	weight = 10
 	max_occurrences = 2
-	min_players = 0
+	min_players = 10
 	req_omen = TRUE
 	earliest_start = 35 MINUTES
 	todreq = list(NIGHT, DAWN, DAY, DUSK)

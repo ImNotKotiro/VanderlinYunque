@@ -635,6 +635,15 @@
 	message_admins("[key_name_admin(usr)] toggled LOOC.")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle LOOC", "[GLOB.ooc_allowed ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+/datum/admins/proc/togglelobbyslowmode()
+	set category = "OOC.Admin"
+	set desc="Rate limit lobby chat"
+	set name="Toggle Lobby Slowmode"
+	toggle_lobby_slowmode()
+	log_admin("[key_name(usr)] toggled lobby slowmode.")
+	message_admins("[key_name_admin(usr)] toggled lobby slowmode.")
+	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Lobby Slowmode", "[GLOB.lobby_slowmode ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
 /datum/admins/proc/toggleoocdead()
 	set category = "OOC.Admin"
 	set desc="Toggle dis bitch"

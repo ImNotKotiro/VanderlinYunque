@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/fishing_boon
 	weight = 5
 	max_occurrences = 8
-	min_players = 0
+	min_players = 5
 	earliest_start = 10 MINUTES
 
 	tags = list(

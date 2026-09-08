@@ -5,7 +5,7 @@
 	weight = 8
 	earliest_start = 15 MINUTES
 	max_occurrences = 2
-	min_players = 30
+	min_players = 10
 	dedicated_storytellers = list(/datum/storyteller/zizo)
 	allowed_storytellers = INHUMEN_STORYTELLERS
 

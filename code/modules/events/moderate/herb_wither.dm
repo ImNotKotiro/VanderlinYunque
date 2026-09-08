@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/herb_wither
 	weight = 5
 	max_occurrences = 8
-	min_players = 0
+	min_players = 10
 	earliest_start = 25 MINUTES
 
 	tags = list(

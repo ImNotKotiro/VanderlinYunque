@@ -272,6 +272,7 @@ SUBSYSTEM_DEF(ticker)
 			if(!roundend_check_paused && SSgamemode.check_finished(force_ending) || force_ending)
 				SSgamemode.refresh_alive_stats()
 				current_state = GAME_STATE_FINISHED
+				toggle_lobby_slowmode(FALSE)
 				toggle_ooc(TRUE) // Turn it on
 				toggle_dooc(TRUE)
 				declare_completion(force_ending)
@@ -358,6 +359,8 @@ SUBSYSTEM_DEF(ticker)
 
 /datum/controller/subsystem/ticker/proc/setup()
 	message_admins(span_boldannounce("Starting game..."))
+	toggle_lobby_slowmode(TRUE)
+	
 	var/init_start = world.timeofday
 
 	CHECK_TICK
@@ -412,6 +415,7 @@ SUBSYSTEM_DEF(ticker)
 	INVOKE_ASYNC(SSdbcore, TYPE_PROC_REF(/datum/controller/subsystem/dbcore, SetRoundStart))
 
 	message_admins(span_boldnotice("Welcome to [SSmapping.config.map_name]!"))
+	addtimer(CALLBACK(src, PROC_REF(revoke_antag_perms)), 3 MINUTES)
 
 	for(var/client/C in GLOB.clients)
 		if(!C?.mob)
@@ -510,6 +514,9 @@ SUBSYSTEM_DEF(ticker)
 	setup_done = TRUE
 
 	job_change_locked = FALSE
+
+	if(!rulermob)
+		addomen(OMEN_NOLORD)
 
 	for(var/obj/effect/landmark/start/S as anything in GLOB.roundstart_landmarks)
 		if(!istype(S))//we can not runtime here. not in this important of a proc.
@@ -784,6 +791,10 @@ SUBSYSTEM_DEF(ticker)
 	update_everything_flag_in_db()
 
 	text2file(login_music, "data/last_round_lobby_music.txt")
+
+/datum/controller/subsystem/ticker/proc/revoke_antag_perms()
+	GLOB.midround_antag_permission = FALSE
+	message_admins("ANTAGS: Global Midround Antag Rolling now DISABLED. Antagonists will now roll according to their own settings.")
 
 #undef ROUND_START_MUSIC_LIST
 #undef SS_TICKER_TRAIT

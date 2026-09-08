@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/wild_crops
 	weight = 7
 	max_occurrences = 10
-	min_players = 0
+	min_players = 5
 	earliest_start = 10 MINUTES
 
 	tags = list(

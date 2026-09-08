@@ -302,7 +302,7 @@ GLOBAL_LIST_EMPTY(tennite_schisms)
 	typepath = /datum/round_event/schism_within_ten
 	weight = 2
 	max_occurrences = 1
-	min_players = 50
+	min_players = 10
 	earliest_start = 20 MINUTES
 	allowed_storytellers = list(/datum/storyteller/noc, /datum/storyteller/ravox, /datum/storyteller/necra, /datum/storyteller/xylix, /datum/storyteller/pestra, /datum/storyteller/abyssor, /datum/storyteller/dendor, /datum/storyteller/malum)
 

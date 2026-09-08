@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/worldsiege/goblin
 	weight = 10
 	max_occurrences = 1
-	min_players = 4
+	min_players = 20
 	todreq = null
 	earliest_start = 35 MINUTES
 	track = EVENT_TRACK_RAIDS

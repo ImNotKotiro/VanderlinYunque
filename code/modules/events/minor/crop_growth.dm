@@ -4,7 +4,7 @@
 	typepath = /datum/round_event/crop_growth
 	weight = 5
 	max_occurrences = 8
-	min_players = 0
+	min_players = 5
 	earliest_start = 20 MINUTES
 
 	tags = list(

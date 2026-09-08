@@ -289,6 +289,7 @@ SUBSYSTEM_DEF(vote)
 		mode = vote_type
 		initiator = initiator_key
 		started_time = world.time
+		world << sound('sound/misc/vote_start.ogg', volume = 80)
 		var/text = "[capitalize(mode)] vote started by [initiator]."
 		if(mode == "storyteller")
 			text = initiator

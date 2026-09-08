@@ -28,6 +28,8 @@
 	var/total_message_count = 0
 	///Next tick to reset the total message counter
 	var/total_count_reset = 0
+	///Blocks lobby chat until it expires, only used while GLOB.lobby_slowmode is on
+	COOLDOWN_DECLARE(lobby_slowmode_cooldown)
 	///Internal counter for clients sending irc relay messages via ahelp to prevent spamming. Set to a number every time an admin reply is sent, decremented for every client send.
 	var/ircreplyamount = 0
 

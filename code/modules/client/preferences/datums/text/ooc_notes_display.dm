@@ -5,6 +5,7 @@
 	can_randomize = FALSE
 	maximum_value_length = 1024
 	should_update_preview = FALSE
+	should_strip_html = FALSE
 
 /datum/preference/text/ooc_notes_display/apply_to_human(mob/living/carbon/human/H, value, datum/preferences/prefs)
 	H.ooc_notes_display = value

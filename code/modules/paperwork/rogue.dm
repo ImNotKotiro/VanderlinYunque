@@ -57,7 +57,7 @@
 	if(old_render)
 		user << browse_rsc('html/book.png')
 		var/dat = {"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">
-		<html><head><style type=\"text/css\">
+		<html><head><meta charset=\"UTF-8\"><style type=\"text/css\">
 		body { background-image:url('book.png');background-repeat: repeat; }</style></head><body scroll=yes>"}
 		dat += "[info]<br>"
 		dat += "<a href='byond://?src=[REF(src)];close=1' style='position:absolute;right:50px'>Close</a>"
@@ -616,13 +616,24 @@
 
 /obj/item/paper/scroll/rous_plans
 	name = "rous tunnel drawings"
-	desc = "Paper etched with the a winding mess of tunnels."
+	desc = "Paper etched with a winding mess of tunnels."
 
 /obj/item/paper/scroll/rous_plans/read(mob/user)
 	if(!user.mind)
 		return
 	to_chat(user, span_purple("<b>These look like secret passages...</b>"))
 	ADD_TRAIT(user.mind, TRAIT_KNOW_ROUS_DOORS, "[type]")
+	user.playsound_local(user, 'sound/misc/notice (2).ogg', 100, FALSE)
+
+/obj/item/paper/scroll/dream_cave_map
+	name = "map to the dream cave"
+	desc = "A paper etching map to find the Dream Cave of the Lunar Oracle."
+
+/obj/item/paper/scroll/dream_cave_map/read(mob/user)
+	if(!user.mind)
+		return
+	to_chat(user, span_purple("<b>Wisdom will be found...</b>"))
+	ADD_TRAIT(user, TRAIT_DREAM_CAVE, "[type]")
 	user.playsound_local(user, 'sound/misc/notice (2).ogg', 100, FALSE)
 
 /obj/item/paper/scroll/sold_manifest

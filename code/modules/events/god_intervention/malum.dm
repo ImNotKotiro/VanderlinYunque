@@ -5,7 +5,7 @@
 	weight = 8
 	earliest_start = 10 MINUTES
 	max_occurrences = 2
-	min_players = 15
+	min_players = 5
 	dedicated_storytellers = list(/datum/storyteller/malum)
 	allowed_storytellers = DIVINE_STORYTELLERS
 

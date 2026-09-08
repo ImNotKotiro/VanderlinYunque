@@ -5,7 +5,7 @@
 	weight = 5
 	earliest_start = 35 MINUTES
 	max_occurrences = 1
-	min_players = 40
+	min_players = 5
 
 	tags = list(
 		TAG_NECRA,

@@ -9,7 +9,8 @@
 	)
 
 	cost = 0.8
-	weight = 12
+	weight = 6
+	min_players = 15
 	earliest_start = 15 MINUTES
 
 /datum/migrant_wave/wretch
