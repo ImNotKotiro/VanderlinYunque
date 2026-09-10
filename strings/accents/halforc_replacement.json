@@ -1,52 +1,125 @@
 {
-
     "halforc": {
-		"ass": "arse",
-		"asshole": "arsehole",
-		"axe": "choppa",
-		"bro": "bruv",
-		"dagger": "shiv",
-		"dick": "prick",
-		"friend": "mate",
-		"fool": "git",
-		"fucking hell": "bloody 'ell",
-		"fucking": "bloody",
-		"good": "bone",
-		"hammer": "'ammur",
-		"hello": "goodae",
-		"hey": "oi",
-		"idiot": "git",
-		"ing": "in'",
-		"is it not": "innit",
-		"isn't he": "innhe",
-		"isn't it": "innit",
-		"isn't she": "innshe",
-		"jerk": "wanker",
-		"kill": "krump",
-		"knife": "shiv",
-		"literally": "litchery",
-		"little": "lil'",
-		"my": "me",
-		"myself": "meself",
-		"right": "roight",
-		"shit": "shite",
-		"stupid": "daft",
-		"that's": "tha's",
-		"then": "den",
-		"thulesday": "chewlsdae",
-		"this": "dis",
-		"tired": "knackered",
-		"tt": "t'",
-		"to": "cho",
-		"tuesday": "chewlsdae",
-		"what": "wot",
-		"what is it": "whotsit",
-		"whatever": "whuever",
-		"what're you": "whatcha",
-		"you": "ya",
-		"your": "yer",
-		"youre": "you's",
-		"you're": "you's"
- 		}
-
+        "traste": "culo",
+        "trasero": "culo",
+        "gilipollas": [
+            "pendejo",
+            "comemierda"
+        ],
+        "hermano": "'mano",
+        "amigo": [
+            "asere",
+            "socio",
+            "compay"
+        ],
+        "amiga": [
+            "asere",
+            "socia",
+            "compay"
+        ],
+        "idiota": [
+            "pendejo",
+            "comemierda",
+            "bruto"
+        ],
+        "tonto": [
+            "pendejo",
+            "bruto"
+        ],
+        "imbécil": [
+            "pendejo",
+            "comemierda"
+        ],
+        "joder": "coño",
+        "maldita sea": [
+            "coño",
+            "coño, carajo"
+        ],
+        "hola": [
+            "asere",
+            "qué bolá"
+        ],
+        "por favor": "por favó",
+        "bien": "chévere",
+        "bueno": [
+            "bueno",
+            "chévere"
+        ],
+        "genial": "chévere",
+        "chico": [
+            "chama",
+            "chamaco"
+        ],
+        "chica": [
+            "chama",
+            "chamita"
+        ],
+        "niño": "chamaco",
+        "niña": "chamita",
+        "hombre": [
+            "asere",
+            "socio",
+            "compay"
+        ],
+        "dinero": [
+            "fula",
+            "plata"
+        ],
+        "trabajo": "camello",
+        "trabajar": "camellar",
+        "problema": [
+            "rollo",
+            "lío"
+        ],
+        "comida": "jama",
+        "comer": "jamar",
+        "guardia": "yuta",
+        "borracho": "jincho",
+        "vamos": [
+            "vamo'",
+            "dale"
+        ],
+        "estás": "tá",
+        "estas": "tá",
+        "está": "tá",
+        "estoy": "toy",
+        "estamos": "tamo'",
+        "están": "tán",
+        "tienes": "tiene'",
+        "quieres": "quiere'",
+        "puedes": "puede'",
+        "sabes": "sabe'",
+        "haces": "hace'",
+        "dices": "dice'",
+        "tenemos": "tenemo'",
+        "nosotros": "nosotro'",
+        "ustedes": "ustede'",
+        "ellos": "ello'",
+        "todos": "to'",
+        "todas": "toa'",
+        "nada": "na'",
+        "más": "má'",
+        "pues": "pue'",
+        "para": "pa'",
+        "por": "po'",
+        "después": "despué'",
+        "entonces": "entonce'",
+        "verdad": "verdá",
+        "ciudad": "ciudá",
+        "usted": "usté",
+        "qué pasa": "qué bolá",
+        "qué quieres": "qué tú quiere'",
+        "qué haces": "qué tú hace'",
+        "dónde estás": "dónde tú tá",
+        "tienes eso": "tú tiene' eso",
+        "de verdad": "de verdá",
+        "vete": "vete pa'llá",
+        "ven": "vente pa'acá",
+        "espera": "espérate",
+        "mira": "mira",
+        "ayuda": "ayúame",
+        "estúpido": "bruto",
+        "cansado": "reventao",
+        "pequeño": "chiquito"
+    }
 }

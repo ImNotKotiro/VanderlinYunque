@@ -264,25 +264,36 @@
 		if(prob(5))
 			record_round_statistic(STATS_ZIZO_PRAISED)
 			V.say(pick( \
-				"PRAISE ZIZO!", \
-				"DEATH TO THE TEN...", \
-				"Astrata will fail!", \
-				"The Ten cannot stop me!", \
-				"Zizo shows the way!", \
-				"The Dark Lady has shown me the truth!", \
-				"My life for Zizo...", \
-				"Curse your Beast God!", \
-				"Noc's magick is nothing to Zizo!", \
-				"Abyssor is but a grain of salt!", \
-				"Pestra is the most foul of goddesses!", \
-				"Ravox's justice is flawed and dull!", \
-				"Rip the Sun Tyrant from the sky!", \
-				"Xylix is the tongue that must be severed off!", \
-				"Cast Malum into the fires of hell!", \
-				"The only truth there is lies with the Dark Elves!", \
-				"I will defile Necra's dead, a thousand times!", \
-				"I will butcher the Ten like Necra butchered Psydon!", \
-				"Snuff out the beating hearts of Eora!"))
+				"¡¡ALABADA SEA ZIZO!!", \
+				"¡¡MUERTE A LOS DIEZ...!!", \
+				"¡¡Astrata fracasará!!", \
+				"¡¡Los Diez no pueden detenerme!!", \
+				"¡¡Zizo nos muestra el camino!!", \
+				"¡¡La Dama Oscura me ha revelado la verdad!!", \
+				"¡¡Mi vida por Zizo...!!", \
+				"¡¡Maldito sea tu Dios Bestia!!", \
+				"¡¡La magia de Noc no es nada frente a Zizo!!", \
+				"¡¡Abyssor no es más que un grano de sal!!", \
+				"¡¡Pestra es la más repugnante de las diosas!!", \
+				"¡¡ASTRATA DE MIERDA!!", \
+				"¡¡La justicia de Ravox es defectuosa y aburrida!!", \
+				"¡¡Arranquen a la Tirana Solar de nuestros cielos!!", \
+				"¡¡LA DAMA PÁLIDA ME OTORGARÁ PODER!!", \
+				"¡¡DAMA PÁLIDA, OID MIS PLEGARIAS!!", \
+				"¡¡Xylix es una lengua que debe ser cortada!!", \
+				"¡¡Arrojad a Malum a las llamas del infierno!!", \
+				"¡¡EL REINO DE LOS ELFOS OSCUROS ES EL ÚNICO CON LA VERDAD!!", \
+				"¡¡La única verdad que existe está con los Elfos Oscuros!!", \
+				"¡¡Profanaré a los muertos de Necra mil veces!!", \
+				"¡¡Masacraré a los Diez como Necra masacró a Psydon!!", \
+				"¡¡Apagad los corazones palpitantes de Eora!!", \
+				"¡¡ASTRATA HIJA DE PUTA!!", \
+				"¡¡ASTRATA ES UNA CABRONA!!", \
+				"¡¡PSYDON NUNCA VOLVERÁ!!", \
+				"¡¡MUERTE A ASTRATA, MUERTE AL SACERDOTE, MALDITO SEA EL TEMPLO!!", \
+				"¡¡NECIOS AQUELLOS QUE SIGUEN EL CAMINO DE LOS DIEZ!!", \
+				"¡¡ME CAGO EN LA BOCA DE ASTRATA!!"))
+			
 		V.add_stress(/datum/stress_event/leechcult)
 
 /obj/item/natural/worms/leech/abyssoid
@@ -307,6 +318,12 @@
 	if(iscarbon(user))
 		var/mob/living/carbon/V = user
 		if(prob(3))
-			V.say(pick("PRAISE ABYSSOR!", "REMEMBER ABYSSOR!", "ABYSSOR LIVES!", "GLORY TO ABYSSOR!", "ABYSSOR IS COMING!"))
+			V.say(pick( \
+				"¡¡ALABADO SEA ABYSSOR!!", \
+				"¡¡RECUERDEN A ABYSSOR!!", \
+				"¡¡ABYSSOR VIVE!!", \
+				"¡¡GLORIA A ABYSSOR!!", \
+				"¡¡ABYSSOR SE ACERCA!!"))
+			
 
 #undef MAX_LEECH_EVILNESS
