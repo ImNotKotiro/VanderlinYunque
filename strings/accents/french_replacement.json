@@ -16,11 +16,13 @@
         "hola": [
             "'allo", 
             "bonjour",
-			"salutt"
+			"salut"
         ], 
 		"mierda": "merde",
 		"spaghetti": "macaroni", 
         "gracias": "merci",  
+		"yo ": "j'",
+		"y ": "et ",  
 		"para": "pagha",
 		"por": "pogg",
 		"ser": "ség",

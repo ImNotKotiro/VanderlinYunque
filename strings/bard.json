@@ -1,74 +1,93 @@
 {
 	"default_mockery": [
-        "Eres...una cosa, ¿no?",
-        "¡No desperdiciaré mi aliento diciendo algo sobre ti!",
-        "¡Un espécimen verdaderamente mediocre!"
+        "He visto goblins con más dignidad que tú!",
+        "Tu mayor talento es sobrevivir a tus propias decisiones!",
+        "Hasta tu sombra intenta mantenerse alejada de ti!",
+		"He conocido deadites con más presencia que tú!",
+		"Tu madre debió tragarse la poción!",
+		"Tu existencia es un error que nadie se molestó en corregir!",
+		"Hasta los gusanos encontrarán tu carne decepcionante!",
+		"Tu muerte será la parte más útil de tu vida!",
+		"He conocido idiotas, pero tú eres una categoría propia!",
+		"Tu valor es tan falso como tu importancia!",
+		"Hasta tu sombra parece avergonzarse de seguirte!",
+		"Hablas como si alguien hubiera pedido tu opinión!",
+		"Deberías agradecer que la estupidez no sea mortal!",
+		"Los dioses te dieron vida por error!",
+		"Si fueras más inútil, tendrías que pedir permiso para respirar!",
+		"Qué triste: naciste, creciste y aun así no aprendiste nada!",
+		"No necesito matarte; la vida ya te está castigando!",
+		"Hasta tu lux parece querer abandonarte!",
+		"Tu estupidez debería considerarse una enfermedad!",
+		"Si la mediocridad tuviera rostro, tendría el tuyo!",
+		"Tu presencia hace que la muerte parezca una buena alternativa!",
+		"Tu única cualidad redentora será dejar de hablar!",
+		"El mundo sería un lugar mejor si jamás hubieras aprendido a respirar!",
+		"Si la estupidez diera experiencia, serías un héroe legendario!"
 	],
 	"human_mockery": [
-        "¡Tu madre era una Rous, y tu padre olía a yaksberrys!",
-        "¿Qué vas a hacer con una cara cuando el troll quiera que le devuelvas el culo?!",
-        "¡Suelto gases en tu presencia general!",
-        "¡Esa es una cara que ni siquiera Eora podría amar!",
-        "¡Nunca desistiré de ti, ni te decepcionaré demasiado jamás~",
-        "¡Tu cerebro es como un bizcocho marinero después de un largo viaje!",
-        "¡Miren, miren qué terribles son!"
+        "Tantos siglos de civilización, y sigues siendo un animal con ropa!",
+        "¿Eso es todo? Hasta un campesino tiene más dignidad que tú!",
+        "Tu única herencia es la mediocridad!",
+        "Los humenos sois breves, pero tú consigues hacer que cada segundo sea demasiado largo!",
+        "Ni siquiera necesitas enemigos; tú solo te bastas para arruinarlo todo!"
 	],
     "elf_mockery": [
-        "¡Tan grácil como un topo borracho, ya veo!",
-        "¡He luchado contra zads mucho más feroces que tú!",
-        "Haces que esto sea tan fácil que estoy perdiendo la confianza en mí mismo... ¡apenas!",
-        "OHH-HOH-HOH-HOH-HOH!",
-        "¡Brutos incultos, apenas dignos de mis palabras!"
+        "Tienes siglos de vida y ni uno solo de ellos te enseñó a ser útil!",
+		"Con esas orejas deberías haber oído venir tu propia humillación!",
+		"Vives tanto que hasta tus errores tienen siglos de antigüedad!",
+		"Tu elegancia termina exactamente donde empieza tu personalidad!",
+		"¿Tanta longevidad para acabar siendo así?"
 	],
     "dwarf_mockery": [
-        "¡Si tu mente fuera tan aguda como tus orejas, no estaríamos metidos en este lío!",
-        "¡Pateas más suave que un saiga recién nacido!",
-        "¡Hazlo rápido, zoquete! ¡Me quedo sin tragos en la taberna!",
+        "Tu barba tiene más carácter que tú!",
+        "He visto piedras con más flexibilidad mental que tú!",
+        "Tan pequeño y aun así consigues ocupar demasiado espacio!",
         "Ohh, ¿el tragaleches se va a poner a llorar?",
-        "¡No podrías abollar ni un grano de arena con un pico de Malum!"
+        "Tu hacha golpea con más inteligencia que tú!"
 	],
     "tiefling_mockery": [
-        "¡Oh, vaya, todos, miren a este tonto con dos pies izquierdos!",
-        "¡No vales ni un grano de trigo de lo que yo puedo hacer!",
+        "Tus cuernos no te hacen temible; solo hacen que tu fracaso sea más fácil de reconocer!",
+        "Tanto aspecto infernal y ni siquiera sabes arder con dignidad!",
         "¡Buen trabajo, Lento Rodriguez, casi me tenías! ¡Casi!",
-        "¡Vamos, entretenme un poco más!",
-        "¡Baila con el diablo y gana un premio!"
+        "El infierno debe de estar arrepentido de haberte dejado salir!",
+        "Tus ancestros hicieron un pacto y tú fuiste el precio!"
 	],
     "aasimar_mockery": [
-        "Tu cuerpo imperfecto jamás podría igualar los fuegos en los que fui forjado.",
-        "Te espera un mundo de dolor, insolente.",
-        "Tu nombre será borrado de los anales de la historia.",
-        "¡Ni siquiera podría cantar tus alabanzas aunque hubiera sido forjado para ello!",
-        "¿Qué clase de criatura parlanchina eres?"",
-        "¿Tienes músculos siquiera?"
+        "Los Diez Dioses te tallaron con piedra y aun así no consiguieron darte cerebro!",
+        "Tanta piedra sagrada y ni una pizca de sabiduría divina!",
+        "¿Te pusieron en la tierra para protegerla o simplemente para decorar?",
+        "Hasta una estatua común tiene más presencia que tú!",
+        "¿Qué clase de criatura parlanchina eres?",
+        "Los Diez te dieron vida; qué desperdicio de milagro!"
 	],
     "drow_mockery": [
-        "¡Ja! ¡El aire de la superficie debe haberte embotado el ingenio!",
-        "Eres tan amenazante como una vela en la oscuridad.",
-        "¡Sigue balanceando el arma, ya casi resulta adorable!",
-        "Oh, vaya, ¡no eres un completo idiota, obviamente te faltan algunas partes!",
-        "Incluso un hongo de la Infraoscuridad tiene más gracia que tú.",
-        "¿Acaso sabes luchar, o simplemente agitas los brazos y esperas acertar?"
+        "Incluso en la oscuridad sigues siendo difícil de soportar!",
+        "Eres tan amenazante como una vela en la oscuridad!",
+        "Vuelvete a la oscuridad; al menos allí nadie tendrá que verte!",
+        "“He visto sombras con más personalidad que tú!",
+        "Incluso un hongo de subterra tiene más gracia que tú!",
+        "Tus arañas tienen más amigos que tú!"
 	],
     "halforc_mockery": [
-        "Ingenio afilado como un barril, el tuyo.",
-        "Acércate, te voy a dar una paliza, cara-mierda.",
-        "¡Ah, vete a la mierda, saco de mierda!",
-        "¡Blande bien, pero fallas terriblemente!",
-        "¡Te voy a morder las piernas!"
+        "Ingenio afilado como un barril, el tuyo!",
+        "Tu padre te dio los músculos y olvidó darte el cerebro!",
+        "Golpeas fuerte porque pensar nunca fue lo tuyo!",
+        "Eres la prueba de que dos sangres no siempre hacen una buena mezcla!",
+        "Hasta un orco sabría cuándo dejar de hablar!"
 	],
     "rakshari_mockery": [
-        "¡Eres terrible! ¡Miren, miren qué terribles son!",
-        "Un regalo para un vecino detestable.",
-        "¡Deseo que nos convirtamos en mejores desconocidos!",
-        "He aquí, el tonto de los tontos.",
-        "He aquí, ¡un marica sumamente ruidoso!"
+        "Tantas vidas y sigues sin aprender a vivir ninguna bien!",
+        "Tus garras dan más miedo que tu ingenio, y eso no dice mucho!",
+        "Hasta un gato callejero tiene más dignidad que tú!",
+        "He aquí, el tonto de los tontos!",
+        "¿Esa mirada es sobrenatural o te falta cerebro para entender lo que pasa?"
 	],
      "kobold_mockery": [
-		"¡Los idiotas siempre hablan mucho!",
-		"¡Una lágrima en tu ojo, ja!",
-		"¡Apestas, tierra blanca!",
-		"¡Cada palabra, un escupitajo!"
+		"He visto ratas con más orgullo que tú!",
+		"¿Eres un guerrero o una plaga con un cuchillo?",
+		"Tienes el valor de un ratón y el cerebro de una piedra!",
+		"Hasta un goblin te mira y piensa: ‘qué criatura tan patética’!"
  ]
 
 }

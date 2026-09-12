@@ -3,61 +3,86 @@
     "spanish": {
 		"s": "ss",
 		"r": "rr",
-		"bardo": "mariachi",
 		"in": "en",
+		"bardo": "mariachi",
 		"barda": "mariachi",
 		"deadite": "no-muerto",
 		"amigo": [
-            "compa",
-            "carnal",
-            "güey"
+            "quillo",
+            "niño",
+            "sosio"
         ],
         "amiga": [
-            "comadre",
-            "carnala",
-            "güey"
+            "niña",
+            "tia",
+			"chiquilla"
         ],
         "amigos": [
-            "compas",
-            "carnales"
+            "peña",
+            "pandilla"
         ],
         "amigas": [
-            "comadres",
-            "carnalas"
+            "peña",
+            "chiquillas"
         ],
-        "compañero": "carnal",
-        "compañera": "carnala",
+		 "compañero": [
+            "compae",
+            "compay"
+        ],
+        "compañera": "comae",
 		"muchacho": [
-            "chamaco",
-            "morro"
+            "señó",
+            "chiquillo"
         ],
         "muchacha": [
-            "chamaca",
-            "morra"
+            "mi alma",
+            "chiquilla"
         ],
-        "niño": "chamaco",
-        "niña": "chamaca",
-        "no": "nel",
-		"oye": "órale",
-		"verdad": "neta",
-		"trabajo": "chamba",
-        "trabajar": "chambear",
-        "fiesta": "peda",
-        "borracho": "pedo",
-        "borracha": "peda",
-        "cerveza": "chela",
-        "cervezas": "chelas",
-        "casa": "cantón",
-		"idiota": "pendejo",
-        "estúpido": "pendejo",
-        "estupido": "pendejo",
-        "tonto": "pendejo",
-        "tonta": "pendeja",
-        "imbécil": "pendejo",
-        "imbecil": "pendejo",
-        "molesto": "castroso",
-        "molesta": "castrosa",
-		"de ninguna manera": "ni madres"
+        "niño": "quillo",
+        "niña": "quilla",
+        "no": "nove",
+		"oye": [
+            "illo",
+			"oe",
+            "pisha"
+        ],
+		"verdad": "verdá",
+		"trabajo": "curro",
+        "trabajar": "mandao",
+        "fiesta": "juerga",
+        "borracho": "tajao",
+        "borracha": "tajá",
+        "cerveza": "caña",
+        "cervezas": "cañas",
+        "casa": "cortijo",
+		"idiota": "idiotá",
+		"estúpido": [
+            "cazurro",
+            "mendrugo"
+        ],
+		"estúpida": [
+            "cazurra",
+            "mendruga"
+        ],
+		"estupido": [
+            "cazurro",
+            "mendrugo"
+        ],
+		"estupida": [
+            "cazurra",
+            "mendruga"
+        ],
+        "tonto": "malaje",
+        "tonta": "malaje",
+        "imbécil": "personaje",
+        "imbecil": "personaje",
+        "molesto": "pesao",
+        "molesta": "pesá",
+		"de ninguna manera": [
+            "ni harto de vino",
+            "ni de coña",
+			"ojú, no"
+        ],
 		}
 
-}
+}}
