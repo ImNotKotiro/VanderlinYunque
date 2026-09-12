@@ -1,69 +1,88 @@
 {
 
     "spanish": {
-		"thi": "thee",
 		"s": "ss",
 		"r": "rr",
-		"ish": "eesh",
-		"is": "es",
-		"thanks": "gracias",
-		"thank you": "gracias",
 		"in": "en",
-		"yes ": "si ",
-		"hi ": "hola ",
-		"hello": "hola",
-		"goodbye": "adiós",
-		"bye": "adiós",
-		"friend": "amigo",
-		"father": "padre",
-		"mother": "madre",
-		"brother": "hermano",
-		"sister": "hermana",
-		"how are you": "cómo estás",
-		"you're welcome": "de nada",
-		"I'm sorry": "lo siento",
-		"bless you": "salud",
-		"shit ": "mierda ",
-		"because": "porque",
-		"why": "por qué",
-		"but ": "pero ",
-		"what is this": "qué es esto",
-		"good morning": "buenos días",
-		"good evening": "buenas tardes",
-		"good afternoon": "buenas tardes",
-		"good night": "buenas noches",
-		"good": "bien",
-		"queen": "reina",
-		"kingdom": "reino",
-		"king": "rey",
-		"the hand": "el mano",
-		"prince ": "principe ",
-		"princess": "princesa",
-		"bard": "mariachi",
-		"vampire": "vampiró",
-		"musket": "mosquete",
-		"deadite": "muerto",
-		"soldier": "soldada",
-		"guardsmen": "soldados",
-		"knight": "cabellero",
-		"wizard": "brujo",
-		"witch": "bruja",
-		"magic": "magia",
-		"sir": "doñ",
-		"dame": "dama",
-		"ms": "doña",
-		"sword": "espada",
-		"rapier": "estoque",
-		"axe": "hacha",
-		"spear": "lanza",
-		"fish": "pecáo",
-		"wine": "vino",
-		"ale": "cerveza",
-		"beer": "cerveza",
-		"lets go": "vamos",
-		"let's go": "vamos",
-		"come on": "vamos"
-
+		"bardo": "mariachi",
+		"barda": "mariachi",
+		"deadite": "no-muerto",
+		"amigo": [
+            "quillo",
+            "niño",
+            "sosio"
+        ],
+        "amiga": [
+            "niña",
+            "tia",
+			"chiquilla"
+        ],
+        "amigos": [
+            "peña",
+            "pandilla"
+        ],
+        "amigas": [
+            "peña",
+            "chiquillas"
+        ],
+		 "compañero": [
+            "compae",
+            "compay"
+        ],
+        "compañera": "comae",
+		"muchacho": [
+            "señó",
+            "chiquillo"
+        ],
+        "muchacha": [
+            "mi alma",
+            "chiquilla"
+        ],
+        "niño": "quillo",
+        "niña": "quilla",
+        "no": "nove",
+		"oye": [
+            "illo",
+			"oe",
+            "pisha"
+        ],
+		"verdad": "verdá",
+		"trabajo": "curro",
+        "trabajar": "mandao",
+        "fiesta": "juerga",
+        "borracho": "tajao",
+        "borracha": "tajá",
+        "cerveza": "caña",
+        "cervezas": "cañas",
+        "casa": "cortijo",
+		"idiota": "idiotá",
+		"estúpido": [
+            "cazurro",
+            "mendrugo"
+        ],
+		"estúpida": [
+            "cazurra",
+            "mendruga"
+        ],
+		"estupido": [
+            "cazurro",
+            "mendrugo"
+        ],
+		"estupida": [
+            "cazurra",
+            "mendruga"
+        ],
+        "tonto": "malaje",
+        "tonta": "malaje",
+        "imbécil": "personaje",
+        "imbecil": "personaje",
+        "molesto": "pesao",
+        "molesta": "pesá",
+		"de ninguna manera": [
+            "ni harto de vino",
+            "ni de coña",
+			"ojú, no"
+        ],
 		}
 
-}
+}}
