@@ -80,6 +80,19 @@
 		update_appearance(UPDATE_OVERLAYS)
 	return ITEM_INTERACT_SUCCESS
 
+/// Resolves the skill used for needle repair (legacy sewrepair = TRUE uses salvage material).
+/obj/item/needle/proc/get_item_sew_repair_skill(obj/item/I)
+	if(ispath(I.sewrepair, SKILL))
+		return I.sewrepair
+	if(!I.sewrepair)
+		return null
+	if(I.salvage_result)
+		if(ispath(I.salvage_result, /obj/item/natural/hide))
+			return /datum/attribute/skill/craft/tanning/patching
+		if(ispath(I.salvage_result, /obj/item/natural/cloth))
+			return /datum/attribute/skill/misc/sewing/mending
+	return /datum/attribute/skill/misc/sewing/mending
+
 /obj/item/needle/proc/sew_item(obj/item/I, mob/living/user)
 	if(!(I.obj_flags & CAN_BE_HIT) && !istype(I, /obj/item/storage))
 		return FALSE
@@ -101,7 +114,8 @@
 
 	var/list/armorlist = I.get_armor().get_rating_list()
 	var/armor_value = 0
-	var/skill_level = GET_MOB_SKILL_VALUE(user, I.sewrepair)
+	var/repair_skill = get_item_sew_repair_skill(I)
+	var/skill_level = repair_skill ? GET_MOB_SKILL_VALUE(user, repair_skill) : 0
 	for(var/key in armorlist)
 		armor_value += armorlist[key]
 
@@ -146,7 +160,8 @@
 			to_chat(user, span_warning("The fabric is taking the new material less readily now. Further melding will be less effective."))
 
 		var/amt2raise = GET_MOB_ATTRIBUTE_VALUE(user, STAT_INTELLIGENCE) * 0.25
-		user.mind.add_sleep_experience(I.sewrepair, amt2raise)
+		if(repair_skill && user.mind)
+			user.mind.add_sleep_experience(repair_skill, amt2raise)
 		return TRUE
 
 	if(!I.obj_broken && I.get_integrity() >= I.max_integrity)
@@ -197,7 +212,8 @@
 	if(repair_percent <= 0)
 		amt2raise *= 0.25
 
-	user.mind.add_sleep_experience(I.sewrepair, amt2raise)
+	if(repair_skill && user.mind)
+		user.mind.add_sleep_experience(repair_skill, amt2raise)
 
 	return TRUE
 
