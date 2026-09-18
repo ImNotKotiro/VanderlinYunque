@@ -113,10 +113,11 @@
 			var/T = get_turf(user)
 			if(M.stat == DEAD && M.client && (M.client.prefs?.read_preference(/datum/preference/bitwise/chat_toggles) & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
 				M.show_message(msg)
+		var/audible_emote = (emote_type & EMOTE_AUDIBLE)
 		var/runechat_msg_to_use = null
-		if(show_runechat && !(emote_type & EMOTE_AUDIBLE))
+		if(show_runechat && !audible_emote)
 			runechat_msg_to_use = runechat_msg ? runechat_msg : msg_for_runechat
-		if(emote_type & EMOTE_AUDIBLE)
+		if(audible_emote)
 			user.audible_message(msg, runechat_message = runechat_msg_to_use)
 		else
 			user.visible_message(msg, runechat_message = runechat_msg_to_use)
