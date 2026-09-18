@@ -1,88 +1,36 @@
 {
-
     "spanish": {
 		"s": "ss",
 		"r": "rr",
 		"in": "en",
-		"bardo": "mariachi",
-		"barda": "mariachi",
-		"deadite": "no-muerto",
-		"amigo": [
-            "quillo",
-            "niño",
-            "sosio"
-        ],
-        "amiga": [
-            "niña",
-            "tia",
-			"chiquilla"
-        ],
-        "amigos": [
-            "peña",
-            "pandilla"
-        ],
-        "amigas": [
-            "peña",
-            "chiquillas"
-        ],
-		 "compañero": [
-            "compae",
-            "compay"
-        ],
-        "compañera": "comae",
-		"muchacho": [
-            "señó",
-            "chiquillo"
-        ],
-        "muchacha": [
-            "mi alma",
-            "chiquilla"
-        ],
-        "niño": "quillo",
-        "niña": "quilla",
-        "no": "nove",
-		"oye": [
-            "illo",
-			"oe",
-            "pisha"
-        ],
-		"verdad": "verdá",
-		"trabajo": "curro",
-        "trabajar": "mandao",
+        "is": "es",
+		"deadite": "no-morido",
+		"amigo": "illo",
+        "amiga": "illa",
+        "cariño": "miarma",
+        "niño": "chiquillo",
+        "niña": "chiquilla",
+        "no veas": "novea",
+		"oye": "oe",
+		"trabajo": "mandao",
         "fiesta": "juerga",
         "borracho": "tajao",
         "borracha": "tajá",
         "cerveza": "caña",
-        "cervezas": "cañas",
         "casa": "cortijo",
-		"idiota": "idiotá",
-		"estúpido": [
-            "cazurro",
-            "mendrugo"
-        ],
-		"estúpida": [
-            "cazurra",
-            "mendruga"
-        ],
-		"estupido": [
-            "cazurro",
-            "mendrugo"
-        ],
-		"estupida": [
-            "cazurra",
-            "mendruga"
-        ],
         "tonto": "malaje",
         "tonta": "malaje",
-        "imbécil": "personaje",
-        "imbecil": "personaje",
         "molesto": "pesao",
         "molesta": "pesá",
-		"de ninguna manera": [
-            "ni harto de vino",
-            "ni de coña",
-			"ojú, no"
-        ],
-		}
-
-}}
+        "mucho": "tela",
+        "poco": "miaja",
+        "nada": "ná",
+        "muchisimo": "pechá",
+        "escucha": "cucha",
+        "torpe": "zopenco",
+        "extranjero": "Guiri",
+        "extranjera": "Guiri",
+        "lugar": "lare",
+        "tierra": "lare"
+	}
+}

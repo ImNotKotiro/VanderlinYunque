@@ -182,9 +182,10 @@
 // ............... A ..................
 /datum/emote/living/attnwhistle
 	key = "attnwhistle"
-	message = "chifla para llamar la atención!"
+	message = "silva para llamar la atención!"
 	message_muffled = "hace un ruido sordo."
 	emote_type = EMOTE_AUDIBLE
+
 /mob/living/carbon/human/verb/emote_attnwhistle()
 	set name = "Attnwhistle"
 	set category = "Emotes.Noises"
@@ -213,16 +214,17 @@
 /datum/emote/living/breathgasp
 	key = "breathgasp"
 	key_third_person = "breathgasps"
-	message = "se queda sin aliento!"
+	message = "intenta tomar aire!"
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/bow
 	key = "bow"
 	key_third_person = "bows"
 	message = "hace una reverencia."
-	message_param = "bows to %t."
+	message_param = "hace una reverencia a %t."
 	restraint_check = TRUE
 	emote_type = EMOTE_VISIBLE
+
 /mob/living/carbon/human/verb/emote_bow()
 	set name = "Bow"
 	set category = "Emotes.Actions"
@@ -260,6 +262,7 @@
 	message = "se atraganta!"
 	emote_type = EMOTE_AUDIBLE
 	ignore_silent = TRUE
+
 /mob/living/carbon/human/verb/emote_choke()
 	set name = "Choke"
 	set category = "Emotes.Noises"
@@ -268,7 +271,7 @@
 /datum/emote/living/sniff
 	key = "sniff"
 	key_third_person = "sniffs"
-	message = "olisquea el aire..."
+	message = "olisquea."
 	emote_type = EMOTE_AUDIBLE
 	ignore_silent = TRUE
 
@@ -303,7 +306,7 @@
 /datum/emote/living/choke
 	key = "choke"
 	key_third_person = "chokes"
-	message = "se atraganta!"
+	message = "se ahoga!"
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/cough
@@ -399,6 +402,7 @@
 	key_third_person = "drools"
 	message = "babea."
 	emote_type = EMOTE_VISIBLE
+
 /mob/living/carbon/human/verb/emote_drool()
 	set name = "Drool"
 	set category = "Emotes.Actions"
@@ -422,7 +426,7 @@
 /datum/emote/living/faint
 	key = "faint"
 	key_third_person = "faints"
-	message = "se desmaya."
+	message = "se cae."
 	emote_type = EMOTE_VISIBLE
 
 /mob/living/carbon/human/verb/emote_faint()
@@ -504,7 +508,7 @@
 /datum/emote/living/glare
 	key = "glare"
 	key_third_person = "glares"
-	message = "lanza una mirada fulminante."
+	message = "mira fijamente."
 	message_param = "lanza una mirada fulminante a %t."
 	emote_type = EMOTE_VISIBLE
 /mob/living/carbon/human/verb/emote_glare()
@@ -547,8 +551,9 @@
 /datum/emote/living/grimace
 	key = "grimace"
 	key_third_person = "grimaces"
-	message = "hace muecas."
+	message = "hace una mueca."
 	emote_type = EMOTE_VISIBLE
+
 /mob/living/carbon/human/verb/emote_grimace()
 	set name = "Grimace"
 	set category = "Emotes.Actions"
@@ -568,7 +573,6 @@
 	only_forced_audio = TRUE
 
 /datum/emote/living/haltyellorphan
-
 	key = "haltyellorphan"
 	message = "intenta gritar con fuerza para que se detengan!"
 	emote_type = EMOTE_AUDIBLE
@@ -580,6 +584,7 @@
 	message = "hmms."
 	message_muffled = "hace un hmm ahogado."
 	emote_type = EMOTE_AUDIBLE
+
 /mob/living/carbon/human/verb/emote_hmm()
 	set name = "Hmm"
 	set category = "Emotes.Noises"
@@ -591,6 +596,7 @@
 	message = "salta!"
 	hands_use_check = TRUE
 	emote_type = EMOTE_VISIBLE | EMOTE_AUDIBLE
+
 /mob/living/carbon/human/verb/emote_hop()
 	set name = "Hop"
 	set category = "Emotes.Actions"
@@ -817,7 +823,7 @@
 /datum/emote/living/look
 	key = "look"
 	key_third_person = "looks"
-	message = "mira al vacío."
+	message = "observa."
 	message_param = "mira a %t."
 
 /datum/emote/living/lower	// the emote that signals an animal is tamed. Previously smile was used. The chicken smiles. The pig smiles. Wut.
@@ -861,6 +867,7 @@
 	message = "asiente."
 	message_param = "asiente a %t."
 	emote_type = EMOTE_VISIBLE
+
 /mob/living/carbon/human/verb/emote_nod()
 	set name = "Nod"
 	set category = "Emotes.Actions"
@@ -893,8 +900,8 @@
 /datum/emote/living/point
 	key = "point"
 	key_third_person = "points"
-	message = "apunta."
-	message_param = "apunta a %t."
+	message = "señala."
+	message_param = "señala a %t."
 	restraint_check = TRUE
 	cooldown = 1 SECONDS
 
@@ -914,7 +921,7 @@
 /datum/emote/living/pout
 	key = "pout"
 	key_third_person = "pouts"
-	message = "pone cara molesta."
+	message = "hace un puchero."
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/preen
@@ -951,8 +958,6 @@
 			if(prob(50))
 				var/preened_feather = /obj/item/natural/feather
 				new preened_feather(user.loc)
-
-
 
 /datum/emote/living/scream/painscream
 	key = "painscream"
@@ -1137,7 +1142,7 @@
 
 /datum/emote/living/strain
 	key = "strain"
-	message = "se esfuerza demasiado!"
+	message = "forcejea!"
 	emote_type = EMOTE_AUDIBLE
 	only_forced_audio = TRUE
 	show_runechat = FALSE
@@ -1243,7 +1248,7 @@
 /datum/emote/living/stare
 	key = "stare"
 	key_third_person = "stares"
-	message = "se queda mirando fijamente a la nada."
+	message = "se queda mirando fijamente."
 	message_param = "mira fijamente a %t."
 
 /datum/emote/living/strech
@@ -1254,7 +1259,7 @@
 /datum/emote/living/sulk
 	key = "sulk"
 	key_third_person = "sulks"
-	message = "agacha la cabeza tristemente.."
+	message = "agacha la cabeza con tristeza."
 
 /datum/emote/living/sway
 	key = "sway"
@@ -1264,7 +1269,7 @@
 /datum/emote/living/shh
 	key = "shh"
 	key_third_person = "shhs"
-	message = "manda a callar."
+	message = "hace un shh."
 	message_muffled = "hace un shh ahogado."
 	emote_type = EMOTE_AUDIBLE
 
@@ -1276,12 +1281,12 @@
 /datum/emote/living/smug
 	key = "smug"
 	key_third_person = "smugs"
-	message = "sonríe pícaramente."
+	message = "sonríe arrogantemente."
 
 /datum/emote/living/sniff
 	key = "sniff"
 	key_third_person = "sniffs"
-	message = "olisquea el aire."
+	message = "olisquea."
 	emote_type = EMOTE_AUDIBLE
 
 /datum/emote/living/smile
@@ -1305,7 +1310,7 @@
 /datum/emote/living/tremble
 	key = "tremble"
 	key_third_person = "trembles"
-	message = "tiembla del miedo!"
+	message = "tiembla."
 
 /datum/emote/living/twitch
 	key = "twitch"
@@ -1314,7 +1319,7 @@
 
 /datum/emote/living/twitch_s
 	key = "twitch_s"
-	message = "twitches."
+	message = "se sacude violentamente."
 	stat_allowed = UNCONSCIOUS
 	mob_type_ignore_stat_typecache = list(/mob/living/carbon/human)
 
