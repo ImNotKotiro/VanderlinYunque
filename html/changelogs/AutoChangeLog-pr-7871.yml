@@ -1,0 +1,4 @@
+author: "Ardcrumb"
+delete-after: True
+changes:
+  - map: "Adjusts the inquisition base's items and adds some additional ones for QoL."

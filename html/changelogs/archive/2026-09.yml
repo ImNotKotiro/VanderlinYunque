@@ -269,3 +269,21 @@
   - rscadd: Added a knife sheathe with the above.
   - map: Remapped the Court Agent hideout.
   - bugfix: Bathing with integrated skin armor now works properly.
+2026-09-18:
+  realforest2001:
+  - rscadd: Added more heretical examine highlights.
+  - rscadd: Added some non-heretical examine highlights.
+  - balance: Adjusted duration of Enervating Elegy's status effect.
+  - bugfix: Fixed unreachable code in create_wave.
+  - rscdel: Deleted the Check Devotion verb as made redundant by Devotion being displayed
+      on Stat tab.
+  - rscadd: Court Agent and Wretches no longer appear in the actors list from lobby.
+  - map: Fixed some parts of the Vanderlin Keep moat that got stuck on rocks.
+  - bugfix: Fixed spell-granting scrolls breaking if you right click them.
+  - map: Vault is no longer jauntable.
+  - map: Fixed heir secret passage on Vanderlin being linked.
+  - rscdel: Removed Skeleton Be-Special.
+  - bugfix: You now require arcyne skill to invoke magic runes.
+2026-09-20:
+  SpeedofDeath118:
+  - rscadd: Added the ornate tunic and ornate dress to the Loadout menu.
