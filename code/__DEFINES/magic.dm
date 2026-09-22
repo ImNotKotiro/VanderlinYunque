@@ -352,3 +352,6 @@ GLOBAL_LIST_INIT(attunement_to_form, list(
 #define SPELLMOD_COST "cost"
 #define SPELLMOD_CASTSPEED "castSpeed"
 #define SPELLMOD_MAGNITUDE "magnitude"
+
+// Blood magic apprenticeship
+#define COMSIG_BLOOD_ASCENSION "break_blood_apprenticeship"

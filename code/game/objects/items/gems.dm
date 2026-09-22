@@ -178,6 +178,7 @@
 	smeltresult = /obj/item/ingot/component/glutcrystal
 	dropshrink = 1
 	attunement_insight = 40
+	examine_highlight_type = /datum/examine_highlight/heresy_veryodd/glut
 
 /obj/item/gem/blood_diamond/examine(mob/user)
 	. = ..()

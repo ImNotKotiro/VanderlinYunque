@@ -1,185 +1,94 @@
 {
 	"slurs": {
 		"Humen": [
-			"spoon ear",
-			"round ear",
-			"humie",
-			"mayfly",
-			"psydon's mistake",
-			"psydon's last"
+			"error de psydon",
+			"piel blanda"
 		],
 		"Elf": [
-			"knife ear",
-			"pointy ear",
-			"sharp ear",
-			"dagger ear",
-			"dagger head",
-			"tree hugger",
-			"leaf lover",
-			"bark sniffer",
-			"weed eater",
-			"tree fucker",
-			"pole-proportioned dendrophile",
-			"mushroom dancer"
+			"orejón",
+			"orejóna",
+			"orejon",
+			"orejona",
+			"abraza arboles",
+			"abraza árboles"
 		],
 		"Dark Elf": [
-			"knife ear",
-			"pointy ear",
-			"sharp ear",
-			"dagger ear",
-			"dagger head",
-			"spider kisser",
-			"dirt elf",
-			"dirt elves",
-			"shroom sniffer",
-			"cave dweller",
-			"mushroom stain",
-			"underscum"
+			"orejón",
+			"orejóna",
+			"orejon",
+			"orejona",
+			"traga hongos"
 		],
 		"Snow Elf": [
-			"knife ear",
-			"pointy ear",
-			"sharp ear",
-			"dagger ear",
-			"dagger head",
-			"cursed blood",
-			"zizo cursed",
-			"zizo dominated",
-			"spider kisser",
-			"shroom sniffer",
-			"cave dweller",
-			"underscum",
-			"zizospawn"
+			"orejón",
+			"orejóna",
+			"orejon",
+			"orejona",
+			"bastardo de zizo",
+			"bastarda de zizo"
 		],
 		"Half-Elf": [
-			"mutt",
-			"mongrel",
-			"half breed",
-			"halfie"
+			"sangre sucia"
 		],
 		"Half-Drow": [
-			"mutt",
-			"mongrel",
-			"half breed",
-			"halfie"
+			"sangre sucia"
 		],
 		"Half-Snow Elf": [
-			"mutt",
-			"mongrel",
-			"half breed",
-			"halfie",
-			"cursed blood",
-			"zizo cursed",
-			"zizo dominated",
-			"zizospawn"
+			"bastardo de zizo",
+			"bastarda de zizo"
 		],
 		"Dwarf": [
-			"rock licker",
-			"rock fucker",
-			"stone sucker",
-			"stone fucker",
-			"roundie",
-			"hairy stool",
-			"beard goblin",
-			"flea-bearded alestain",
-			"stunty",
-			"stone shitter",
-			"tunnel rat",
-			"keg belly",
-			"gold licker"
+			"coje piedras",
+			"topo",
+			"chupa oros"
 		],
 		"Aasimar": [
-			"god's pet",
-			"god's leftovers",
-			"talking dirt",
-			"stone face",
-			"stoneskin",
-			"metal head",
-			"tin can",
-			"pot head",
-			"discardee"
+			"cara piedra"
 		],
 		"Half-Orc": [
-			"greenskin",
-			"greenie",
-			"green skin",
-			"swamp skin",
-			"slime skin",
-			"tusk face",
-			"tusky",
-			"tusker",
-			"scumbreed",
-			"graggarspawn",
-			"pig man",
-			"pig woman"
+			"piel verde",
+			"cara cerdo",
+			"bastardo de graggar",
+			"bastarda de graggar",
+			"cara chancho"
 		],
 		"Tiefling": [
-			"hellspawn",
-			"hellion",
-			"demonspawn",
-			"devilspawn",
-			"half hell",
-			"tall imp",
-			"hell touched",
+			"endemoniado",
 			"thiefling"
 		],
 		"Rakshari": [
-			"bald thief",
-			"housecat",
-			"dune rat",
-			"mole rat",
-			"ballsack",
-			"wrinkle wretch",
-			"rat eater",
-			"chain stain"
+			"gato pelón",
+			"ladrón pelón"
 		],
 		"Kobold": [
-			"rock eater",
-			"stone muncher",
-			"stunted wyrm",
-			"scaly gnome",
-			"fly eater",
-			"forked tongue",
-			"dragon refuse",
-			"troglodyte",
-			"termite",
-			"cave dweller",
-			"dirt dog",
-			"pack rat",
-			"cave hound",
-			"scale skin",
-			"rock rodent",
-			"rock rat"
+			"come piedras",
+			"troglodita",
+			"termita"
 		],
 		"Hollow-Kin": [
-			"zizo's pet",
-			"drow pet",
-			"drow spawn",
-			"flea bitten",
-			"homunculus",
-			"furry"
+			"mascota de zizo",
+			"pulgoso",
+			"furro",
+			"furra"
 		],
 		"Harpy": [
-			"eora's pet",
-			"birdbrain",
-			"egg layer",
-			"feather head",
-			"shitbird",
-			"worm breath",
-			"sky rat",
-			"sky rodent",
-			"magpie",
-			"whore pigeon"
+			"plumero",
+			"pajarraco"
+		],
+		"Medicator": [
+			"plumero",
+			"pajarraco"
 		],
 		"Generic": [
-			"whore",
-			"slut",
-			"hedon",
-			"harlot",
-			"zizite",
-			"zizoid",
-			"zybantine",
-			"salad"
+			"puta",
+			"perra",
+			"marica",
+			"maricon",
+			"maricón",
+			"zizoide",
+			"zybantino",
+			"zybantina",
+			"zybantine"
 		]
 	}
 }

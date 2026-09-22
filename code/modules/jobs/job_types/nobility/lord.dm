@@ -67,12 +67,11 @@ GLOBAL_LIST_EMPTY(lord_titles)
 	)
 	allowed_races = RACES_PLAYER_MONARCH
 	outfit = /datum/outfit/lord
-	bypass_lastclass = TRUE
 	give_bank_account = 500
 
 	knows_the_town = TRUE
 	known_by_the_town = TRUE
-	jobs_always_know_me = list(JOB_COURT_AGENT)
+	jobs_i_always_know = KNOW_COURT_AGENT_LIST
 
 	selection_color = "#7851A9"
 	cmode_music = 'sound/music/cmode/nobility/combat_noble.ogg'

@@ -43,8 +43,6 @@
 	var/runechat_msg = null
 
 /datum/emote/New()
-	if(!runechat_msg)
-		runechat_msg = strip_punctuation(message)
 	if (ispath(mob_type_allowed_typecache))
 		switch (mob_type_allowed_typecache)
 			if (/mob)
@@ -87,6 +85,7 @@
 		return
 
 	var/translate_content
+	var/msg_for_runechat = msg
 	if(!nomsg)
 		user.log_message(msg, LOG_EMOTE)
 		translate_content = msg
@@ -114,10 +113,10 @@
 			var/T = get_turf(user)
 			if(M.stat == DEAD && M.client && (M.client.prefs?.read_preference(/datum/preference/bitwise/chat_toggles) & CHAT_GHOSTSIGHT) && !(M in viewers(T, null)))
 				M.show_message(msg)
-		var/runechat_msg_to_use = null
-		if(show_runechat && !(emote_type & EMOTE_AUDIBLE))
-			runechat_msg_to_use = runechat_msg ? runechat_msg : raw_msg
 		var/audible_emote = (emote_type & EMOTE_AUDIBLE)
+		var/runechat_msg_to_use = null
+		if(show_runechat && !audible_emote)
+			runechat_msg_to_use = runechat_msg ? runechat_msg : msg_for_runechat
 		if(audible_emote)
 			user.audible_message(msg, runechat_message = runechat_msg_to_use)
 		else
@@ -244,7 +243,7 @@
 			. = message_muffled
 
 	if(!muzzle_ignore && HAS_TRAIT(user, TRAIT_MUTE) && (emote_type & EMOTE_AUDIBLE))
-		return "makes a [pick("strong ", "weak ", "")]noise."
+		return "hace un ruido [pick("fuerte ", "suave ", "sordo")]."
 	if(user.mind && user.mind.miming && message_mime)
 		. = message_mime
 	else if(isanimal(user) && message_simple)

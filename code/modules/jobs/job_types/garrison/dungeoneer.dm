@@ -36,16 +36,17 @@
 	total_positions = 1
 	spawn_positions = 1
 	can_have_apprentices = TRUE
-	bypass_lastclass = TRUE
 	starting_wage = 30
 
 	allowed_races = RACES_PLAYER_NONEXOTIC
-	blacklisted_species = list(SPEC_ID_HALFLING)
+	blacklisted_species = list(SPEC_ID_HALFLING, SPEC_ID_HALF_SNOW_ELF, SPEC_ID_SNOW_ELF)
 
 	outfit = /datum/outfit/dungeoneer
 	give_bank_account = 50
 	knows_the_town = TRUE
 	known_by_the_town = TRUE
+	jobs_i_always_know = KNOW_COURT_LIST
+	jobs_always_know_me = KNOW_COURT_AGENT_LIST
 	cmode_music = 'sound/music/cmode/nobility/CombatDungeoneer.ogg'
 
 	job_bitflag = BITFLAG_GARRISON
