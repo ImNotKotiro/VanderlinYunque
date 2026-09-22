@@ -24,13 +24,18 @@ _COMMAND_NAME = re.compile(r"[a-z0-9_-]{1,32}")
 class FeatureResult:
     """Resultado de una funcion.
 
-    `text` es el mensaje que muestran la consola y Discord.
-    Mas adelante se pueden añadir campos opcionales (por ejemplo un embed)
-    sin cambiar las funciones que ya existen.
+    `text` es el mensaje de la consola. Discord usa el embed si trae titulo.
+    `announce` en falso omite solo el aviso automatico; el comando sigue respondiendo.
     """
 
     ok: bool
     text: str
+    announce: bool = True
+    embed_title: str = ""
+    embed_description: str = ""
+    embed_color: int | None = None
+    embed_fields: tuple[tuple[str, str], ...] = ()
+    embed_footer: str = ""
 
 
 class Feature(ABC):

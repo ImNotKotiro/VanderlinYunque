@@ -19,6 +19,7 @@ from byond import (
 from config import ConfigError, load_config, parse_dotenv
 from console import execute_console_line
 from features import build_features
+from features.player_count import PlayerCountFeature
 from features.base import Feature, FeatureResult, validate_features
 from formatting import format_player_report
 from gateway import STATUS_QUERY, DemoServerGateway, LiveServerGateway, build_gateway
@@ -61,19 +62,24 @@ class SnapshotTests(unittest.TestCase):
             format_player_report(snapshot, "Yunque"),
             "\n".join(
                 [
-                    "**Yunque** — 17 jugadores conectados",
-                    "Mapa: Vanderlin",
-                    "Estado: En juego",
-                    "Duración: 1 h 23 min",
+                    "✦ **Yunque** ✦",
+                    "━━━━━━━━━━━━━━━━━━━━",
+                    "**17** jugadores conectados",
+                    "",
+                    "🗺️ **Mapa** · Vanderlin",
+                    "🕯️ **Estado** · En juego",
+                    "⏳ **Duración** · 1 h 23 min",
+                    "━━━━━━━━━━━━━━━━━━━━",
                 ]
             ),
         )
 
     def test_singular_and_empty_round(self) -> None:
         one = snapshot_from_payload('{"players": 1}')
-        self.assertEqual(format_player_report(one, "Yunque"), "**Yunque** — 1 jugador conectado")
+        self.assertIn("**1** jugador conectado", format_player_report(one, "Yunque"))
+        self.assertIn("✦ **Yunque** ✦", format_player_report(one, "Yunque"))
         zero = snapshot_from_payload('{"players": 0}')
-        self.assertEqual(format_player_report(zero, "Yunque"), "**Yunque** — 0 jugadores conectados")
+        self.assertIn("**0** jugadores conectados", format_player_report(zero, "Yunque"))
 
     def test_params_and_known_errors(self) -> None:
         snapshot = snapshot_from_payload("players=8&map_name=My+Map&gamestate=1&round_duration=10")
@@ -98,7 +104,7 @@ class ConfigTests(unittest.TestCase):
         config = load_config({})
         self.assertEqual(config.server_name, "Yunque")
         self.assertEqual(config.update_interval_seconds, 900)
-        self.assertEqual(config.command_prefix, "!")
+        self.assertEqual(config.min_players_to_announce, 5)
         self.assertFalse(config.demo)
         self.assertIsNone(config.discord_channel_id)
 
@@ -117,9 +123,33 @@ class ConfigTests(unittest.TestCase):
         config = load_config({}, demo=True)
         app = App(config, build_gateway(config))
         self.assertIsInstance(app.gateway, DemoServerGateway)
-        text = app.run_command("players").text
-        self.assertIn("17 jugadores conectados", text)
-        self.assertIn("Vanderlin", text)
+        result = app.run_command("players")
+        self.assertIn("**17** jugadores conectados", result.text)
+        self.assertIn("Vanderlin", result.text)
+        self.assertTrue(result.announce)
+        self.assertEqual(result.embed_footer, "Consulta con /jugadores")
+
+
+class AnnounceTests(unittest.TestCase):
+    def test_automatic_notice_only_above_the_minimum(self) -> None:
+        config = load_config({})
+        feature = PlayerCountFeature(config)
+        quiet = feature.run(_PayloadGateway('{"players": 5, "map_name": "Vanderlin"}'), config)
+        busy = feature.run(_PayloadGateway('{"players": 6}'), config)
+        offline = feature.run(_PayloadGateway('"Commskey disabled"'), config)
+        self.assertFalse(quiet.announce)
+        self.assertIn("**5** jugadores conectados", quiet.text)
+        self.assertTrue(busy.announce)
+        self.assertFalse(offline.announce)
+        self.assertIn("COMMS_KEY", offline.text)
+
+        lowered = load_config({"MIN_PLAYERS_TO_ANNOUNCE": "0"})
+        feature = PlayerCountFeature(lowered)
+        self.assertFalse(feature.run(_PayloadGateway('{"players": 0}'), lowered).announce)
+        self.assertTrue(feature.run(_PayloadGateway('{"players": 1}'), lowered).announce)
+
+        with self.assertRaises(ConfigError):
+            load_config({"MIN_PLAYERS_TO_ANNOUNCE": "-2"})
 
 
 class ScheduleTests(unittest.TestCase):
@@ -153,7 +183,7 @@ class ConsoleTests(unittest.TestCase):
         self.assertIsNone(execute_console_line(self.app, "salir"))
         self.assertIn("jugadores", execute_console_line(self.app, "ayuda") or "")
         report = execute_console_line(self.app, "jugadores") or ""
-        self.assertIn("17 jugadores conectados", report)
+        self.assertIn("**17** jugadores conectados", report)
         self.assertIn("15 minutos", execute_console_line(self.app, "agenda") or "")
         self.assertIn("ejemplo", execute_console_line(self.app, "fuente") or "")
         self.assertIn("BYOND_HOST", execute_console_line(self.app, "demo off") or "")
@@ -182,8 +212,9 @@ class GatewayTests(unittest.TestCase):
             ).player_snapshot()
         self.assertIn(b"?status&format=json", server.request)
         self.assertEqual(snapshot.players, 3)
-        self.assertIn("3 jugadores conectados", format_player_report(snapshot, "Yunque"))
-        self.assertIn("Duración: 1 min", format_player_report(snapshot, "Yunque"))
+        report = format_player_report(snapshot, "Yunque")
+        self.assertIn("**3** jugadores conectados", report)
+        self.assertIn("**Duración** · 1 min", report)
 
     def test_connection_refused(self) -> None:
         probe = socket.socket()
@@ -210,6 +241,14 @@ class ClockFeature(Feature):
 
     def run(self, gateway, config) -> FeatureResult:
         return FeatureResult(ok=True, text="ok")
+
+
+class _PayloadGateway:
+    def __init__(self, payload: str) -> None:
+        self.payload = payload
+
+    def player_snapshot(self):
+        return snapshot_from_payload(self.payload)
 
 
 class _ScriptedClient:

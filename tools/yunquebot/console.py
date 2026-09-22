@@ -11,7 +11,7 @@ from formatting import format_interval
 from gateway import DemoServerGateway, LiveServerGateway, build_gateway
 
 HELP = """Comandos de consola:
-  jugadores, players   Consulta el conteo (lo mismo que hará Discord)
+  jugadores, players   Consulta el conteo (en Discord es /jugadores)
   agenda               Muestra cada cuánto se publicaría el aviso
   fuente               Dice si los datos son de ejemplo o del servidor
   demo on              Usa datos de ejemplo, sin red

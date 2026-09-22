@@ -34,18 +34,11 @@ def run_discord(app: App) -> None:
         bot.run(app.config.discord_token, log_handler=None)
     except discord.LoginFailure as exc:
         raise ConfigError("DISCORD_TOKEN fue rechazado. Revisa el token del bot.") from exc
-    except discord.PrivilegedIntentsRequired as exc:
-        raise ConfigError(
-            "Discord rechazó un intent privilegiado. "
-            "Deja DISCORD_MESSAGE_CONTENT=0 o activa Message Content Intent en el portal."
-        ) from exc
 
 
 class YunqueDiscordBot(discord.Client):
     def __init__(self, app: App) -> None:
-        intents = discord.Intents.default()
-        intents.message_content = app.config.discord_message_content
-        super().__init__(intents=intents)
+        super().__init__(intents=discord.Intents.default())
         self.app = app
         self.tree = app_commands.CommandTree(self)
         self.publish_task: asyncio.Task[None] | None = None
@@ -63,31 +56,13 @@ class YunqueDiscordBot(discord.Client):
         interval = self.app.config.update_interval_seconds
         if interval:
             log.info(
-                "El conteo se publicará en el canal %s cada %s segundos.",
+                "El conteo se publicará en el canal %s cada %s segundos si hay más de %s jugadores.",
                 self.app.config.discord_channel_id,
                 interval,
+                self.app.config.min_players_to_announce,
             )
         else:
             log.info("El aviso periódico está desactivado. Solo responden los comandos.")
-
-    async def on_message(self, message: discord.Message) -> None:
-        if not self.app.config.discord_message_content:
-            return
-        if message.author.bot or not message.content:
-            return
-        prefix = self.app.config.command_prefix
-        content = message.content.strip()
-        if not content.startswith(prefix):
-            return
-        remainder = content[len(prefix) :].strip()
-        if not remainder:
-            return
-        command = remainder.split(maxsplit=1)[0]
-        if self.app.feature_for(command) is None:
-            return
-        async with message.channel.typing():
-            result = await asyncio.to_thread(self.app.run_command, command)
-        await message.channel.send(clip(result.text))
 
     async def close(self) -> None:
         task = self.publish_task
@@ -138,12 +113,20 @@ class YunqueDiscordBot(discord.Client):
         for feature in due:
             try:
                 result = await asyncio.to_thread(feature.run, self.app.gateway, self.app.config)
-                await channel.send(clip(result.text))
+                if result.announce:
+                    await channel.send(**_payload(result))
             except Exception:
                 log.exception("No se pudo publicar %s.", feature.id)
                 continue
             self.app.mark_ran(feature, time.monotonic())
-            log.info("Publicado %s.", feature.id)
+            if result.announce:
+                log.info("Publicado %s.", feature.id)
+            else:
+                log.info(
+                    "Aviso de %s omitido: hacen falta más de %s jugadores.",
+                    feature.id,
+                    self.app.config.min_players_to_announce,
+                )
 
     async def _channel(self) -> discord.abc.Messageable:
         channel_id = self.app.config.discord_channel_id
@@ -166,7 +149,22 @@ def _slash_command(app: App, feature: Feature, name: str) -> app_commands.Comman
             log.exception("Fallo el comando %s.", name)
             await interaction.followup.send("No se pudo completar la consulta.")
             return
-        await interaction.followup.send(clip(result.text))
+        await interaction.followup.send(**_payload(result))
 
     callback.__name__ = f"slash_{feature.id}_{name}"
     return app_commands.command(name=name, description=feature.description)(callback)
+
+
+def _payload(result) -> dict[str, object]:
+    if not result.embed_title and not result.embed_description:
+        return {"content": clip(result.text)}
+    embed = discord.Embed(
+        title=result.embed_title or None,
+        description=result.embed_description or None,
+        color=result.embed_color,
+    )
+    for name, value in result.embed_fields:
+        embed.add_field(name=name, value=value, inline=True)
+    if result.embed_footer:
+        embed.set_footer(text=result.embed_footer)
+    return {"embed": embed}

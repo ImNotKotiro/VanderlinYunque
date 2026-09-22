@@ -68,7 +68,8 @@ def main(argv: list[str] | None = None) -> int:
             if interval:
                 print(
                     f"Arrancando Discord. Aviso cada {format_interval(interval)} "
-                    f"en el canal {app.config.discord_channel_id}."
+                    f"en el canal {app.config.discord_channel_id}, "
+                    f"solo si hay más de {app.config.min_players_to_announce} jugadores."
                 )
             else:
                 print("Arrancando Discord. El aviso periódico está desactivado.")

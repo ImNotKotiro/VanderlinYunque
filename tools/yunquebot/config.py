@@ -22,11 +22,10 @@ class Config:
     byond_timeout: float
     server_name: str
     update_interval_seconds: int
+    min_players_to_announce: int
     discord_token: str
     discord_channel_id: int | None
     discord_guild_id: int | None
-    discord_message_content: bool
-    command_prefix: str
     demo: bool
 
 
@@ -81,7 +80,12 @@ def load_config(
         )
 
     server_name = _raw(source, "SERVER_NAME") or "Yunque"
-    prefix = _raw(source, "COMMAND_PREFIX") or "!"
+    minimum = _int(source, "MIN_PLAYERS_TO_ANNOUNCE", 5)
+    if minimum < -1:
+        raise ConfigError(
+            "MIN_PLAYERS_TO_ANNOUNCE tiene que ser -1 o mayor. "
+            "El aviso automático solo sale si hay más jugadores que ese número."
+        )
 
     return Config(
         byond_host=byond_host,
@@ -89,11 +93,10 @@ def load_config(
         byond_timeout=timeout,
         server_name=server_name,
         update_interval_seconds=interval,
+        min_players_to_announce=minimum,
         discord_token=_raw(source, "DISCORD_TOKEN"),
         discord_channel_id=_optional_int(source, "DISCORD_CHANNEL_ID"),
         discord_guild_id=_optional_int(source, "DISCORD_GUILD_ID"),
-        discord_message_content=_bool(source, "DISCORD_MESSAGE_CONTENT", False),
-        command_prefix=prefix,
         demo=demo,
     )
 
@@ -136,14 +139,3 @@ def _float(source: Mapping[str, str], key: str, default: float) -> float:
         return float(raw)
     except ValueError as exc:
         raise ConfigError(f"{key} debe ser un número.") from exc
-
-
-def _bool(source: Mapping[str, str], key: str, default: bool) -> bool:
-    raw = _raw(source, key).lower()
-    if not raw:
-        return default
-    if raw in {"1", "true", "yes", "si", "sí", "on"}:
-        return True
-    if raw in {"0", "false", "no", "off"}:
-        return False
-    raise ConfigError(f"{key} debe ser 0 o 1.")

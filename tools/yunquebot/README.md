@@ -52,11 +52,11 @@ En `.env`:
 | `DISCORD_CHANNEL_ID` | Canal donde se publica el conteo |
 | `DISCORD_GUILD_ID` | Opcional. Si está, `/jugadores` aparece al momento en ese servidor |
 | `SERVER_NAME` | Nombre del mensaje. Por defecto `Yunque` |
-| `DISCORD_MESSAGE_CONTENT` | `1` activa también `!jugadores`. Requiere Message Content Intent |
+| `MIN_PLAYERS_TO_ANNOUNCE` | El aviso automático solo sale si hay más jugadores que este número. Por defecto `5` |
 
 En el portal de Discord, invita el bot con los scopes `bot` y `applications.commands`, y con permiso para ver y escribir en el canal.
 
-Al conectar publica el conteo una vez y luego lo repite cada 15 minutos. `/jugadores` y `/players` responden en el canal donde se usan. Si el servidor no contesta, el mensaje dice que no se pudo consultar.
+Al conectar, si hay más jugadores que `MIN_PLAYERS_TO_ANNOUNCE`, publica el conteo y lo repite cada 15 minutos. Con 5 o menos no escribe en el canal. `/jugadores` y `/players` responden siempre, en el canal donde se usan. Si el servidor no contesta, el comando dice que no se pudo consultar y el aviso automático se omite.
 
 ## Añadir una función
 
