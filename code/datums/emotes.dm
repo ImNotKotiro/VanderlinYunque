@@ -41,12 +41,6 @@
 	var/show_runechat = TRUE
 	// Explicitly defined runechat message, if it's not defined and `show_runechat` is TRUE then it will use `message` instaed
 	var/runechat_msg = null
-	/// Spanish text shown to other players when this emote was translated. Cleared by run_emote.
-	var/translation_display
-	/// English copy kept for the game log. Cleared by run_emote.
-	var/translation_log
-	/// Original emote text shown to the mob who used it. Cleared by run_emote.
-	var/translation_self
 
 /datum/emote/New()
 	if (ispath(mob_type_allowed_typecache))
@@ -75,40 +69,25 @@
  * * intentional - Bool that says whether the emote was forced (FALSE) or not (TRUE).
  * * targeted - The emote targets adjacent mobs. Runs asynchronously.
  */
-/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targeted = FALSE, message_override = null, log_english = null, self_view_message = null)
+/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targeted = FALSE)
 	if(targeted)
 		INVOKE_ASYNC(src, PROC_REF(async_targeted_emote), user, params, type_override, intentional)
 		return
 
-	// Overrides of run_emote() call ..() without these args, so the translator
-	// leaves them on the datum and they survive that hop.
-	if(!message_override)
-		message_override = translation_display
-	if(!log_english)
-		log_english = translation_log
-	if(!self_view_message)
-		self_view_message = translation_self
-	translation_display = null
-	translation_log = null
-	translation_self = null
+	var/raw_msg = select_message_type(user, intentional)
+	var/msg = raw_msg
+	if(params && message_param)
+		msg = select_param(user, params)
 
-	var/msg
-	if(message_override)
-		msg = message_override
-	else
-		msg = select_message_type(user, intentional)
-		if(params && message_param)
-			msg = select_param(user, params)
-		msg = replace_pronoun(user, msg)
+	msg = replace_pronoun(user, msg)
 
 	if(!msg && nomsg == FALSE)
 		return
 
 	var/translate_content
 	var/msg_for_runechat = msg
-	var/english_third_person = (params && message_param) ? null : key_third_person
 	if(!nomsg)
-		user.log_message(log_english || msg, LOG_EMOTE)
+		user.log_message(msg, LOG_EMOTE)
 		translate_content = msg
 		msg = "<b>[user]</b> " + msg
 
@@ -138,38 +117,19 @@
 		var/runechat_msg_to_use = null
 		if(show_runechat && !audible_emote)
 			runechat_msg_to_use = runechat_msg ? runechat_msg : msg_for_runechat
-		var/can_translate = length(translate_content) && copytext(translate_content, 1, 2) != "*"
-		var/self_line = self_view_message ? "<b>[user]</b> [self_view_message]" : null
-		for(var/mob/M in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, user))
-			if(!M.client)
-				continue
-			// Whoever used the emote keeps the original text in chat and runechat.
-			if(self_line && M == user)
-				if(audible_emote)
-					M.show_message(self_line, MSG_AUDIBLE)
-				else
-					M.show_message(self_line, MSG_VISUAL)
-				if(show_runechat && !audible_emote && !M.is_blind())
-					M.create_chat_message(user, raw_message = self_view_message, spans = list("emote"))
-				continue
-			if(can_translate && M != user && M.client.translate_chat_enabled)
-				if(audible_emote && HAS_TRAIT(M, TRAIT_DEAF))
+		if(audible_emote)
+			user.audible_message(msg, runechat_message = runechat_msg_to_use)
+		else
+			user.visible_message(msg, runechat_message = runechat_msg_to_use)
+		// Receiver-side translation: players with the translator on read incoming emotes in English.
+		// Emotes whose text begins with "*" are never translated.
+		if(length(translate_content) && copytext(translate_content, 1, 2) != "*")
+			for(var/mob/M in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, user))
+				if(M == user || !M.client?.translate_chat_enabled)
 					continue
-				if(!audible_emote && M.is_blind())
+				if(audible_emote ? HAS_TRAIT(M, TRAIT_DEAF) : M.is_blind())
 					continue
-				M.handle_translated_hear(translate_content, user, TRUE, english_third_person, runechat = (show_runechat && runechat_msg_to_use && !M.is_blind()))
-				continue
-			if(M != user)
-				if(audible_emote && !HAS_TRAIT(M, TRAIT_DEAF))
-					M.log_message("heard [key_name(user)] emote: [msg]", LOG_EMOTE, log_globally = FALSE)
-				else if(!audible_emote && !M.is_blind())
-					M.log_message("saw [key_name(user)] emote: [msg]", LOG_EMOTE, log_globally = FALSE)
-			if(audible_emote)
-				M.show_message(msg, MSG_AUDIBLE)
-			else
-				M.show_message(msg, MSG_VISUAL)
-			if(show_runechat && runechat_msg_to_use && !M.is_blind() && (!audible_emote || !HAS_TRAIT(M, TRAIT_DEAF)))
-				M.create_chat_message(user, raw_message = runechat_msg_to_use, spans = list("emote"))
+				M.handle_translated_hear(translate_content, user, TRUE)
 
 	// SEND_SIGNAL(user, COMSIG_MOB_EMOTE, src, key, type_override, message, intentional)
 	// SEND_SIGNAL(user, COMSIG_MOB_EMOTED(key))
@@ -269,18 +229,6 @@
 		message = replacetext(message, "them", user.p_them())
 	if(findtext(message, "%s"))
 		message = replacetext(message, "%s", user.p_s())
-	if(findtext(message, " he "))
-		message = replacetext(message, " he ", " [user.p_they()] ")
-	if(findtext(message, " He "))
-		message = replacetext(message, " He ", " [user.p_they(TRUE)] ")
-	if(findtext(message, " his "))
-		message = replacetext(message, " his ", " [user.p_their()] ")
-	if(findtext(message, " His "))
-		message = replacetext(message, " His ", " [user.p_their(TRUE)] ")
-	if(findtext(message, " him "))
-		message = replacetext(message, " him ", " [user.p_them()] ")
-	if(findtext(message, " Him "))
-		message = replacetext(message, " Him ", " [user.p_them(TRUE)] ")
 	return message
 
 /datum/emote/proc/select_message_type(mob/user, intentional)
