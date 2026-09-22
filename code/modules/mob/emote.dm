@@ -40,6 +40,11 @@
 		if(SEND_SIGNAL(src, COMSIG_MOB_PRE_EMOTED, emote.key, param, type_override, intentional, emote) & COMPONENT_CANT_EMOTE)
 			silenced = TRUE
 			continue
+		if(client?.translate_chat_enabled && intentional && !forced && !targeted && message == null)
+			handle_translated_preset_emote(emote, param, type_override, intentional, targeted)
+			SEND_SIGNAL(src, COMSIG_MOB_EMOTE, emote, act, type_override, message, intentional)
+			SEND_SIGNAL(src, COMSIG_MOB_EMOTED(emote.key))
+			return TRUE
 		emote.run_emote(src, param, type_override, intentional, targeted)
 		SEND_SIGNAL(src, COMSIG_MOB_EMOTE, emote, act, type_override, message, intentional)
 		SEND_SIGNAL(src, COMSIG_MOB_EMOTED(emote.key))

@@ -243,9 +243,10 @@
 		if(living_speaker != src && living_speaker.client && !HAS_TRAIT(src, TRAIT_DEAF)) //src.client already checked above
 			log_message("heard [key_name(living_speaker)] say: [raw_message]", LOG_SAY, "#0978b8", FALSE)
 
-	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
 	if(client?.translate_chat_enabled && speaker != src && !HAS_TRAIT(src, TRAIT_DEAF))
-		handle_translated_hear(raw_message, speaker)
+		handle_translated_hear(raw_message, speaker, is_emote = FALSE, english_third_person = null, message_language, spans, message_mods, radio_freq)
+	else
+		show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
 	return message
 
 // These are only on living for now
