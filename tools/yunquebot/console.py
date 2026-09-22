@@ -11,7 +11,7 @@ from formatting import format_interval
 from gateway import DemoServerGateway, LiveServerGateway, build_gateway
 
 HELP = """Comandos de consola:
-  jugadores, players   Consulta el conteo (en Discord es /jugadores)
+  estado               Consulta el conteo (en Discord es /estado)
   agenda               Muestra cada cuánto se publicaría el aviso
   fuente               Dice si los datos son de ejemplo o del servidor
   demo on              Usa datos de ejemplo, sin red
@@ -76,7 +76,7 @@ def _switch_demo(app: App, mode: str) -> str:
     mode = mode.lower()
     if mode in {"on", "1", "si", "sí"}:
         app.gateway = DemoServerGateway()
-        return "Usando datos de ejemplo. jugadores no va a contactar al servidor."
+        return "Usando datos de ejemplo. No se contacta al servidor."
     if mode in {"off", "0", "no"}:
         try:
             app.gateway = build_gateway(replace(app.config, demo=False))

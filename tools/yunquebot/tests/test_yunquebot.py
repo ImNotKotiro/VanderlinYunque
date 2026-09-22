@@ -123,11 +123,11 @@ class ConfigTests(unittest.TestCase):
         config = load_config({}, demo=True)
         app = App(config, build_gateway(config))
         self.assertIsInstance(app.gateway, DemoServerGateway)
-        result = app.run_command("players")
+        result = app.run_command("estado")
         self.assertIn("**17** jugadores conectados", result.text)
         self.assertIn("Vanderlin", result.text)
         self.assertTrue(result.announce)
-        self.assertEqual(result.embed_footer, "Consulta con /jugadores")
+        self.assertEqual(result.embed_footer, "Consulta con /estado")
 
 
 class AnnounceTests(unittest.TestCase):
@@ -172,7 +172,7 @@ class ScheduleTests(unittest.TestCase):
         features = build_features(load_config({}))
         self.assertEqual([feature.id for feature in features], ["player_count"])
         self.assertEqual(features[0].interval_seconds, 900)
-        self.assertEqual(features[0].command_names[0], "jugadores")
+        self.assertEqual(features[0].command_names, ("estado",))
 
 
 class ConsoleTests(unittest.TestCase):
@@ -181,8 +181,8 @@ class ConsoleTests(unittest.TestCase):
 
     def test_commands(self) -> None:
         self.assertIsNone(execute_console_line(self.app, "salir"))
-        self.assertIn("jugadores", execute_console_line(self.app, "ayuda") or "")
-        report = execute_console_line(self.app, "jugadores") or ""
+        self.assertIn("estado", execute_console_line(self.app, "ayuda") or "")
+        report = execute_console_line(self.app, "estado") or ""
         self.assertIn("**17** jugadores conectados", report)
         self.assertIn("15 minutos", execute_console_line(self.app, "agenda") or "")
         self.assertIn("ejemplo", execute_console_line(self.app, "fuente") or "")

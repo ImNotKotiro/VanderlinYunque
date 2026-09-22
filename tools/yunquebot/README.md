@@ -18,8 +18,7 @@ python yunquebot.py console --demo
 En la consola:
 
 ```text
-> jugadores
-> players
+> estado
 > agenda
 > salir
 ```
@@ -29,7 +28,7 @@ En la consola:
 Para consultar un servidor de verdad, sin Discord:
 
 ```bash
-python yunquebot.py run jugadores --host 127.0.0.1 --port 1337
+python yunquebot.py run estado --host 127.0.0.1 --port 1337
 ```
 
 El servidor tiene que tener `COMMS_KEY` definida en `config/comms.txt`. Si está vacía, DreamDaemon rechaza todas las consultas. El bot no envía ni necesita esa clave: `status` es público en cuanto la clave existe.
@@ -50,13 +49,13 @@ En `.env`:
 | `UPDATE_INTERVAL_SECONDS` | `900` = 15 minutos. `0` deja solo los comandos |
 | `DISCORD_TOKEN` | Token del bot |
 | `DISCORD_CHANNEL_ID` | Canal donde se publica el conteo |
-| `DISCORD_GUILD_ID` | Opcional. Si está, `/jugadores` aparece al momento en ese servidor |
+| `DISCORD_GUILD_ID` | Opcional. Si está, `/estado` aparece al momento en ese servidor |
 | `SERVER_NAME` | Nombre del mensaje. Por defecto `Yunque` |
 | `MIN_PLAYERS_TO_ANNOUNCE` | El aviso automático solo sale si hay más jugadores que este número. Por defecto `5` |
 
 En el portal de Discord, invita el bot con los scopes `bot` y `applications.commands`, y con permiso para ver y escribir en el canal.
 
-Al conectar, si hay más jugadores que `MIN_PLAYERS_TO_ANNOUNCE`, publica el conteo y lo repite cada 15 minutos. Con 5 o menos no escribe en el canal. `/jugadores` y `/players` responden siempre, en el canal donde se usan. Si el servidor no contesta, el comando dice que no se pudo consultar y el aviso automático se omite.
+Al conectar, si hay más jugadores que `MIN_PLAYERS_TO_ANNOUNCE`, publica el conteo y lo repite cada 15 minutos. Con ese número o menos no escribe en el canal. `/estado` responde siempre, en el canal donde se usa. Si el servidor no contesta, el comando dice que no se pudo consultar y el aviso automático se omite.
 
 ## Añadir una función
 

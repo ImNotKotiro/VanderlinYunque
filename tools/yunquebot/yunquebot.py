@@ -29,7 +29,7 @@ def main(argv: list[str] | None = None) -> int:
 
     console = sub.add_parser("console", help="Consola interactiva, sin Discord.")
     run = sub.add_parser("run", help="Ejecuta un comando una vez y termina.")
-    run.add_argument("name", help="Por ejemplo: jugadores")
+    run.add_argument("name", help="Por ejemplo: estado")
     sub.add_parser("selftest", help="Comprueba el bot sin red y sin Discord.")
     discord_mode = sub.add_parser("discord", help="Arranca el bot de Discord.")
 

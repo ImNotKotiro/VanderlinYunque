@@ -11,8 +11,8 @@ from snapshot import ServerSnapshot
 
 class PlayerCountFeature(Feature):
     id = "player_count"
-    command_names = ("jugadores", "players")
-    description = "Muestra cuántos jugadores hay conectados al servidor."
+    command_names = ("estado",)
+    description = "Muestra el estado del servidor y cuántos jugadores hay."
 
     def __init__(self, config: Config) -> None:
         seconds = config.update_interval_seconds
@@ -28,7 +28,7 @@ class PlayerCountFeature(Feature):
             embed_description=embed_description(snapshot),
             embed_color=embed_color(snapshot),
             embed_fields=embed_fields(snapshot),
-            embed_footer="Consulta con /jugadores",
+            embed_footer="Consulta con /estado",
         )
 
 
