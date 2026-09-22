@@ -38,7 +38,7 @@
 		/////////
 	///Player preferences datum for the client
 	var/datum/preferences/prefs = null
-	///If TRUE, this client's Say/Me are translated to Spanish for display and to English for the logs. Toggled from IC -> Speech.
+	///If TRUE, Say/Me/emotes are translated for IC display and incoming chat is shown in English. Toggled from IC -> Speech.
 	var/translate_chat_enabled = FALSE
 	///last turn of the controlled mob, I think this is only used by mechs?
 	var/last_turn = 0
