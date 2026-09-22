@@ -41,6 +41,12 @@
 	var/show_runechat = TRUE
 	// Explicitly defined runechat message, if it's not defined and `show_runechat` is TRUE then it will use `message` instaed
 	var/runechat_msg = null
+	/// Spanish text shown to other players when this emote was translated. Cleared by run_emote.
+	var/translation_display
+	/// English copy kept for the game log. Cleared by run_emote.
+	var/translation_log
+	/// Original emote text shown to the mob who used it. Cleared by run_emote.
+	var/translation_self
 
 /datum/emote/New()
 	if (ispath(mob_type_allowed_typecache))
@@ -69,10 +75,22 @@
  * * intentional - Bool that says whether the emote was forced (FALSE) or not (TRUE).
  * * targeted - The emote targets adjacent mobs. Runs asynchronously.
  */
-/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targeted = FALSE, message_override = null, log_english = null)
+/datum/emote/proc/run_emote(mob/user, params, type_override, intentional = FALSE, targeted = FALSE, message_override = null, log_english = null, self_view_message = null)
 	if(targeted)
 		INVOKE_ASYNC(src, PROC_REF(async_targeted_emote), user, params, type_override, intentional)
 		return
+
+	// Overrides of run_emote() call ..() without these args, so the translator
+	// leaves them on the datum and they survive that hop.
+	if(!message_override)
+		message_override = translation_display
+	if(!log_english)
+		log_english = translation_log
+	if(!self_view_message)
+		self_view_message = translation_self
+	translation_display = null
+	translation_log = null
+	translation_self = null
 
 	var/msg
 	if(message_override)
@@ -121,18 +139,25 @@
 		if(show_runechat && !audible_emote)
 			runechat_msg_to_use = runechat_msg ? runechat_msg : msg_for_runechat
 		var/can_translate = length(translate_content) && copytext(translate_content, 1, 2) != "*"
+		var/self_line = self_view_message ? "<b>[user]</b> [self_view_message]" : null
 		for(var/mob/M in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, user))
 			if(!M.client)
 				continue
-			if(can_translate && M.client.translate_chat_enabled)
+			// Whoever used the emote keeps the original text in chat and runechat.
+			if(self_line && M == user)
+				if(audible_emote)
+					M.show_message(self_line, MSG_AUDIBLE)
+				else
+					M.show_message(self_line, MSG_VISUAL)
+				if(show_runechat && !audible_emote && !M.is_blind())
+					M.create_chat_message(user, raw_message = self_view_message, spans = list("emote"))
+				continue
+			if(can_translate && M != user && M.client.translate_chat_enabled)
 				if(audible_emote && HAS_TRAIT(M, TRAIT_DEAF))
 					continue
 				if(!audible_emote && M.is_blind())
 					continue
-				M.handle_translated_hear(translate_content, user, TRUE, english_third_person)
-				if(show_runechat && runechat_msg_to_use && !M.is_blind())
-					var/runechat_display = english_third_person || runechat_msg_to_use
-					M.create_chat_message(user, raw_message = runechat_display, spans = list("emote"))
+				M.handle_translated_hear(translate_content, user, TRUE, english_third_person, runechat = (show_runechat && runechat_msg_to_use && !M.is_blind()))
 				continue
 			if(M != user)
 				if(audible_emote && !HAS_TRAIT(M, TRAIT_DEAF))

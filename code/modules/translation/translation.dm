@@ -2,11 +2,12 @@
  * External real-time chat translation.
  *
  * Per-player feature toggled from the "IC.Speech" verb panel. When enabled:
- * - What the player types in Say / Me is translated to Spanish before being
- *   broadcast in-game.
- * - Preset emotes from the emote window are also translated for broadcast.
- * - Incoming speech and emotes are shown in English (normal chat styling).
- * - The original text is written to the game log in English for moderation.
+ * - Speech and emotes from other players are shown in English, in the chat
+ *   log and in runechat.
+ * - Preset emotes from the emote tab are translated to Spanish for everyone
+ *   else. The player who used the emote still sees the original text.
+ * - Say / Me are not rewritten. The player's own chat log and runechat look
+ *   the same as with translation off.
  *
  * Uses the free Google Translate endpoint through rust_g's async HTTP so the
  * game loop is never blocked (the calling verb simply yields until the reply
@@ -18,9 +19,9 @@
 #define TRANSLATE_API_URL "https://translate.googleapis.com/translate_a/single"
 /// How long we are willing to wait for a single translation before giving up.
 #define TRANSLATE_TIMEOUT (5 SECONDS)
-/// Language shown to other players in Say / Me / emotes.
+/// Language shown to other players for emotes used from the emote tab.
 #define TRANSLATE_LANG_DISPLAY "es"
-/// Language written to the game logs and shown to players with translation on.
+/// Language shown to players with translation on when they hear someone else.
 #define TRANSLATE_LANG_LOG "en"
 
 /**
@@ -107,45 +108,25 @@
 		return
 	client.translate_chat_enabled = !client.translate_chat_enabled
 	if(client.translate_chat_enabled)
-		to_chat(src, span_notice("Chat translation ENABLED: Say/Me and emotes are translated for you and others see Spanish."))
+		to_chat(src, span_notice("Chat translation ENABLED: other players are shown in English, and emotes from the emote tab are translated for everyone else. Your own messages stay as you wrote them."))
 	else
 		to_chat(src, span_notice("Chat translation DISABLED."))
 
-/**
- * Async handler for a translated Say. Translates the original message to the
- * display language for broadcast, and to the log language for the game log.
- */
-/mob/proc/handle_translated_say(message)
-	set waitfor = FALSE
-	if(!message)
-		return
-	var/spanish = external_translate(message, TRANSLATE_LANG_DISPLAY)
-	var/english = external_translate(message, TRANSLATE_LANG_LOG)
-	if(QDELETED(src))
-		return
-	if(english)
-		log_talk("(TRANSLATED) said: [english]", LOG_SAY)
-	say(spanish || message)
+/// True when this listener is the mob who actually spoke, including over a radio.
+/proc/translation_hearing_self(atom/movable/speaker, mob/listener)
+	if(!ismob(listener))
+		return FALSE
+	if(speaker == listener)
+		return TRUE
+	if(istype(speaker, /atom/movable/virtualspeaker))
+		var/atom/movable/virtualspeaker/virt = speaker
+		return virt.source == listener
+	return FALSE
 
 /**
- * Async handler for a translated Me emote. Same behaviour as Say, but routed
- * through the custom emote system.
- */
-/mob/proc/handle_translated_me(message, message_type = NONE)
-	set waitfor = FALSE
-	if(!message)
-		return
-	var/spanish = external_translate(message, TRANSLATE_LANG_DISPLAY)
-	var/english = external_translate(message, TRANSLATE_LANG_LOG)
-	if(QDELETED(src))
-		return
-	if(english)
-		log_message("(TRANSLATED) me: [english]", LOG_EMOTE)
-	emote("me", message_type, spanish || message, intentional = TRUE)
-
-/**
- * Async handler for preset emotes triggered from the emote window (or any
- * intentional emote). Translates the text for IC broadcast and logging.
+ * Async handler for preset emotes triggered from the emote window.
+ * Other players see Spanish. The user who emoted keeps the original text
+ * in their chat log and runechat.
  */
 /mob/proc/handle_translated_preset_emote(datum/emote/emote, params, type_override, intentional, targeted)
 	set waitfor = FALSE
@@ -164,14 +145,20 @@
 	var/english_msg = external_translate(msg, TRANSLATE_LANG_LOG)
 	if(QDELETED(src))
 		return
-	emote.run_emote(src, params, type_override, intentional, targeted, display_msg || msg, english_msg || msg)
+	emote.translation_display = display_msg || msg
+	emote.translation_log = english_msg || msg
+	emote.translation_self = msg
+	emote.run_emote(src, params, type_override, intentional, targeted, display_msg || msg, english_msg || msg, msg)
+	emote.translation_display = null
+	emote.translation_log = null
+	emote.translation_self = null
 
 /**
  * Async handler for the RECEIVER side. When a listener has translation enabled,
- * the message they hear is translated to English and shown with normal chat
- * styling instead of the original Spanish text.
+ * another player's message is translated to English and shown with normal chat
+ * styling, including runechat when runechat is TRUE.
  */
-/mob/proc/handle_translated_hear(raw_message, atom/movable/speaker, is_emote = FALSE, english_third_person = null, datum/language/message_language = null, list/spans = list(), list/message_mods = list(), radio_freq = null)
+/mob/proc/handle_translated_hear(raw_message, atom/movable/speaker, is_emote = FALSE, english_third_person = null, datum/language/message_language = null, list/spans = list(), list/message_mods = list(), radio_freq = null, runechat = FALSE)
 	set waitfor = FALSE
 	if(!length(raw_message) || copytext(raw_message, 1, 2) == "*")
 		return
@@ -185,6 +172,12 @@
 		return
 	if(!length(english))
 		english = raw_message
+	if(runechat)
+		if(is_emote)
+			if(!is_blind())
+				create_chat_message(speaker, raw_message = english, spans = list("emote"))
+		else if(!(isliving(src) && (stat == UNCONSCIOUS || stat == HARD_CRIT)) && !HAS_TRAIT(src, TRAIT_DEAF) && can_see_runechat(speaker))
+			create_chat_message(speaker, message_language, english, spans)
 	if(is_emote)
 		to_chat(src, span_emote("<b>[speaker]</b> [english]"))
 		log_message("(TRANSLATED) emote [key_name(speaker)]: [english]", LOG_EMOTE, log_globally = FALSE)

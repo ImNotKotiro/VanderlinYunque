@@ -230,8 +230,12 @@
 		deaf_message = "<span class='notice'>I can't hear myself!</span>"
 		deaf_type = 2 // Since you should be able to hear myself without looking
 
+	var/hearing_self = translation_hearing_self(speaker, src)
+	// Incoming speech is translated after the request returns, so runechat is
+	// created then in English instead of flashing the original text first.
+	var/translate_incoming = client?.translate_chat_enabled && !hearing_self && !HAS_TRAIT(src, TRAIT_DEAF) && length(raw_message) && copytext(raw_message, 1, 2) != "*"
 	// Create map text prior to modifying message for goonchat
-	if(can_see_runechat(speaker) && !HAS_TRAIT(src, TRAIT_DEAF))
+	if(can_see_runechat(speaker) && !HAS_TRAIT(src, TRAIT_DEAF) && !translate_incoming)
 		create_chat_message(speaker, message_language, raw_message, spans)
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mods)
@@ -243,8 +247,8 @@
 		if(living_speaker != src && living_speaker.client && !HAS_TRAIT(src, TRAIT_DEAF)) //src.client already checked above
 			log_message("heard [key_name(living_speaker)] say: [raw_message]", LOG_SAY, "#0978b8", FALSE)
 
-	if(client?.translate_chat_enabled && speaker != src && !HAS_TRAIT(src, TRAIT_DEAF))
-		handle_translated_hear(raw_message, speaker, is_emote = FALSE, english_third_person = null, message_language, spans, message_mods, radio_freq)
+	if(translate_incoming)
+		handle_translated_hear(raw_message, speaker, FALSE, null, message_language, spans, message_mods, radio_freq, can_see_runechat(speaker))
 	else
 		show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
 	return message
