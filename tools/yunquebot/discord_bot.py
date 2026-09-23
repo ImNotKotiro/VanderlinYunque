@@ -3,14 +3,16 @@
 from __future__ import annotations
 
 import asyncio
+import io
 import logging
 import time
 
 import discord
 from discord import app_commands
 
+from announcements import AnnouncementLog, message_belongs_to_bot
 from app import App
-from config import ConfigError
+from config import TOOL_ROOT, ConfigError
 from features.base import Feature
 
 log = logging.getLogger("yunquebot")
@@ -42,6 +44,8 @@ class YunqueDiscordBot(discord.Client):
         self.app = app
         self.tree = app_commands.CommandTree(self)
         self.publish_task: asyncio.Task[None] | None = None
+        self.announcements = AnnouncementLog(TOOL_ROOT / ".announcements.json")
+        self.announcements.load()
 
     async def setup_hook(self) -> None:
         for feature in self.app.features:
@@ -114,7 +118,10 @@ class YunqueDiscordBot(discord.Client):
             try:
                 result = await asyncio.to_thread(feature.run, self.app.gateway, self.app.config)
                 if result.announce:
-                    await channel.send(**_payload(result))
+                    previous = self.announcements.get(feature.id)
+                    sent = await channel.send(**_payload(result))
+                    self.announcements.remember(feature.id, sent.id)
+                    await self._delete_previous(channel, previous)
             except Exception:
                 log.exception("No se pudo publicar %s.", feature.id)
                 continue
@@ -127,6 +134,25 @@ class YunqueDiscordBot(discord.Client):
                     feature.id,
                     self.app.config.min_players_to_announce,
                 )
+
+    async def _delete_previous(self, channel: discord.abc.Messageable, message_id: int | None) -> None:
+        if message_id is None or self.user is None:
+            return
+        fetch = getattr(channel, "fetch_message", None)
+        if fetch is None:
+            return
+        try:
+            message = await fetch(message_id)
+        except discord.DiscordException:
+            log.info("El aviso anterior %s ya no está en el canal.", message_id)
+            return
+        if not message_belongs_to_bot(message.author.id, self.user.id):
+            log.warning("No se borra el mensaje %s porque no lo escribió el bot.", message_id)
+            return
+        try:
+            await message.delete()
+        except discord.DiscordException:
+            log.exception("No se pudo borrar el aviso anterior %s.", message_id)
 
     async def _channel(self) -> discord.abc.Messageable:
         channel_id = self.app.config.discord_channel_id
@@ -141,18 +167,65 @@ class YunqueDiscordBot(discord.Client):
 
 
 def _slash_command(app: App, feature: Feature, name: str) -> app_commands.Command:
-    async def callback(interaction: discord.Interaction) -> None:
-        await interaction.response.defer()
-        try:
-            result = await asyncio.to_thread(feature.run, app.gateway, app.config)
-        except Exception:
-            log.exception("Fallo el comando %s.", name)
-            await interaction.followup.send("No se pudo completar la consulta.")
-            return
-        await interaction.followup.send(**_payload(result))
+    description = feature.command_description(name)
+    argument = feature.command_argument(name)
+    if argument:
+
+        async def callback(interaction: discord.Interaction, titulo: str) -> None:
+            await _answer_slash(interaction, app, feature, name, titulo)
+
+    else:
+
+        async def callback(interaction: discord.Interaction) -> None:
+            await _answer_slash(interaction, app, feature, name, "")
 
     callback.__name__ = f"slash_{feature.id}_{name}"
-    return app_commands.command(name=name, description=feature.description)(callback)
+    if argument:
+        callback = app_commands.describe(titulo="Título del libro, o parte de él.")(callback)
+    return app_commands.command(name=name, description=description)(callback)
+
+
+async def _answer_slash(
+    interaction: discord.Interaction,
+    app: App,
+    feature: Feature,
+    name: str,
+    argument: str,
+) -> None:
+    await interaction.response.defer(ephemeral=feature.reply_is_ephemeral(name))
+    try:
+        result = await asyncio.to_thread(feature.run, app.gateway, app.config, name, argument)
+    except Exception:
+        log.exception("Fallo el comando %s.", name)
+        await interaction.followup.send("No se pudo completar la consulta.")
+        return
+    if result.private and result.attachment_text:
+        sent = await _send_private_book(interaction, result)
+        if not sent:
+            return
+        notice = result.embed_description or "Te envié el libro por mensaje privado."
+        await interaction.followup.send(notice)
+        return
+    await interaction.followup.send(**_payload(result))
+
+
+async def _send_private_book(interaction: discord.Interaction, result) -> bool:
+    book = discord.File(
+        io.BytesIO(result.attachment_text.encode("utf-8-sig")),
+        filename=result.attachment_name or "libro.txt",
+    )
+    try:
+        await interaction.user.send(content=result.embed_title or result.attachment_name, file=book)
+    except discord.Forbidden:
+        await interaction.followup.send(
+            "No pude enviarte un mensaje privado. Permite los mensajes directos de miembros del servidor."
+        )
+        return False
+    except discord.HTTPException:
+        log.exception("No se pudo enviar el libro por privado.")
+        await interaction.followup.send("No pude enviarte el archivo por mensaje privado.")
+        return False
+    return True
 
 
 def _payload(result) -> dict[str, object]:

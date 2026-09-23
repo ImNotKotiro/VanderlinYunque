@@ -12,6 +12,8 @@ from gateway import DemoServerGateway, LiveServerGateway, build_gateway
 
 HELP = """Comandos de consola:
   estado               Consulta el conteo (en Discord es /estado)
+  libros               Lista los libros del servidor
+  libro <título>       Muestra un libro (en Discord llega por privado)
   agenda               Muestra cada cuánto se publicaría el aviso
   fuente               Dice si los datos son de ejemplo o del servidor
   demo on              Usa datos de ejemplo, sin red
@@ -68,7 +70,8 @@ def execute_console_line(app: App, line: str, now: float = 0.0) -> str | None:
         return format_schedule(app, now)
     if command == "demo":
         return _switch_demo(app, parts[1] if len(parts) > 1 else "")
-    result = app.run_command(command)
+    argument = " ".join(parts[1:])
+    result = app.run_command(command, argument)
     return result.text
 
 

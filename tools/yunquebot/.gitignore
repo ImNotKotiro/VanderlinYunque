@@ -1,4 +1,5 @@
 .env
+.announcements.json
 __pycache__/
 *.py[cod]
 .venv/

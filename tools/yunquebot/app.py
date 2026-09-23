@@ -33,12 +33,12 @@ class App:
             names.extend(feature.command_names)
         return names
 
-    def run_command(self, command: str) -> FeatureResult:
+    def run_command(self, command: str, argument: str = "") -> FeatureResult:
         feature = self.feature_for(command)
         if feature is None:
             known = ", ".join(self.command_names()) or "(ninguno)"
             return FeatureResult(ok=False, text=f"Comando desconocido. Comandos: {known}")
-        return feature.run(self.gateway, self.config)
+        return feature.run(self.gateway, self.config, command, argument)
 
     def due_features(self, now: float) -> list[Feature]:
         due: list[Feature] = []

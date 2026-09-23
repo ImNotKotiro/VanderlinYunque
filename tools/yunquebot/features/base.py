@@ -36,6 +36,10 @@ class FeatureResult:
     embed_color: int | None = None
     embed_fields: tuple[tuple[str, str], ...] = ()
     embed_footer: str = ""
+    ephemeral: bool = False
+    private: bool = False
+    attachment_name: str = ""
+    attachment_text: str = ""
 
 
 class Feature(ABC):
@@ -45,8 +49,24 @@ class Feature(ABC):
     #: None: solo por comando. Un entero: tambien se publica cada tantos segundos.
     interval_seconds: int | None = None
 
+    def command_description(self, name: str) -> str:
+        return self.description
+
+    def command_argument(self, name: str) -> str | None:
+        """Nombre del argumento de texto del comando, si lleva uno."""
+        return None
+
+    def reply_is_ephemeral(self, name: str) -> bool:
+        return False
+
     @abstractmethod
-    def run(self, gateway: ServerGateway, config: Config) -> FeatureResult:
+    def run(
+        self,
+        gateway: ServerGateway,
+        config: Config,
+        command: str = "",
+        argument: str = "",
+    ) -> FeatureResult:
         """Puede bloquear. Discord la ejecuta en un hilo."""
         raise NotImplementedError
 

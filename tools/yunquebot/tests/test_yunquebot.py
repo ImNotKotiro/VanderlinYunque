@@ -2,12 +2,16 @@
 
 from __future__ import annotations
 
+import json
 import socket
 import struct
 import threading
 import unittest
 from pathlib import Path
 
+from announcements import AnnouncementLog, message_belongs_to_bot
+from books import BookLibrary, html_fragment_to_text
+from features.books import BooksFeature
 from app import App
 from byond import (
     ByondError,
@@ -130,6 +134,29 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(result.embed_footer, "Consulta con /estado")
 
 
+class AnnouncementLogTests(unittest.TestCase):
+    def test_remembers_only_the_last_automatic_message(self) -> None:
+        folder = Path(__file__).resolve().parent
+        path = folder / ".announcements-test.json"
+        path.unlink(missing_ok=True)
+        try:
+            log = AnnouncementLog(path)
+            log.load()
+            self.assertIsNone(log.get("player_count"))
+            log.remember("player_count", 10)
+            log.remember("player_count", 20)
+            again = AnnouncementLog(path)
+            again.load()
+            self.assertEqual(again.get("player_count"), 20)
+        finally:
+            path.unlink(missing_ok=True)
+
+    def test_only_the_bot_message_can_be_removed(self) -> None:
+        self.assertTrue(message_belongs_to_bot(7, 7))
+        self.assertFalse(message_belongs_to_bot(3, 7))
+        self.assertFalse(message_belongs_to_bot(7, None))
+
+
 class AnnounceTests(unittest.TestCase):
     def test_automatic_notice_only_above_the_minimum(self) -> None:
         config = load_config({})
@@ -170,7 +197,7 @@ class ScheduleTests(unittest.TestCase):
 
     def test_default_feature_list(self) -> None:
         features = build_features(load_config({}))
-        self.assertEqual([feature.id for feature in features], ["player_count"])
+        self.assertEqual([feature.id for feature in features], ["player_count", "books"])
         self.assertEqual(features[0].interval_seconds, 900)
         self.assertEqual(features[0].command_names, ("estado",))
 
@@ -227,6 +254,66 @@ class GatewayTests(unittest.TestCase):
         self.assertIn("127.0.0.1", str(caught.exception))
 
 
+class BookTests(unittest.TestCase):
+    def test_html_reads_like_the_in_game_page(self) -> None:
+        text = html_fragment_to_text(
+            "<p><strong>Title</strong></p><p>A dwarf&apos;s tale.<br>Second line.</p>"
+        )
+        self.assertEqual(text, "Title\n\nA dwarf's tale.\nSecond line.")
+        self.assertNotIn("<", text)
+
+    def test_catalog_matches_a_title_and_builds_a_txt(self) -> None:
+        folder = Path(__file__).resolve().parent / "_books"
+        folder.mkdir(exist_ok=True)
+        definitions = folder / "books.dm"
+        library_dir = folder / "strings"
+        library_dir.mkdir(exist_ok=True)
+        definitions.write_text(
+            "\n".join(
+                [
+                    "/obj/item/book/law",
+                    '\tname = "Tome of Justice"',
+                    '\tdesc = "The town law."',
+                    '\tbookfile = "law.json"',
+                    "/obj/item/book/law/small",
+                    '\tname = "Pocket Tome of Justice"',
+                    '\tdesc = "A smaller copy."',
+                ]
+            ),
+            encoding="utf-8",
+        )
+        (library_dir / "law.json").write_text(
+            json.dumps({"Contents": ["<p>IT IS WRITTEN HERE.</p>"]}),
+            encoding="utf-8",
+        )
+        try:
+            library = BookLibrary(definitions, library_dir)
+            feature = BooksFeature(library)
+            listing = feature.run(None, None, "libros")  # type: ignore[arg-type]
+            self.assertIn("Tome of Justice", listing.text)
+            self.assertIn("Pocket Tome of Justice", listing.text)
+            requested = feature.run(None, None, "libro", "pocket tome")
+            self.assertTrue(requested.private)
+            self.assertEqual(requested.attachment_name, "Pocket Tome of Justice.txt")
+            self.assertIn("IT IS WRITTEN HERE.", requested.attachment_text)
+            self.assertIn("A smaller copy.", requested.attachment_text)
+            self.assertNotIn("<p>", requested.attachment_text)
+        finally:
+            for path in library_dir.glob("*"):
+                path.unlink()
+            library_dir.rmdir()
+            definitions.unlink()
+            folder.rmdir()
+
+    def test_server_books_include_the_tome_of_justice(self) -> None:
+        from books import DEFAULT_BOOKS_DIR, DEFAULT_DEFINITIONS
+
+        library = BookLibrary(DEFAULT_DEFINITIONS, DEFAULT_BOOKS_DIR)
+        matches = library.find("Tome of Justice")
+        self.assertEqual([book.title for book in matches], ["Tome of Justice"])
+        self.assertIn("IT IS WRITTEN", matches[0].body)
+
+
 class SourceTests(unittest.TestCase):
     def test_discord_adapter_compiles_without_importing_it(self) -> None:
         path = Path(__file__).resolve().parents[1] / "discord_bot.py"
@@ -239,7 +326,7 @@ class ClockFeature(Feature):
     description = "Prueba de agenda."
     interval_seconds = 900
 
-    def run(self, gateway, config) -> FeatureResult:
+    def run(self, gateway, config, command: str = "", argument: str = "") -> FeatureResult:
         return FeatureResult(ok=True, text="ok")
 
 

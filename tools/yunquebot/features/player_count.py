@@ -18,7 +18,13 @@ class PlayerCountFeature(Feature):
         seconds = config.update_interval_seconds
         self.interval_seconds = seconds if seconds > 0 else None
 
-    def run(self, gateway: ServerGateway, config: Config) -> FeatureResult:
+    def run(
+        self,
+        gateway: ServerGateway,
+        config: Config,
+        command: str = "",
+        argument: str = "",
+    ) -> FeatureResult:
         snapshot = gateway.player_snapshot()
         return FeatureResult(
             ok=snapshot.online,

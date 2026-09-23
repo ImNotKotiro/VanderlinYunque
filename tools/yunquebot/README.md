@@ -49,13 +49,15 @@ En `.env`:
 | `UPDATE_INTERVAL_SECONDS` | `900` = 15 minutos. `0` deja solo los comandos |
 | `DISCORD_TOKEN` | Token del bot |
 | `DISCORD_CHANNEL_ID` | Canal donde se publica el conteo |
-| `DISCORD_GUILD_ID` | Opcional. Si está, `/estado` aparece al momento en ese servidor |
+| `DISCORD_GUILD_ID` | Opcional. Si está, los comandos de barra aparecen al momento en ese servidor |
 | `SERVER_NAME` | Nombre del mensaje. Por defecto `Yunque` |
 | `MIN_PLAYERS_TO_ANNOUNCE` | El aviso automático solo sale si hay más jugadores que este número. Por defecto `5` |
 
 En el portal de Discord, invita el bot con los scopes `bot` y `applications.commands`, y con permiso para ver y escribir en el canal.
 
-Al conectar, si hay más jugadores que `MIN_PLAYERS_TO_ANNOUNCE`, publica el conteo y lo repite cada 15 minutos. Con ese número o menos no escribe en el canal. `/estado` responde siempre, en el canal donde se usa. Si el servidor no contesta, el comando dice que no se pudo consultar y el aviso automático se omite.
+Al conectar, si hay más jugadores que `MIN_PLAYERS_TO_ANNOUNCE`, publica el conteo y lo repite cada 15 minutos. Cada aviso nuevo borra solo el aviso automático anterior. Los mensajes de la gente y las respuestas de `/estado` se quedan. Con ese número o menos no escribe en el canal. `/estado` responde siempre, en el canal donde se usa. Si el servidor no contesta, el comando dice que no se pudo consultar y el aviso automático se omite.
+
+`/libros` lista los libros del servidor. `/libro` y el título envían por mensaje privado un `.txt` con el texto como se lee dentro del juego.
 
 ## Añadir una función
 
