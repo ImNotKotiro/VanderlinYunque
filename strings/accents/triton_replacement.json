@@ -2,6 +2,14 @@
 
     "triton": {
         "hola": "ahoy",
+		"buenas": "ahoy",
+		"saludos": "ahoy",
+		"corre": "nada",
+		"correr": "nadar",
+		"corriendo": "nadando",
+		"corrio": "nadó",
+		"corrió": "nadó",
+		"correrse": "nadarse",
         "muerto": "panza arriba",
         "cansado": "agotado",
         "niño": "pececito",
@@ -18,7 +26,11 @@
         "capturado": "enredado",
         "capturada": "enredada",
         "capturados": "enredados",
-		"ss": "ssss",
+		"ss": "sss",
+		"c": "ck",
+		"r": "rr",
+		"f": "ph",
+		"y": "ii",
         "s": "ss"
 		}
 

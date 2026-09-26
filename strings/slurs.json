@@ -54,14 +54,17 @@
 		],
 		"Tiefling": [
 			"endemoniado",
+			"cuernudo",
 			"thiefling"
 		],
 		"Rakshari": [
 			"gato pelón",
+			"pollo crudo",
 			"ladrón pelón"
 		],
 		"Kobold": [
-			"come piedras",
+			"comepiedras",
+			"tragapiedras",
 			"troglodita",
 			"termita"
 		],
@@ -81,11 +84,33 @@
 		],
 		"Generic": [
 			"puta",
+			"puto",
 			"perra",
 			"marica",
+			"manflor",
+			"payo",
+			"tragaleche",
+			"chocho",
+			"cabro",
+			"joto",
 			"maricon",
 			"maricón",
 			"zizoide",
+			"graggarita",
+			"baothiano",
+			"baothiana",
+			"matthiosita",
+			"gilipollas",
+			"huevón",
+			"huevon",
+			"weon",
+			"weón",
+			"boludo",
+			"pelotudo",
+			"pendejo",
+			"cabrón",
+			"cabron",
+			"capullo",
 			"zybantino",
 			"zybantina",
 			"zybantine"
