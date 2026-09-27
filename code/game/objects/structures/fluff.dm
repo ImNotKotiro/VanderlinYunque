@@ -443,20 +443,20 @@
 		var/day = "... actually, WHAT dae is it?"
 		switch(GLOB.dayspassed)
 			if(1)
-				day = "Moon's dae"
+				day = "Dies Lunae"
 			if(2)
-				day = "Tiw's dae"
+				day = "Dies Martis"
 			if(3)
-				day = "Wedding's dae"
+				day = "Dies Mercurii"
 			if(4)
-				day = "Thule's dae"
+				day = "Dies Iovis"
 			if(5)
-				day = "Freyja's dae"
+				day = "Dies Veneris"
 			if(6)
-				day = "Saturn's dae"
+				day = "Dies Saturni"
 			if(7)
-				day = "Sun's dae"
-		. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]."
+				day = "Dies Dominicus"
+		. += "Oh, son las [station_time_timestamp("hh:mm")] de un [day]."
 		// . += span_info("(Round Time: [gameTimestamp("hh:mm:ss", REALTIMEOFDAY - SSticker.round_start_irl)].)")
 
 /obj/structure/fluff/clock/CanPass(atom/movable/mover, turf/target)
@@ -508,20 +508,20 @@
 		var/day = "... actually, WHAT dae is it?"
 		switch(GLOB.dayspassed)
 			if(1)
-				day = "Moon's dae"
+				day = "Dies Lunae"
 			if(2)
-				day = "Tiw's dae"
+				day = "Dies Martis"
 			if(3)
-				day = "Wedding's dae"
+				day = "Dies Mercurii"
 			if(4)
-				day = "Thule's dae"
+				day = "Dies Iovis"
 			if(5)
-				day = "Freyja's dae"
+				day = "Dies Veneris"
 			if(6)
-				day = "Saturn's dae"
+				day = "Dies Saturni"
 			if(7)
-				day = "Sun's dae"
-		. += "Oh no, it's [station_time_timestamp("hh:mm")] on a [day]."
+				day = "Dies Dominicus"
+		. += "Oh, son las [station_time_timestamp("hh:mm")] de un [day]."
 		// . += span_info("(Round Time: [gameTimestamp("hh:mm:ss", REALTIMEOFDAY - SSticker.round_start_irl)].)")
 
 /obj/structure/fluff/wallclock/Initialize()

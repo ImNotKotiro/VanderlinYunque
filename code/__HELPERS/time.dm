@@ -64,19 +64,19 @@ GLOBAL_VAR_INIT(dayspassed, FALSE)
 		var/text_to_show
 		switch(GLOB.dayspassed)
 			if(1)
-				text_to_show = "DAWN OF THE FIRST DAE\nMOON'S DAE"
+				text_to_show = "AURORA DIEI PRIMI\nDIES LUNAE"
 			if(2)
-				text_to_show = "DAWN OF THE SECOND DAE\nTIW'S DAE"
+				text_to_show = "AURORA DIEI SECUNDI\nDIES MARTIS"
 			if(3)
-				text_to_show = "DAWN OF THE THIRD DAE\nWEDDING'S DAE"
+				text_to_show = "AURORA DIEI TERTII\nDIES MERCURII"
 			if(4)
-				text_to_show = "DAWN OF THE FOURTH DAE\nTHULE'S DAE"
+				text_to_show = "AURORA DIEI QUARTI\nDIES IOVIS"
 			if(5)
-				text_to_show = "DAWN OF THE FIFTH DAE\nFREYJA'S DAE"
+				text_to_show = "AURORA DIEI QUINTI\nDIES VENERIS"
 			if(6)
-				text_to_show = "DAWN OF THE SIXTH DAE\nSATURN'S DAE"
+				text_to_show = "AURORA DIEI SEXTI\nDIES SATURNI"
 			if(7)
-				text_to_show = "DAWN OF THE SEVENTH DAE\nSUN'S DAE"
+				text_to_show = "AURORA DIEI SEPTIMI\nDIES DOMINICUS"
 		if(!text_to_show)
 			return
 		if(text_to_show in mind.areas_entered)
