@@ -53,3 +53,8 @@ map weirwenpass
 	maxplayers 0
 	votable
 endmap
+
+map wyrmwood
+	maxplayers 0
+	votable
+endmap
