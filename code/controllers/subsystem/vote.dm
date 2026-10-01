@@ -186,13 +186,13 @@ SUBSYSTEM_DEF(vote)
 				SSgamemode.storyteller_vote_result(.)
 
 			if("norulervote")
+				toggle_lobby_slowmode(TRUE)
 				switch(.)
 					if("Start Anyway")
 						SSticker.vote_started = TRUE
 					if("Wait for Ruler")
 						SSticker.vote_started = FALSE
 						SSticker.pre_vote = 0
-						toggle_lobby_slowmode(TRUE)
 	if(restart)
 		var/active_admins = 0
 		for(var/client/C in GLOB.admins)
