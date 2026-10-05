@@ -1,0 +1,5 @@
+author: "realforest2001"
+delete-after: True
+changes:
+  - map: "Gallowband boat now has correct access on the front door."
+  - rscadd: "Added pillories with gallowband locks."
