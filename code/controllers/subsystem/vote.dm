@@ -123,6 +123,15 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/result()
 	. = announce_result()
 	var/restart = 0
+	if(mode == "norulervote")
+		SSticker.voting = FALSE
+		if(. == "Start Anyway")
+			SSticker.vote_started = TRUE
+		else
+			// Wait for Ruler, or inconclusive because nobody voted
+			toggle_lobby_slowmode(TRUE)
+			SSticker.vote_started = FALSE
+			SSticker.pre_vote = 0
 	if(.)
 		switch(mode)
 			if("restart")
@@ -184,15 +193,6 @@ SUBSYSTEM_DEF(vote)
 					SSgamemode.round_ends_at = GLOB.round_timer + ROUND_END_TIME
 			if("storyteller")
 				SSgamemode.storyteller_vote_result(.)
-
-			if("norulervote")
-				toggle_lobby_slowmode(TRUE)
-				switch(.)
-					if("Start Anyway")
-						SSticker.vote_started = TRUE
-					if("Wait for Ruler")
-						SSticker.vote_started = FALSE
-						SSticker.pre_vote = 0
 	if(restart)
 		var/active_admins = 0
 		for(var/client/C in GLOB.admins)
