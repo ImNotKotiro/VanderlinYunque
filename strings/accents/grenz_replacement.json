@@ -10,6 +10,10 @@
 		"gracias": "danke",
 		"princesa": "prinzess",
 		"principe": "prinz",
+		"buenos días" "Guten Morgen",
+		"buenos dias" "Guten Morgen",
+		"buenas tardes" "Guten Abend",
+		"buenas noches" "Guten Abend",
 		"hola": "hallo",
 		"adiós": "tschüss",
 		"adios": "tschüss",
@@ -18,8 +22,8 @@
 		"señorita": "fräulein",
         "mierda": "scheiße",
 		"sí ": "ja ",
-		"si": "ja",
-		"no": "nein",
+		"si ": "ja",
+		"no ": "nein",
 		"ou": "au",
 		"er": "är",
 		"ck": "kk",
@@ -184,6 +188,8 @@
 		"imbécil": "arschloch",
 		"hijo de puta": "arschloch",
 		"largate": "verpiss dich",
-		"lárgate": "verpiss dich"
+		"lárgate": "verpiss dich",
+		"fuera de aquí": "verpiss dich",
+		"fuera de aqui": "verpiss dich"
 	}
 }
