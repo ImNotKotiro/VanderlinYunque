@@ -205,7 +205,7 @@ Mientras que su lectura no es obligatoria, a los roles de liderazgo puede result
 		<br><br>
 		Fortalezas y pueblos espontáneos de origen Crimsonland, establecidos mediante medios nómadas. Estos campamentos aprovechan los recursos naturales y los asentamientos cercanos para saquear, conquistar, consumir y después trasladarse a objetivos más prometedores. Son hordas errantes de glotonería y rabia que siguen constantemente un patrón de grandes pérdidas seguido de una recuperación constante. La mayoría de estas fuerzas todavía se están recuperando de la guerra Goblin más reciente.
 		<br><br>
-		Una cultura extremadamente misógina y autodestructiva; los eruditos informan de que se han desarrollado varios términos lingüísticos solo para describir la masculinidad. Cualquier persona cuerda pierde la concentración después de que un orco se pone a divagar sobre masculinidad de clase &Sigma; o sobre cualquier nueva estafa que los Engendros de Graggar hayan empezado a promocionar. Como resultado, los registros son escasos.
+		A misogynistic and self-destructive culture to its extreme, scholars report that several terms of language have been developed just to describe masculinity. Records are sparse as a result of their inherent proclivity for violence and brute force in place of intellect.
 		<br><br>
 	</details>
 	<br><br>
@@ -589,6 +589,13 @@ Mientras que su lectura no es obligatoria, a los roles de liderazgo puede result
 		<br><br>
 	</details>
 
+	<details>
+		<summary><strong> Half dark-elves / "Half-drow" </strong></summary>
+		<br>
+		The child of a dark elf and humen. The distinction between half-elves and 'half-drow' has been a subject of debate for centuries. While similar in physicality and longevity to their non-drow cousins, their origins cause them to face discrimination akin to their elven side. Groups of half-elves and half-drow have been known to congregate together and consider themselves one species. According to some radical academic scholars, they might be one and the same species indeed- yet the people of Psydonia certainly do not believe the same at large.
+		<br><br>
+	</details>
+
 	<hr>
 	<strong><span style="font-size:115%"> ESPECIES «INHUMANAS» DISCRIMINADAS </span></strong>
 	<br><br>
@@ -605,14 +612,7 @@ Mientras que su lectura no es obligatoria, a los roles de liderazgo puede result
 	</details>
 
 	<details>
-		<summary><strong> Semielfos oscuros / «Medio-drow» </strong></summary>
-		<br>
-		Hijo de un elfo oscuro y un humano. La distinción entre los medioelfos y los «medio-drow» ha sido objeto de debate durante siglos. Aunque son similares físicamente y en longevidad a sus primos no drow, sus orígenes hacen que sufran una discriminación semejante a la de su lado élfico. Se sabe que grupos de medioelfos y medio-drow se congregan y se consideran una sola especie. Según algunos eruditos académicos radicales, podrían ser efectivamente una misma especie, pero la población de Psydonia en general ciertamente no lo cree.
-		<br><br>
-	</details>
-
-	<details>
-		<summary><strong> Elfos oscuros </strong></summary>
+		<summary><strong> Dark-elves </strong></summary>
 		<br>
 		Conquistados por Zizo. Estos elfos proceden de una extensión subterránea de imperios recién renacidos. Llevan vidas duras y matriarcales bajo la mirada vigilante de Zizo, y la gran mayoría espera alcanzar algún día ese poder y dominación para sí mismos.
 		<br><br>
