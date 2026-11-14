@@ -12,7 +12,7 @@
 	soundenv = 15
 	ambush_times = list(NIGHT,DAWN,DUSK,DAY)
 	ambush_types = list(
-		/turf/open/floor/snow //weirwenpass
+		/turf/open/floor/snow, //weirwenpass
 		/turf/open/floor/grass,
 		/turf/open/floor/dirt,
 	)
