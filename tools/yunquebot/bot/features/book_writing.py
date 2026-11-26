@@ -83,7 +83,10 @@ class BookWritingFeature(Feature):
         return "autor" if name == START else None
 
     def command_extra_argument_description(self, name: str) -> str:
-        return "Nombre del autor que saldrá en el libro. Si no lo pones, tu nombre en Discord."
+        return "Nombre del autor que saldrá en el libro."
+
+    def command_extra_argument_is_required(self, name: str) -> bool:
+        return name == START
 
     def command_argument_is_user(self, name: str) -> bool:
         return name in (BAN, UNBAN)
@@ -156,7 +159,7 @@ class BookWritingFeature(Feature):
             return _reply(BANNED_REPLY)
         try:
             title = clean_title(argument)
-            author = clean_author(author or requester.name or requester.account)
+            author = clean_author(author)
         except PlayerBookError as exc:
             return _reply(str(exc))
         problem = self.library.problem()

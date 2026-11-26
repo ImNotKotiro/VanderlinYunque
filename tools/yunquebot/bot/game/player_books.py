@@ -166,7 +166,7 @@ def clean_title(title: str) -> str:
 def clean_author(author: str) -> str:
     cleaned = _clean_name(author)
     if not cleaned:
-        raise PlayerBookError("El libro necesita un autor.")
+        raise PlayerBookError("Falta el autor del libro: indica el nombre que saldrá en él.")
     if len(cleaned) > MAX_AUTHOR_LEN:
         raise PlayerBookError(f"El autor no puede pasar de {MAX_AUTHOR_LEN} caracteres.")
     return cleaned

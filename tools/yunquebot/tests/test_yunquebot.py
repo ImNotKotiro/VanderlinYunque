@@ -524,8 +524,10 @@ class BookWritingTests(unittest.TestCase):
     def tearDown(self) -> None:
         self._temp.cleanup()
 
-    def _run(self, command: str, argument: str = "", requester: Requester | None = None) -> FeatureResult:
-        return self.feature.run(None, None, command, argument, requester or self.ANA)  # type: ignore[arg-type]
+    def _run(
+        self, command: str, argument: str = "", requester: Requester | None = None, extra: str = ""
+    ) -> FeatureResult:
+        return self.feature.run(None, None, command, argument, requester or self.ANA, extra)  # type: ignore[arg-type]
 
     def test_titles_are_encoded_like_byond(self) -> None:
         self.assertEqual(encode_title("El Misterio de los Aasimar"), "El+Misterio+de+los+Aasimar")
@@ -533,7 +535,7 @@ class BookWritingTests(unittest.TestCase):
 
     def test_a_book_is_written_and_saved_like_the_game(self) -> None:
         (self.folder / "_book_titles.json").write_text('["Viejo"]', encoding="utf-8")
-        start = self._run("escribir_libro", "  El   Libro de Ana ")
+        start = self._run("escribir_libro", "  El   Libro de Ana ", extra="Ana")
         self.assertTrue(start.ok)
         self.assertTrue(start.private)
         self.assertIn("El Libro de Ana", start.private_messages[0])
@@ -565,7 +567,11 @@ class BookWritingTests(unittest.TestCase):
         self.assertEqual(book.body, "Primer párrafo <b>sin HTML</b>.\n\nSegunda línea\ny tercera.")
 
     def test_the_writer_chooses_the_author(self) -> None:
-        start = self.feature.run(None, None, "escribir_libro", "Crónica <i>", self.ANA, "  Fray   <b>Anselmo</b> ")  # type: ignore[arg-type]
+        self.assertIn("Falta el autor", self._run("escribir_libro", "Sin autor", extra="   ").text)
+        self.assertIn("Falta el autor", self._run("escribir_libro", "Sin autor").text)
+        self.assertIsNone(self.feature.draft_for(self.ANA))
+
+        start = self._run("escribir_libro", "Crónica <i>", extra="  Fray   <b>Anselmo</b> ")
         self.assertTrue(start.ok, start.text)
         self.assertIn("de Fray b Anselmo /b", start.private_messages[0])
         self.feature.capture_text(self.ANA, "Texto")
@@ -576,13 +582,13 @@ class BookWritingTests(unittest.TestCase):
         self.assertEqual(saved["author"], "Fray b Anselmo /b")
         self.assertEqual(saved["author_ckey"], "ana_01")
 
-        too_long = self.feature.run(None, None, "escribir_libro", "Otro", self.LUIS, "x" * 81)  # type: ignore[arg-type]
+        too_long = self._run("escribir_libro", "Otro", self.LUIS, "x" * 81)
         self.assertIn("80", too_long.text)
         self.assertIsNone(self.feature.draft_for(self.LUIS))
 
     def test_without_index_the_existing_books_are_kept(self) -> None:
         self._write_book("Antiguo", "Antiguo")
-        self._run("escribir_libro", "Nuevo")
+        self._run("escribir_libro", "Nuevo", extra="Ana")
         self.feature.capture_text(self.ANA, "Texto")
         self.assertTrue(self._run("terminar_libro", "Thesis").ok)
         titles = [book.title for book in self.library.catalog()]
@@ -590,13 +596,13 @@ class BookWritingTests(unittest.TestCase):
 
     def test_rules_of_a_draft(self) -> None:
         self._write_book("Repetido", "Repetido")
-        self.assertIn("Ya hay un libro", self._run("escribir_libro", "repetido").text)
-        self.assertIn("80", self._run("escribir_libro", "x" * 81).text)
-        self.assertFalse(self._run("escribir_libro", "_book_titles").ok)
+        self.assertIn("Ya hay un libro", self._run("escribir_libro", "repetido", extra="Ana").text)
+        self.assertIn("80", self._run("escribir_libro", "x" * 81, extra="Ana").text)
+        self.assertFalse(self._run("escribir_libro", "_book_titles", extra="Ana").ok)
         self.assertIn("No estás escribiendo", self._run("terminar_libro", "Thesis").text)
 
-        self.assertTrue(self._run("escribir_libro", "Uno").ok)
-        self.assertIn("Ya estás escribiendo «Uno»", self._run("escribir_libro", "Dos").text)
+        self.assertTrue(self._run("escribir_libro", "Uno", extra="Ana").ok)
+        self.assertIn("Ya estás escribiendo «Uno»", self._run("escribir_libro", "Dos", extra="Ana").text)
         self.assertIn("Todavía no me has enviado texto", self._run("terminar_libro", "Thesis").text)
         too_long = self.feature.capture_text(self.ANA, "x" * (MAX_TEXT_LEN + 1))
         self.assertFalse(too_long.accepted)
@@ -620,6 +626,7 @@ class BookWritingTests(unittest.TestCase):
         self.assertIn("Llevas", execute_console_line(app, "Hoy llovió en Kingsfield.") or "")
         self.assertIn("Guardado «Diario»", execute_console_line(app, "terminar_libro Thesis") or "")
         self.assertIn("desconocido", execute_console_line(app, "esto ya no se guarda") or "")
+        self.assertIn("Falta el autor", execute_console_line(app, "escribir_libro Sin autor") or "")
         saved = json.loads((self.folder / "Diario.json").read_text(encoding="utf-8"))
         self.assertEqual(saved["author"], "Maese Pere")
         self.assertEqual(saved["author_ckey"], CONSOLE_REQUESTER.account)
@@ -631,7 +638,8 @@ class BookWritingTests(unittest.TestCase):
         admin = Requester(key="discord:9", name="Admin")
 
         def run(command: str, argument: str = "", requester: Requester = self.ANA) -> FeatureResult:
-            return feature.run(None, config, command, argument, requester)  # type: ignore[arg-type]
+            extra = requester.name if command == "escribir_libro" else ""
+            return feature.run(None, config, command, argument, requester, extra)  # type: ignore[arg-type]
 
         self.assertTrue(run("escribir_libro", "A medias").ok)
         self.assertTrue(feature.capture_text(self.ANA, "Texto").accepted)

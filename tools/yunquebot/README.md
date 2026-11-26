@@ -134,7 +134,7 @@ Los libros de jugadores se leen como los guarda el juego: un `.json` por libro (
 
 ### Escribir un libro de jugador
 
-1. `/escribir_libro`, el título (80 caracteres como mucho, que no exista ya) y, si se quiere, el autor (80 caracteres como mucho). Sin autor se usa el nombre que se ve en Discord. El bot escribe por mensaje privado.
+1. `/escribir_libro`, el título (80 caracteres como mucho, que no exista ya) y el autor que saldrá en el libro (obligatorio, 80 caracteres como mucho). En la consola: `escribir_libro <título> | <autor>`. El bot escribe por mensaje privado.
 2. Cada mensaje privado que se le envíe se añade al libro como un párrafo, y el bot lo marca con ✅. También vale un `.txt`; Discord convierte así los mensajes muy largos. Máximo 6000 caracteres en total, el `MAX_BOOK_LEN` del juego.
 3. `/terminar_libro` y la categoría (Apocrypha & Grimoires, Myths & Tales, Legends & Accounts, Thesis o Eoratica) lo guarda. `/cancelar_libro` lo descarta.
 

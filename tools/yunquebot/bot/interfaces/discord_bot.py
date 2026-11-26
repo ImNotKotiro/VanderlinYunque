@@ -227,10 +227,15 @@ def _slash_command(
             shown = f"{valor.display_name} (@{valor.name}, id {valor.id})"
             await _answer_slash(interaction, app, feature, name, str(valor.id), requests, shown)
 
+    elif argument and extra and feature.command_extra_argument_is_required(name):
+
+        async def callback(interaction: discord.Interaction, valor: str, segundo: str) -> None:
+            await _answer_slash(interaction, app, feature, name, valor, requests, extra=segundo)
+
     elif argument and extra:
 
-        async def callback(interaction: discord.Interaction, valor: str, opcional: str | None = None) -> None:
-            await _answer_slash(interaction, app, feature, name, valor, requests, extra=opcional or "")
+        async def callback(interaction: discord.Interaction, valor: str, segundo: str | None = None) -> None:
+            await _answer_slash(interaction, app, feature, name, valor, requests, extra=segundo or "")
 
     elif argument:
 
@@ -247,8 +252,8 @@ def _slash_command(
         names = {"valor": argument}
         help_texts = {"valor": feature.command_argument_description(name)}
         if extra:
-            names["opcional"] = extra
-            help_texts["opcional"] = feature.command_extra_argument_description(name)
+            names["segundo"] = extra
+            help_texts["segundo"] = feature.command_extra_argument_description(name)
         callback = app_commands.rename(**names)(callback)
         help_texts = {key: text for key, text in help_texts.items() if text}
         if help_texts:
