@@ -43,6 +43,7 @@ class AnnouncementLog:
     def remember(self, feature_id: str, message_id: int) -> None:
         self._ids[feature_id] = message_id
         try:
+            self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps(self._ids), encoding="utf-8")
         except OSError:
             log.warning("No se pudo guardar el id del aviso en %s.", self.path.name)

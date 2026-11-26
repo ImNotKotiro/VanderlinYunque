@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from config import Config
-from features.base import Feature, FeatureResult
-from formatting import embed_color, embed_description, embed_fields, embed_title, format_player_report
-from gateway import ServerGateway
-from snapshot import ServerSnapshot
+from bot.config import Config
+from bot.features.base import Feature, FeatureResult, Requester
+from bot.formatting import embed_color, embed_description, embed_fields, embed_title, format_player_report
+from bot.server.gateway import ServerGateway
+from bot.server.snapshot import ServerSnapshot
 
 
 class PlayerCountFeature(Feature):
@@ -24,6 +24,7 @@ class PlayerCountFeature(Feature):
         config: Config,
         command: str = "",
         argument: str = "",
+        requester: Requester | None = None,
     ) -> FeatureResult:
         snapshot = gateway.player_snapshot()
         return FeatureResult(

@@ -1,7 +1,7 @@
 """Contrato de una funcion del bot.
 
 Para añadir una funcion:
-1. Crea un archivo en features/.
+1. Crea un archivo en bot/features/.
 2. Hereda de Feature e implementa run().
 3. Registra la clase en build_features().
 
@@ -14,8 +14,8 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-from config import Config
-from gateway import ServerGateway
+from bot.config import Config
+from bot.server.gateway import ServerGateway
 
 _COMMAND_NAME = re.compile(r"[a-z0-9_-]{1,32}")
 
@@ -40,6 +40,27 @@ class FeatureResult:
     private: bool = False
     attachment_name: str = ""
     attachment_text: str = ""
+    #: Con `private`, mensajes que se envían uno tras otro en lugar de un archivo.
+    private_messages: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class Requester:
+    """Quién hace la petición. `key` es estable: en Discord, discord:<id de usuario>."""
+
+    key: str
+    name: str
+
+
+CONSOLE_REQUESTER = Requester(key="consola", name="Consola")
+
+
+@dataclass(frozen=True)
+class TextCapture:
+    """Respuesta a un texto suelto. Sin `accepted`, `reply` explica por qué no se guardó."""
+
+    accepted: bool
+    reply: str
 
 
 class Feature(ABC):
@@ -48,6 +69,8 @@ class Feature(ABC):
     description: str
     #: None: solo por comando. Un entero: tambien se publica cada tantos segundos.
     interval_seconds: int | None = None
+    #: Comandos solo para administradores aunque no estén en [comandos_admin]. La consola no los limita.
+    admin_command_names: tuple[str, ...] = ()
 
     def command_description(self, name: str) -> str:
         return self.description
@@ -55,6 +78,17 @@ class Feature(ABC):
     def command_argument(self, name: str) -> str | None:
         """Nombre del argumento de texto del comando, si lleva uno."""
         return None
+
+    def command_argument_is_user(self, name: str) -> bool:
+        """En Discord se elige un usuario; run() recibe su id. En la consola vale el id o <@id>."""
+        return False
+
+    def command_argument_description(self, name: str) -> str:
+        return ""
+
+    def command_choices(self, name: str) -> tuple[tuple[str, str], ...]:
+        """Pares (valor, etiqueta). Si hay alguno, el argumento solo admite esos valores."""
+        return ()
 
     def reply_is_ephemeral(self, name: str) -> bool:
         return False
@@ -66,9 +100,17 @@ class Feature(ABC):
         config: Config,
         command: str = "",
         argument: str = "",
+        requester: Requester | None = None,
     ) -> FeatureResult:
         """Puede bloquear. Discord la ejecuta en un hilo."""
         raise NotImplementedError
+
+    def capture_text(self, requester: Requester, text: str) -> TextCapture | None:
+        """Texto que no es un comando: mensajes privados en Discord, líneas sueltas en la consola.
+
+        None si a esta función no le interesa. Se llama desde el hilo de Discord: no debe bloquear.
+        """
+        return None
 
 
 def validate_features(features: list[Feature]) -> None:
@@ -80,6 +122,9 @@ def validate_features(features: list[Feature]) -> None:
         seen_ids.add(feature.id)
         if not feature.command_names:
             raise RuntimeError(f"{feature.id} no tiene comandos.")
+        stray = set(feature.admin_command_names) - set(feature.command_names)
+        if stray:
+            raise RuntimeError(f"{feature.id}: {', '.join(sorted(stray))} es de administrador pero no es un comando.")
         if not feature.description or len(feature.description) > 100:
             raise RuntimeError(f"{feature.id} necesita una descripcion de 1 a 100 caracteres.")
         for name in feature.command_names:

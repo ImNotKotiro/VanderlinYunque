@@ -1,5 +1,7 @@
-.env
-.announcements.json
+configuracion/.env
+configuracion/permisos.txt
+datos/
+logs/
 __pycache__/
 *.py[cod]
 .venv/

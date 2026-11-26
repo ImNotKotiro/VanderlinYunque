@@ -2,12 +2,35 @@
 
 from __future__ import annotations
 
-from snapshot import GAME_STATE_PLAYING, ServerSnapshot
+from bot.server.snapshot import GAME_STATE_PLAYING, ServerSnapshot
 
 RULE = "━━━━━━━━━━━━━━━━━━━━"
 COLOR_OFFLINE = 0x8C3A3A
 COLOR_PLAYING = 0xC6A15B
 COLOR_WAITING = 0x3E5C4C
+
+
+def split_text(text: str, limit: int) -> list[str]:
+    """Trozos de como mucho `limit` caracteres, cortando por párrafo, línea, frase o palabra."""
+    if limit < 1:
+        raise ValueError("limit tiene que ser 1 o más.")
+    rest = text.strip()
+    chunks: list[str] = []
+    while len(rest) > limit:
+        window = rest[: limit + 1]
+        cut = 0
+        for separator in ("\n\n", "\n", ". ", " "):
+            index = window.rfind(separator)
+            if index > limit // 2:
+                cut = index + 1 if separator == ". " else index
+                break
+        if cut <= 0:
+            cut = limit
+        chunks.append(rest[:cut].rstrip())
+        rest = rest[cut:].lstrip()
+    if rest:
+        chunks.append(rest)
+    return chunks
 
 
 def format_duration(seconds: int) -> str:

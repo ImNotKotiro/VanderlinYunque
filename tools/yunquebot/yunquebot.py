@@ -11,8 +11,14 @@ import logging
 import os
 import sys
 
-from config import ENV_PATH, ConfigError, load_config, load_dotenv
-from formatting import format_interval
+from bot.config import (
+    ENV_PATH,
+    PERMISSIONS_PATH,
+    ConfigError,
+    load_config,
+    load_dotenv,
+    load_permissions,
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -46,7 +52,7 @@ def main(argv: list[str] | None = None) -> int:
         load_dotenv(ENV_PATH)
         app = _build_app(args)
         if args.mode == "console":
-            from console import run_console
+            from bot.interfaces.console import run_console
 
             return run_console(app)
         if args.mode == "run":
@@ -56,7 +62,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.mode == "discord":
             _configure_logging()
             try:
-                from discord_bot import run_discord
+                from bot.interfaces.discord_bot import run_discord
             except ImportError:
                 print(
                     "Error: falta discord.py. Instálalo con: pip install -r requirements.txt",
@@ -64,15 +70,7 @@ def main(argv: list[str] | None = None) -> int:
                 )
                 return 2
 
-            interval = app.config.update_interval_seconds
-            if interval:
-                print(
-                    f"Arrancando Discord. Aviso cada {format_interval(interval)} "
-                    f"en el canal {app.config.discord_channel_id}, "
-                    f"solo si hay más de {app.config.min_players_to_announce} jugadores."
-                )
-            else:
-                print("Arrancando Discord. El aviso periódico está desactivado.")
+            logging.getLogger("yunquebot").info("Iniciando YunqueBot...")
             run_discord(app)
             return 0
     except ConfigError as exc:
@@ -85,14 +83,15 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _build_app(args: argparse.Namespace):
-    from app import App
-    from gateway import build_gateway
+    from bot.app import App
+    from bot.server.gateway import build_gateway
 
     config = load_config(
         os.environ,
         host=args.host,
         port=args.port,
         demo=args.demo,
+        permissions=load_permissions(PERMISSIONS_PATH),
     )
     return App(config, build_gateway(config))
 
@@ -116,11 +115,24 @@ def _configure_stdio() -> None:
             pass
 
 
+class _ConsoleFormatter(logging.Formatter):
+    """Solo los avisos y errores llevan etiqueta; el resto es el estado del bot."""
+
+    LABELS = {logging.WARNING: "AVISO: ", logging.ERROR: "ERROR: ", logging.CRITICAL: "ERROR: "}
+
+    def format(self, record: logging.LogRecord) -> str:
+        record.label = self.LABELS.get(record.levelno, "")
+        return super().format(record)
+
+
 def _configure_logging() -> None:
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s %(levelname)s %(message)s",
+    handler = logging.StreamHandler()
+    handler.setFormatter(
+        _ConsoleFormatter("[%(asctime)s] %(label)s%(message)s", datefmt="%Y-%m-%d %H:%M:%S")
     )
+    logging.basicConfig(level=logging.WARNING, handlers=[handler])
+    logging.getLogger("yunquebot").setLevel(logging.INFO)
+    logging.getLogger("discord").setLevel(logging.ERROR)
 
 
 if __name__ == "__main__":

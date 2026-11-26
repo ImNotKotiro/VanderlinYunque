@@ -1,0 +1,26 @@
+# Copia este archivo a permisos.txt y edita la copia. permisos.txt no se sube al repositorio.
+# Sin permisos.txt, o con las secciones vacías, cualquiera puede usar cualquier comando en cualquier canal,
+# salvo los de administrador, que nadie podrá usar hasta que haya alguien en [administradores].
+#
+# Un valor por línea, dentro de su sección. Lo que va detrás de # se ignora.
+# Para sacar un id en Discord: activa el Modo desarrollador y haz clic derecho > Copiar ID.
+# Reinicia el bot después de cambiar permisos.txt.
+#
+# Comandos del bot: estado, biblioteca, libro, escribir_libro, terminar_libro, cancelar_libro
+# Siempre de administrador: banear_escritor, desbanear_escritor, escritores_baneados
+
+[canales]
+# Canales donde se pueden usar los comandos. Los hilos de esos canales también valen.
+# Por mensaje privado al bot siempre se pueden usar, estén o no en esta lista.
+# Vacío: cualquier canal.
+# 123456789012345678  # general
+# 234567890123456789  # bot-comandos
+
+[administradores]
+# Ids de usuario de Discord que pueden usar los comandos de administrador.
+# 345678901234567890  # Nombre
+
+[comandos_admin]
+# Otros comandos que solo podrán usar los administradores, sin la barra.
+# Vacío: el resto de comandos son para todo el mundo.
+# libro

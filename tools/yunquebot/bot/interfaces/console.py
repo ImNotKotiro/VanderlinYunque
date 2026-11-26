@@ -5,15 +5,22 @@ from __future__ import annotations
 import time
 from dataclasses import replace
 
-from app import App
-from config import ConfigError
-from formatting import format_interval
-from gateway import DemoServerGateway, LiveServerGateway, build_gateway
+from bot.app import App
+from bot.config import ConfigError
+from bot.features.base import CONSOLE_REQUESTER
+from bot.formatting import format_interval
+from bot.server.gateway import DemoServerGateway, LiveServerGateway, build_gateway
 
 HELP = """Comandos de consola:
   estado               Consulta el conteo (en Discord es /estado)
-  libros               Lista los libros del servidor
-  libro <título>       Muestra un libro (en Discord llega por privado)
+  biblioteca <listado> Lista libros: codigo, trabajos o jugadores
+  libro <título>       Muestra un libro del código o de jugadores (en Discord llega por privado)
+  escribir_libro <título>     Empieza un libro de jugador; las líneas siguientes son su texto
+  terminar_libro <categoría>  Lo guarda: Apocrypha & Grimoires, Myths & Tales, Legends & Accounts, Thesis o Eoratica
+  cancelar_libro              Descarta el libro que estás escribiendo
+  banear_escritor <id>        Prohíbe añadir libros a ese usuario de Discord (admin en Discord)
+  desbanear_escritor <id>     Le deja volver a añadir libros (admin en Discord)
+  escritores_baneados         Lista los baneados (admin en Discord)
   agenda               Muestra cada cuánto se publicaría el aviso
   fuente               Dice si los datos son de ejemplo o del servidor
   demo on              Usa datos de ejemplo, sin red
@@ -70,8 +77,12 @@ def execute_console_line(app: App, line: str, now: float = 0.0) -> str | None:
         return format_schedule(app, now)
     if command == "demo":
         return _switch_demo(app, parts[1] if len(parts) > 1 else "")
+    if app.feature_for(command) is None:
+        capture = app.capture_text(CONSOLE_REQUESTER, line)
+        if capture is not None:
+            return capture.reply
     argument = " ".join(parts[1:])
-    result = app.run_command(command, argument)
+    result = app.run_command(command, argument, CONSOLE_REQUESTER)
     return result.text
 
 

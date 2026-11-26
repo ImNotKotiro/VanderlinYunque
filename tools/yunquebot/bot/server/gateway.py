@@ -5,9 +5,9 @@ from __future__ import annotations
 import json
 from abc import ABC, abstractmethod
 
-from byond import ByondError, ByondTopicClient
-from config import Config, ConfigError
-from snapshot import ServerSnapshot, snapshot_from_payload
+from bot.server.byond import ByondError, ByondTopicClient
+from bot.config import Config, ConfigError
+from bot.server.snapshot import ServerSnapshot, snapshot_from_payload
 
 # status no pide la clave. format=json lo devuelve world/Topic si COMMS_KEY existe en el servidor.
 STATUS_QUERY = "status&format=json"
@@ -65,7 +65,7 @@ def build_gateway(config: Config) -> ServerGateway:
     if not config.byond_host or not config.byond_port:
         raise ConfigError(
             "Faltan BYOND_HOST y BYOND_PORT. "
-            "Definelos en .env o usa --demo para probar sin el servidor."
+            "Definelos en configuracion/.env o usa --demo para probar sin el servidor."
         )
     client = ByondTopicClient(config.byond_host, config.byond_port, config.byond_timeout)
     return LiveServerGateway(client)

@@ -5,12 +5,12 @@ from __future__ import annotations
 import html
 import json
 import re
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 
-from config import TOOL_ROOT
+from bot.config import REPO_ROOT
 
-REPO_ROOT = TOOL_ROOT.parents[1]
 DEFAULT_DEFINITIONS = REPO_ROOT / "code" / "game" / "objects" / "items" / "books.dm"
 DEFAULT_BOOKS_DIR = REPO_ROOT / "strings" / "books"
 
@@ -39,6 +39,9 @@ class Book:
         header.append("─" * max(12, min(len(self.title), 42)))
         return "\n".join(header) + "\n\n" + self.body.strip() + "\n"
 
+    def label(self) -> str:
+        return self.title
+
     def txt_name(self) -> str:
         cleaned = re.sub(r'[<>:"/\\|?*]', "", self.title)
         cleaned = re.sub(r"\s+", " ", cleaned).strip().rstrip(".")
@@ -51,6 +54,13 @@ class BookLibrary:
     def __init__(self, definitions: Path, folder: Path) -> None:
         self.definitions = definitions
         self.folder = folder
+
+    def problem(self) -> str:
+        if not self.definitions.is_file():
+            return f"No se encuentra {self.definitions}"
+        if not self.folder.is_dir():
+            return f"No se encuentra la carpeta {self.folder}"
+        return ""
 
     def catalog(self) -> list[Book]:
         if not self.definitions.is_file() or not self.folder.is_dir():
@@ -74,18 +84,22 @@ class BookLibrary:
         return sorted(found, key=lambda book: book.title.casefold())
 
     def find(self, query: str) -> list[Book]:
-        needle = _normalize(query)
+        needle = normalize_title(query)
         if not needle:
             return []
         books = self.catalog()
         exact = [
             book
             for book in books
-            if needle in {_normalize(book.title), _normalize(Path(book.filename).stem)}
+            if needle in {normalize_title(book.title), normalize_title(Path(book.filename).stem)}
         ]
         if exact:
             return exact
-        return [book for book in books if needle in _normalize(book.title) or needle in _normalize(book.filename)]
+        return [
+            book
+            for book in books
+            if matches_words(needle, book.title) or needle in normalize_title(book.filename)
+        ]
 
 
 def parse_book_types(source: str) -> list[dict[str, str]]:
@@ -138,7 +152,7 @@ def read_book_body(path: Path) -> str:
     if not path.is_file():
         return ""
     try:
-        payload = _loads_book_json(path.read_text(encoding="utf-8-sig"))
+        payload = loads_byond_json(path.read_text(encoding="utf-8-sig"))
     except (OSError, json.JSONDecodeError, ValueError):
         return ""
     contents = payload.get("Contents") if isinstance(payload, dict) else None
@@ -151,7 +165,7 @@ def read_book_body(path: Path) -> str:
     return html_fragment_to_text("<br>".join(pages))
 
 
-def _loads_book_json(text: str) -> object:
+def loads_byond_json(text: str) -> object:
     """BYOND's json_decode accepts raw line breaks inside strings."""
     return json.loads(_escape_controls_in_strings(text))
 
@@ -215,15 +229,24 @@ def html_fragment_to_text(fragment: str) -> str:
     return "\n".join(compact).strip()
 
 
-def format_catalog(books: list[Book]) -> str:
-    if not books:
-        return "No hay libros legibles en el servidor."
-    lines = [f"{index}. {book.title}" for index, book in enumerate(books, start=1)]
-    lines.append("")
-    lines.append("Pide uno con /libro y el título.")
+def format_catalog(labels: list[str], footer: str = "") -> str:
+    if not labels:
+        return "No hay libros legibles en este listado."
+    lines = [f"{index}. {label}" for index, label in enumerate(labels, start=1)]
+    if footer:
+        lines.append("")
+        lines.append(footer)
     return "\n".join(lines)
 
 
-def _normalize(value: str) -> str:
-    value = value.casefold().replace("'", "")
+def matches_words(needle: str, title: str) -> bool:
+    """Todas las palabras de la búsqueda aparecen en el título, en cualquier orden."""
+    words = normalize_title(title).split()
+    return all(any(part in word for word in words) for part in needle.split())
+
+
+def normalize_title(value: str) -> str:
+    """Sin mayúsculas, tildes ni signos, para comparar títulos."""
+    value = unicodedata.normalize("NFKD", value.casefold().replace("'", ""))
+    value = "".join(char for char in value if not unicodedata.combining(char))
     return re.sub(r"[^a-z0-9]+", " ", value).strip()

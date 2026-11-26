@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from config import Config
-from features import build_features
-from features.base import Feature, FeatureResult
-from gateway import ServerGateway
+from bot.config import Config, ConfigError
+from bot.features import build_features
+from bot.features.base import CONSOLE_REQUESTER, Feature, FeatureResult, Requester, TextCapture
+from bot.server.gateway import ServerGateway
 
 
 class App:
@@ -19,6 +19,12 @@ class App:
         self.gateway = gateway
         self.features = features if features is not None else build_features(config)
         self._last_run: dict[str, float] = {}
+        unknown = sorted(config.permissions.admin_commands - set(self.command_names()))
+        if unknown:
+            raise ConfigError(
+                f"[comandos_admin] tiene comandos que no existen: {', '.join(unknown)}. "
+                f"Comandos: {', '.join(self.command_names())}."
+            )
 
     def feature_for(self, command: str) -> Feature | None:
         key = command.strip().lower()
@@ -33,12 +39,37 @@ class App:
             names.extend(feature.command_names)
         return names
 
-    def run_command(self, command: str, argument: str = "") -> FeatureResult:
+    def admin_command_names(self) -> list[str]:
+        """Los de [comandos_admin] más los que cada función marca como de administrador."""
+        names = set(self.config.permissions.admin_commands)
+        for feature in self.features:
+            names.update(feature.admin_command_names)
+        return [name for name in self.command_names() if name in names]
+
+    def allows_command(self, command: str, user_id: int | None) -> bool:
+        key = command.strip().lower()
+        if key not in self.admin_command_names():
+            return True
+        return user_id in self.config.permissions.admin_ids
+
+    def run_command(
+        self,
+        command: str,
+        argument: str = "",
+        requester: Requester = CONSOLE_REQUESTER,
+    ) -> FeatureResult:
         feature = self.feature_for(command)
         if feature is None:
             known = ", ".join(self.command_names()) or "(ninguno)"
             return FeatureResult(ok=False, text=f"Comando desconocido. Comandos: {known}")
-        return feature.run(self.gateway, self.config, command, argument)
+        return feature.run(self.gateway, self.config, command, argument, requester)
+
+    def capture_text(self, requester: Requester, text: str) -> TextCapture | None:
+        for feature in self.features:
+            capture = feature.capture_text(requester, text)
+            if capture is not None:
+                return capture
+        return None
 
     def due_features(self, now: float) -> list[Feature]:
         due: list[Feature] = []
