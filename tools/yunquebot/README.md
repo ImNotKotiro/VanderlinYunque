@@ -134,11 +134,11 @@ Los libros de jugadores se leen como los guarda el juego: un `.json` por libro (
 
 ### Escribir un libro de jugador
 
-1. `/escribir_libro` y el título (80 caracteres como mucho, que no exista ya). El bot escribe por mensaje privado.
+1. `/escribir_libro`, el título (80 caracteres como mucho, que no exista ya) y, si se quiere, el autor (80 caracteres como mucho). Sin autor se usa el nombre que se ve en Discord. El bot escribe por mensaje privado.
 2. Cada mensaje privado que se le envíe se añade al libro como un párrafo, y el bot lo marca con ✅. También vale un `.txt`; Discord convierte así los mensajes muy largos. Máximo 6000 caracteres en total, el `MAX_BOOK_LEN` del juego.
 3. `/terminar_libro` y la categoría (Apocrypha & Grimoires, Myths & Tales, Legends & Accounts, Thesis o Eoratica) lo guarda. `/cancelar_libro` lo descarta.
 
-Se guarda en `PLAYER_BOOKS_DIR` igual que lo haría la imprenta del juego: `<título codificado>.json` con `book_title`, `author` (nombre en Discord), `author_ckey` (`discord:<id>`), `icon` (`basic_book`), `text` en HTML y `category`, y el título se añade a `_book_titles.json`. Si no había índice, se crea con los libros que ya había en la carpeta. Sale al momento en `/biblioteca`; el juego lo carga al empezar la siguiente ronda.
+Se guarda en `PLAYER_BOOKS_DIR` igual que lo haría la imprenta del juego: `<título codificado>.json` con `book_title`, `author` (el elegido), `author_ckey` (el nombre de usuario de Discord, el de `@`), `icon` (`basic_book`), `text` en HTML y `category`, y el título se añade a `_book_titles.json`. Del título y del autor se quitan `<` y `>`, porque el juego los pega sin escapar en la página del libro. Si no había índice, se crea con los libros que ya había en la carpeta. Sale al momento en `/biblioteca`; el juego lo carga al empezar la siguiente ronda.
 
 El texto solo se recoge por mensaje privado: en los canales, Discord no deja leer los mensajes sin el permiso de contenido de mensajes. Cada persona tiene un borrador a la vez, y los borradores se pierden si el bot se reinicia. En la consola, las líneas que no son comandos van al borrador.
 

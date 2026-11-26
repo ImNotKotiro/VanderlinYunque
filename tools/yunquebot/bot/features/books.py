@@ -82,6 +82,7 @@ class BooksFeature(Feature):
         command: str = "",
         argument: str = "",
         requester: Requester | None = None,
+        extra: str = "",
     ) -> FeatureResult:
         if command == "libro":
             return self._request_book(argument)

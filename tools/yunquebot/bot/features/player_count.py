@@ -25,6 +25,7 @@ class PlayerCountFeature(Feature):
         command: str = "",
         argument: str = "",
         requester: Requester | None = None,
+        extra: str = "",
     ) -> FeatureResult:
         snapshot = gateway.player_snapshot()
         return FeatureResult(

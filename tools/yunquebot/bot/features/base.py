@@ -46,13 +46,18 @@ class FeatureResult:
 
 @dataclass(frozen=True)
 class Requester:
-    """Quién hace la petición. `key` es estable: en Discord, discord:<id de usuario>."""
+    """Quién hace la petición.
+
+    `key` es estable: en Discord, discord:<id de usuario>. `name` es el nombre que se ve;
+    `account`, el nombre de usuario de Discord (@nombre), que no lleva espacios.
+    """
 
     key: str
     name: str
+    account: str = ""
 
 
-CONSOLE_REQUESTER = Requester(key="consola", name="Consola")
+CONSOLE_REQUESTER = Requester(key="consola", name="Consola", account="consola")
 
 
 @dataclass(frozen=True)
@@ -79,6 +84,13 @@ class Feature(ABC):
         """Nombre del argumento de texto del comando, si lleva uno."""
         return None
 
+    def command_extra_argument(self, name: str) -> str | None:
+        """Nombre de un segundo argumento de texto, opcional. En la consola va detrás de |."""
+        return None
+
+    def command_extra_argument_description(self, name: str) -> str:
+        return ""
+
     def command_argument_is_user(self, name: str) -> bool:
         """En Discord se elige un usuario; run() recibe su id. En la consola vale el id o <@id>."""
         return False
@@ -101,8 +113,9 @@ class Feature(ABC):
         command: str = "",
         argument: str = "",
         requester: Requester | None = None,
+        extra: str = "",
     ) -> FeatureResult:
-        """Puede bloquear. Discord la ejecuta en un hilo."""
+        """Puede bloquear. Discord la ejecuta en un hilo. `extra` es el argumento opcional, si lo hay."""
         raise NotImplementedError
 
     def capture_text(self, requester: Requester, text: str) -> TextCapture | None:

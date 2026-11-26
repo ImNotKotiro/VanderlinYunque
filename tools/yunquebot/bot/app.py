@@ -57,12 +57,13 @@ class App:
         command: str,
         argument: str = "",
         requester: Requester = CONSOLE_REQUESTER,
+        extra: str = "",
     ) -> FeatureResult:
         feature = self.feature_for(command)
         if feature is None:
             known = ", ".join(self.command_names()) or "(ninguno)"
             return FeatureResult(ok=False, text=f"Comando desconocido. Comandos: {known}")
-        return feature.run(self.gateway, self.config, command, argument, requester)
+        return feature.run(self.gateway, self.config, command, argument, requester, extra)
 
     def capture_text(self, requester: Requester, text: str) -> TextCapture | None:
         for feature in self.features:

@@ -17,6 +17,7 @@ from bot.game.player_books import (
     MAX_TEXT_LEN,
     PlayerBookError,
     PlayerBookLibrary,
+    clean_author,
     clean_title,
 )
 from bot.server.gateway import ServerGateway
@@ -78,6 +79,12 @@ class BookWritingFeature(Feature):
             return "usuario"
         return None
 
+    def command_extra_argument(self, name: str) -> str | None:
+        return "autor" if name == START else None
+
+    def command_extra_argument_description(self, name: str) -> str:
+        return "Nombre del autor que saldrá en el libro. Si no lo pones, tu nombre en Discord."
+
     def command_argument_is_user(self, name: str) -> bool:
         return name in (BAN, UNBAN)
 
@@ -109,11 +116,12 @@ class BookWritingFeature(Feature):
         command: str = "",
         argument: str = "",
         requester: Requester | None = None,
+        extra: str = "",
     ) -> FeatureResult:
         if requester is None:
             return _reply("Este comando necesita saber quién lo usa.")
         if command == START:
-            return self._start(requester, argument)
+            return self._start(requester, argument, extra)
         if command == FINISH:
             return self._finish(requester, argument)
         if command == BAN:
@@ -143,11 +151,12 @@ class BookWritingFeature(Feature):
             draft.parts.append(piece)
             return TextCapture(True, f"Guardado. Llevas {total} de {MAX_TEXT_LEN} caracteres.")
 
-    def _start(self, requester: Requester, argument: str) -> FeatureResult:
+    def _start(self, requester: Requester, argument: str, author: str) -> FeatureResult:
         if self.bans.is_banned(requester.key):
             return _reply(BANNED_REPLY)
         try:
             title = clean_title(argument)
+            author = clean_author(author or requester.name or requester.account)
         except PlayerBookError as exc:
             return _reply(str(exc))
         problem = self.library.problem()
@@ -162,9 +171,9 @@ class BookWritingFeature(Feature):
                     f"Ya estás escribiendo «{current.title}». "
                     f"Termínalo con /{FINISH} o descártalo con /{CANCEL}."
                 )
-            self._drafts[requester.key] = Draft(title=title, author=requester.name)
+            self._drafts[requester.key] = Draft(title=title, author=author)
         instructions = (
-            f"Escribiendo «{title}».\n"
+            f"Escribiendo «{title}», de {author}.\n"
             "Envíame aquí el texto, en uno o varios mensajes; cada mensaje es un párrafo. "
             "Marcaré con ✅ los que guarde. También vale un archivo .txt.\n"
             f"Máximo {MAX_TEXT_LEN} caracteres. Cuando acabes, usa /{FINISH} y elige la categoría. "
@@ -194,7 +203,7 @@ class BookWritingFeature(Feature):
         if category is None:
             return _reply(f"Elige una categoría: {', '.join(CATEGORIES)}.")
         try:
-            book = self.library.save(draft.title, draft.author, requester.key, text, category)
+            book = self.library.save(draft.title, draft.author, requester.account or requester.key, text, category)
         except PlayerBookError as exc:
             return _reply(f"No se pudo guardar: {exc}")
         with self._lock:
@@ -203,7 +212,8 @@ class BookWritingFeature(Feature):
         return FeatureResult(
             ok=True,
             text=(
-                f"Guardado «{book.title}» en Libros de jugadores ({category}, {len(text)} caracteres). "
+                f"Guardado «{book.title}», de {book.author}, en Libros de jugadores "
+                f"({category}, {len(text)} caracteres). "
                 "Ya sale en /biblioteca; en el juego aparecerá a más tardar en la próxima ronda."
             ),
             announce=False,

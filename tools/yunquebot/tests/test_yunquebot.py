@@ -512,8 +512,8 @@ class PlayerBookTests(unittest.TestCase):
 
 
 class BookWritingTests(unittest.TestCase):
-    ANA = Requester(key="discord:1", name="Ana")
-    LUIS = Requester(key="discord:2", name="Luis")
+    ANA = Requester(key="discord:1", name="Ana", account="ana_01")
+    LUIS = Requester(key="discord:2", name="Luis", account="luis")
 
     def setUp(self) -> None:
         self._temp = tempfile.TemporaryDirectory()
@@ -551,7 +551,7 @@ class BookWritingTests(unittest.TestCase):
         saved = json.loads((self.folder / "El+Libro+de+Ana.json").read_text(encoding="utf-8"))
         self.assertEqual(saved["book_title"], "El Libro de Ana")
         self.assertEqual(saved["author"], "Ana")
-        self.assertEqual(saved["author_ckey"], "discord:1")
+        self.assertEqual(saved["author_ckey"], "ana_01")
         self.assertEqual(saved["icon"], "basic_book")
         self.assertEqual(saved["category"], "Myths & Tales")
         self.assertEqual(
@@ -563,6 +563,22 @@ class BookWritingTests(unittest.TestCase):
 
         book = self.library.find("libro ana")[0]
         self.assertEqual(book.body, "Primer párrafo <b>sin HTML</b>.\n\nSegunda línea\ny tercera.")
+
+    def test_the_writer_chooses_the_author(self) -> None:
+        start = self.feature.run(None, None, "escribir_libro", "Crónica <i>", self.ANA, "  Fray   <b>Anselmo</b> ")  # type: ignore[arg-type]
+        self.assertTrue(start.ok, start.text)
+        self.assertIn("de Fray b Anselmo /b", start.private_messages[0])
+        self.feature.capture_text(self.ANA, "Texto")
+        done = self._run("terminar_libro", "Thesis")
+        self.assertIn("de Fray b Anselmo /b", done.text)
+        saved = json.loads((self.folder / "Cr%C3%B3nica+i.json").read_text(encoding="utf-8"))
+        self.assertEqual(saved["book_title"], "Crónica i")
+        self.assertEqual(saved["author"], "Fray b Anselmo /b")
+        self.assertEqual(saved["author_ckey"], "ana_01")
+
+        too_long = self.feature.run(None, None, "escribir_libro", "Otro", self.LUIS, "x" * 81)  # type: ignore[arg-type]
+        self.assertIn("80", too_long.text)
+        self.assertIsNone(self.feature.draft_for(self.LUIS))
 
     def test_without_index_the_existing_books_are_kept(self) -> None:
         self._write_book("Antiguo", "Antiguo")
@@ -597,12 +613,16 @@ class BookWritingTests(unittest.TestCase):
             load_config({"PLAYER_BOOKS_DIR": str(self.folder.resolve())}, demo=True),
             DemoServerGateway(),
         )
-        self.assertIn("Escribiendo «Diario»", execute_console_line(app, "escribir_libro Diario") or "")
+        self.assertIn(
+            "Escribiendo «Diario», de Maese Pere.",
+            execute_console_line(app, "escribir_libro Diario | Maese Pere") or "",
+        )
         self.assertIn("Llevas", execute_console_line(app, "Hoy llovió en Kingsfield.") or "")
         self.assertIn("Guardado «Diario»", execute_console_line(app, "terminar_libro Thesis") or "")
         self.assertIn("desconocido", execute_console_line(app, "esto ya no se guarda") or "")
         saved = json.loads((self.folder / "Diario.json").read_text(encoding="utf-8"))
-        self.assertEqual(saved["author_ckey"], CONSOLE_REQUESTER.key)
+        self.assertEqual(saved["author"], "Maese Pere")
+        self.assertEqual(saved["author_ckey"], CONSOLE_REQUESTER.account)
 
     def test_admins_ban_and_unban_writers(self) -> None:
         bans_path = self.folder / "datos" / "baneados_libros.json"
@@ -678,7 +698,7 @@ class ClockFeature(Feature):
     description = "Prueba de agenda."
     interval_seconds = 900
 
-    def run(self, gateway, config, command: str = "", argument: str = "", requester=None) -> FeatureResult:
+    def run(self, gateway, config, command: str = "", argument: str = "", requester=None, extra: str = "") -> FeatureResult:
         return FeatureResult(ok=True, text="ok")
 
 

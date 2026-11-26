@@ -220,11 +220,17 @@ def _slash_command(
 ) -> app_commands.Command:
     description = feature.command_description(name)
     argument = feature.command_argument(name)
+    extra = feature.command_extra_argument(name) if argument else None
     if argument and feature.command_argument_is_user(name):
 
         async def callback(interaction: discord.Interaction, valor: discord.User) -> None:
             shown = f"{valor.display_name} (@{valor.name}, id {valor.id})"
             await _answer_slash(interaction, app, feature, name, str(valor.id), requests, shown)
+
+    elif argument and extra:
+
+        async def callback(interaction: discord.Interaction, valor: str, opcional: str | None = None) -> None:
+            await _answer_slash(interaction, app, feature, name, valor, requests, extra=opcional or "")
 
     elif argument:
 
@@ -238,10 +244,15 @@ def _slash_command(
 
     callback.__name__ = f"slash_{feature.id}_{name}"
     if argument:
-        callback = app_commands.rename(valor=argument)(callback)
-        help_text = feature.command_argument_description(name)
-        if help_text:
-            callback = app_commands.describe(valor=help_text)(callback)
+        names = {"valor": argument}
+        help_texts = {"valor": feature.command_argument_description(name)}
+        if extra:
+            names["opcional"] = extra
+            help_texts["opcional"] = feature.command_extra_argument_description(name)
+        callback = app_commands.rename(**names)(callback)
+        help_texts = {key: text for key, text in help_texts.items() if text}
+        if help_texts:
+            callback = app_commands.describe(**help_texts)(callback)
         choices = feature.command_choices(name)
         if choices:
             options = [app_commands.Choice(name=label, value=value) for value, label in choices]
@@ -257,13 +268,18 @@ async def _answer_slash(
     argument: str,
     requests: RequestLog,
     shown_argument: str | None = None,
+    extra: str = "",
 ) -> None:
     label = feature.command_argument(name)
+    arguments = {label: shown_argument or argument} if label else {}
+    extra_label = feature.command_extra_argument(name)
+    if extra_label and extra:
+        arguments[extra_label] = extra
     request = Request(
         command=name,
         user=_who(interaction),
         place=_where(interaction),
-        arguments={label: shown_argument or argument} if label else {},
+        arguments=arguments,
     )
     permissions = app.config.permissions
     parent_id = getattr(interaction.channel, "parent_id", None)
@@ -282,7 +298,7 @@ async def _answer_slash(
     await interaction.response.defer(ephemeral=feature.reply_is_ephemeral(name))
     try:
         result = await asyncio.to_thread(
-            feature.run, app.gateway, app.config, name, argument, _requester(interaction.user)
+            feature.run, app.gateway, app.config, name, argument, _requester(interaction.user), extra
         )
     except Exception as exc:
         log.exception("Fallo el comando %s.", name)
@@ -310,7 +326,7 @@ async def _answer_slash(
 
 
 def _requester(user: discord.abc.User) -> Requester:
-    return Requester(key=f"discord:{user.id}", name=user.display_name)
+    return Requester(key=f"discord:{user.id}", name=user.display_name, account=user.name)
 
 
 async def _message_text(message: discord.Message) -> str:

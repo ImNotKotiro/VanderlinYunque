@@ -17,9 +17,12 @@ DEFAULT_CATEGORY = "Thesis"
 DEFAULT_ICON = "basic_book"
 #: Las de /obj/item/manuscript en code/game/objects/items/books.dm.
 CATEGORIES = ("Apocrypha & Grimoires", "Myths & Tales", "Legends & Accounts", "Thesis", "Eoratica")
-#: MAX_CHARTER_LEN y MAX_BOOK_LEN de code/__DEFINES/say.dm.
+#: MAX_CHARTER_LEN y MAX_BOOK_LEN de code/__DEFINES/say.dm. El manuscrito limita igual título y autor.
 MAX_TITLE_LEN = 80
+MAX_AUTHOR_LEN = 80
 MAX_TEXT_LEN = 6000
+#: El juego pega título y autor sin escapar en el HTML de la página.
+_UNSAFE_NAME_CHARS = re.compile(r"[<>\x00-\x1f\x7f]")
 
 
 class PlayerBookError(Exception):
@@ -107,6 +110,7 @@ class PlayerBookLibrary:
         if problem:
             raise PlayerBookError(problem)
         title = clean_title(title)
+        author = clean_author(author)
         if category not in CATEGORIES:
             raise PlayerBookError(f"Categoría desconocida. Usa una de estas: {', '.join(CATEGORIES)}.")
         if not text.strip():
@@ -120,7 +124,7 @@ class PlayerBookLibrary:
         names = self._file_names()
         payload = {
             "book_title": title,
-            "author": author.strip() or "Unknown",
+            "author": author,
             "author_ckey": author_ckey,
             "icon": icon,
             "text": text_to_html(text),
@@ -149,7 +153,7 @@ class PlayerBookLibrary:
 
 
 def clean_title(title: str) -> str:
-    cleaned = " ".join(title.split())
+    cleaned = _clean_name(title)
     if not cleaned:
         raise PlayerBookError("El libro necesita un título.")
     if len(cleaned) > MAX_TITLE_LEN:
@@ -157,6 +161,19 @@ def clean_title(title: str) -> str:
     if encode_title(cleaned) == INDEX_NAME:
         raise PlayerBookError("Ese título no está permitido.")
     return cleaned
+
+
+def clean_author(author: str) -> str:
+    cleaned = _clean_name(author)
+    if not cleaned:
+        raise PlayerBookError("El libro necesita un autor.")
+    if len(cleaned) > MAX_AUTHOR_LEN:
+        raise PlayerBookError(f"El autor no puede pasar de {MAX_AUTHOR_LEN} caracteres.")
+    return cleaned
+
+
+def _clean_name(text: str) -> str:
+    return " ".join(_UNSAFE_NAME_CHARS.sub(" ", text).split())
 
 
 def _write_atomic(path: Path, text: str) -> None:

@@ -15,7 +15,8 @@ HELP = """Comandos de consola:
   estado               Consulta el conteo (en Discord es /estado)
   biblioteca <listado> Lista libros: codigo, trabajos o jugadores
   libro <título>       Muestra un libro del código o de jugadores (en Discord llega por privado)
-  escribir_libro <título>     Empieza un libro de jugador; las líneas siguientes son su texto
+  escribir_libro <título> | <autor>  Empieza un libro de jugador; las líneas siguientes son su texto.
+                              El autor es opcional; sin él, "Consola"
   terminar_libro <categoría>  Lo guarda: Apocrypha & Grimoires, Myths & Tales, Legends & Accounts, Thesis o Eoratica
   cancelar_libro              Descarta el libro que estás escribiendo
   banear_escritor <id>        Prohíbe añadir libros a ese usuario de Discord (admin en Discord)
@@ -82,7 +83,11 @@ def execute_console_line(app: App, line: str, now: float = 0.0) -> str | None:
         if capture is not None:
             return capture.reply
     argument = " ".join(parts[1:])
-    result = app.run_command(command, argument, CONSOLE_REQUESTER)
+    extra = ""
+    feature = app.feature_for(command)
+    if feature is not None and feature.command_extra_argument(command):
+        argument, _, extra = argument.partition("|")
+    result = app.run_command(command, argument.strip(), CONSOLE_REQUESTER, extra.strip())
     return result.text
 
 
