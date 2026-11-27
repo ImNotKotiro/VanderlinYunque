@@ -33,6 +33,7 @@
 		/datum/language/kobold,
 		/datum/language/rousman,
 		/datum/language/thievescant,
+		/datum/language/sign_language,
 		/datum/language/orcish,
 		/datum/language/deepspeak,
 		/datum/language/undead,
