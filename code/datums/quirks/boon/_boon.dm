@@ -95,6 +95,7 @@
 		/datum/language/hellspeak,
 		/datum/language/orcish,
 		/datum/language/gronnic,
+		/datum/language/sign_language,
 	)
 
 /datum/quirk/boon/third_language/on_spawn()
