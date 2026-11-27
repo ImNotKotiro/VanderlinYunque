@@ -1151,20 +1151,12 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 			reset_jobs(user)
 
 		if("ooc_preview")
-			var/list/dat = list()
-			if(is_valid_headshot_link(null, read_preference(/datum/preference/text/headshot_link), TRUE))
-				dat += ("<div align='center'><img src='[read_preference(/datum/preference/text/headshot_link)]' width='350px' height='350px'></div>")
-			if(read_preference(/datum/preference/text/flavortext) && read_preference(/datum/preference/text/flavortext_display))
-				dat += "<div align='left' style='line-height: 1.2;'>[read_preference(/datum/preference/text/flavortext_display)]</div>"
-			if(read_preference(/datum/preference/text/ooc_notes) && read_preference(/datum/preference/text/ooc_notes_display))
-				dat += "<br>"
-				dat += "<div align='center'><b>OOC notes</b></div>"
-				dat += "<div align='left' style='line-height: 1.2;'>[read_preference(/datum/preference/text/ooc_notes_display)]</div>"
-			if(read_preference(/datum/preference/text/ooc_extra))
-				dat += "[read_preference(/datum/preference/text/ooc_extra)]"
-			var/datum/browser/popup = new(user, "[read_preference(/datum/preference/text/real_name)]", "<center>[read_preference(/datum/preference/text/real_name)]</center>", width = 480, height = 700)
-			popup.set_content(dat.Join())
-			popup.open(use_onclose = FALSE)
+			// Use the same TGUI profile panel as the in-world Examine Closer link.
+			// The preferences datum is passed directly so unsaved character edits preview correctly.
+			var/datum/examine_panel/panel = new
+			panel.pref = src
+			panel.viewing = user
+			panel.ui_interact(user)
 
 		if("input")
 

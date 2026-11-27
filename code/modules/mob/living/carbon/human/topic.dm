@@ -7,23 +7,9 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 		if(!ismob(usr))
 			return
 		var/mob/user = usr
-		var/list/dat = list()
-		if(headshot_link)
-			dat += "<br>"
-			dat += ("<div align='center'><img src='[headshot_link]' width='325px' height='325px'></div>")
-		if(flavortext)
-			dat += "<div align='left' style='line-height: 1.2;'>[flavortext_display]</div>"
-		if(ooc_notes)
-			dat += "<br>"
-			dat += "<div align='center'><b>OOC notes</b></div>"
-			dat += "<div align='left' style='line-height: 1.2;'>[ooc_notes_display]</div>"
-		if(ooc_extra)
-			dat += "[ooc_extra]"
-		var/datum/browser/popup = new(user, "[src]", "<center>[src]</center>", 480, 700)
-
-		popup.set_head_content("<meta charset='UTF-8'>")
-		popup.set_content(dat.Join())
-		popup.open(FALSE)
+		var/datum/examine_panel/panel = new(src)
+		panel.viewing = user
+		panel.ui_interact(user)
 		return
 
 	if(href_list["inspect_limb"] && (isobserver(usr) || usr.can_perform_action(src, FORBID_TELEKINESIS_REACH)))

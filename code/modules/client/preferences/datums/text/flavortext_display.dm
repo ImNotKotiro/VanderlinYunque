@@ -3,7 +3,7 @@
 	savefile_identifier = PREF_CHARACTER
 	category = "character_ooc"
 	can_randomize = FALSE
-	maximum_value_length = 1024
+	maximum_value_length = 5000
 	should_update_preview = FALSE
 	// This preference stores already-rendered, sanitized HTML. Do not strip its HTML tags when loading it.
 	should_strip_html = FALSE
