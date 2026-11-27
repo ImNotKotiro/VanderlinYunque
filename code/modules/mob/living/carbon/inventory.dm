@@ -78,6 +78,8 @@
 	equipping.forceMove(src)
 	equipping.plane = ABOVE_HUD_PLANE
 	equipping.appearance_flags |= NO_CLIENT_COLOR
+	if(locate(/datum/client_colour/monochrome/blind) in client_colours)
+		equipping.appearance_flags &= ~NO_CLIENT_COLOR
 	var/not_handled = FALSE
 	switch(slot)
 		if(ITEM_SLOT_MASK)

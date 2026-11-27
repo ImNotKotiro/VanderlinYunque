@@ -31,6 +31,70 @@
 	if(user.is_nearsighted_currently())
 		user.apply_status_effect(/datum/status_effect/debuff/badvision)
 
+
+/datum/status_effect/debuff/blind_vice
+	id = "blind_vice"
+	alert_type = null
+	effectedstats = list(STAT_PERCEPTION = -8, STAT_SPEED = -1, STAT_FORTUNE = -1)
+	duration = 5 SECONDS
+
+/datum/quirk/vice/blind
+	name = "Blind"
+	desc = "I cannot see normally, and must rely on what I can hear and feel around me."
+	point_value = 4
+	incompatible_quirks = list(
+		/datum/quirk/vice/fear_darkness,
+		/datum/quirk/vice/cyclops_left,
+		/datum/quirk/vice/cyclops_right,
+		/datum/quirk/vice/bad_sight
+	)
+	traits_to_add = list(TRAIT_DARKVISION)
+
+
+/datum/quirk/vice/blind/on_spawn()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/H = owner
+
+	// Blind characters start completely illiterate.
+	H.adjust_skill_level(/datum/attribute/skill/educated/reading, -60)
+
+	// Monochrome vision, plus the existing impaired fullscreen overlay for peripheral darkness.
+	H.add_client_colour(/datum/client_colour/monochrome/blind)
+	H.overlay_fullscreen("blind_vice", /atom/movable/screen/fullscreen/impaired, 1)
+
+	// Equipment HUD items normally ignore client colour. Blind vision should make them monochrome too.
+	for(var/obj/item/I in H.get_equipped_items())
+		I.appearance_flags &= ~NO_CLIENT_COLOR
+
+
+	RegisterSignal(H, COMSIG_MOB_EXAMINATE, PROC_REF(on_examinate))
+	H.apply_status_effect(/datum/status_effect/debuff/blind_vice)
+	return ..()
+
+/datum/quirk/vice/blind/on_remove()
+	if(owner)
+		var/mob/living/carbon/human/H = owner
+		UnregisterSignal(H, COMSIG_MOB_EXAMINATE)
+		H.remove_status_effect(/datum/status_effect/debuff/blind_vice)
+		H.remove_client_colour(/datum/client_colour/monochrome/blind)
+		H.clear_fullscreen("blind_vice", FALSE)
+
+		// Restore the normal HUD behaviour for equipment when Blind is removed.
+		for(var/obj/item/I in H.get_equipped_items())
+			I.appearance_flags |= NO_CLIENT_COLOR
+	. = ..()
+
+/datum/quirk/vice/blind/on_life(mob/living/user)
+	if(!ishuman(user))
+		return
+	user.apply_status_effect(/datum/status_effect/debuff/blind_vice)
+
+/datum/quirk/vice/blind/proc/on_examinate(mob/living/source, atom/target)
+	SIGNAL_HANDLER
+	if(get_dist(source, target) > 1)
+		return COMPONENT_EXAMINATE_BLIND
+
 /datum/quirk/vice/cyclops_right
 	name = "Cyclops (R)"
 	desc = "I lost my right eye long ago. But it made me great at noticing things."
