@@ -32,6 +32,21 @@
 		"bronce": "bonz",
 		"ok": "hasaen",
         "vale": "hasaen",
+		"sí ": "evet ",
+		"sí.": "evet.",
+		"sí,": "evet,",
+		"sí!": "evet!",
+		"sí?": "evet?",
+		"si ": "evet ",
+		"si.": "evet.",
+		"si,": "evet,",
+		"si!": "evet!",
+		"si?": "evet?",
+		"no ": "yok ",
+		"no.": "yok.",
+		"no,": "yok,",
+		"no!": "yok!",
+		"no?": "yok?",
         "ch": "shh"
 		}
 
