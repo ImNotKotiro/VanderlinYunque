@@ -254,6 +254,29 @@ img {
   margin: 0 0.33em 0.25em;
 }
 
+.verb-search {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0 0 6px;
+  padding: 3px 7px 2px;
+  border: 1px solid #999999;
+  border-radius: 0.25em;
+  background-color: #ffffff;
+  color: #000000;
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+}
+
+.verb-search:focus {
+  border-color: #666666;
+}
+
+.verb-search::placeholder {
+  color: #777777;
+  opacity: 1;
+}
+
 .interview_panel_stats,
 .interview_panel_controls {
   margin-bottom: 1em;
@@ -316,6 +339,20 @@ body.dark {
 .dark .top-item.unread {
   background-color: hsl(0, 53%, 45%);
   color: white;
+}
+
+.dark .verb-search {
+  border-color: #555555;
+  background-color: #202020;
+  color: #eeeeee;
+}
+
+.dark .verb-search:focus {
+  border-color: #888888;
+}
+
+.dark .verb-search::placeholder {
+  color: #aaaaaa;
 }
 
 .dark .grid-item {

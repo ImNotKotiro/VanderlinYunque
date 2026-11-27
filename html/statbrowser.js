@@ -27,6 +27,8 @@ var spells = [];
 var spell_tabs = [];
 var verb_tabs = [];
 var verbs = [["", ""]]; // list with a list inside
+var verbSearch = "";
+var lastVerbCat = "";
 var tickets = [];
 var sdql2 = [];
 var permanent_tabs = []; // tabs that won't be cleared by wipes
@@ -570,6 +572,25 @@ function make_verb_onclick(command) {
 
 function draw_verbs(cat) {
   statcontentdiv.textContent = "";
+
+  // Keep the search text while staying in the same verb category.
+  // Reset it when switching to another category.
+  if (cat != lastVerbCat) {
+    verbSearch = "";
+    lastVerbCat = cat;
+  }
+
+  var verbSearchBox = document.createElement("input");
+  verbSearchBox.type = "text";
+  verbSearchBox.className = "verb-search";
+  verbSearchBox.placeholder = "Search verbs...";
+  verbSearchBox.value = verbSearch;
+  verbSearchBox.oninput = function () {
+    verbSearch = this.value;
+    filterVerbs();
+  };
+  statcontentdiv.appendChild(verbSearchBox);
+
   var table = document.createElement("div");
   var additions = {}; // additional sub-categories to be rendered
   table.className = "grid-container";
@@ -604,6 +625,7 @@ function draw_verbs(cat) {
       a.href = "#";
       a.onclick = make_verb_onclick(command.replace(/\s/g, "-"));
       a.className = "grid-item";
+      a.setAttribute("data-label", command);
       var t = document.createElement("span");
       t.textContent = command;
       t.className = "grid-item-text";
@@ -625,6 +647,18 @@ function draw_verbs(cat) {
       content.appendChild(header);
       content.appendChild(additions[cat]);
     }
+  }
+
+  filterVerbs();
+}
+
+function filterVerbs() {
+  var q = (verbSearch || "").toLowerCase();
+  var items = document.getElementById("statcontent").getElementsByClassName("grid-item");
+
+  for (var i = 0; i < items.length; i++) {
+    var show = !q || items[i].textContent.toLowerCase().indexOf(q) !== -1;
+    items[i].style.display = show ? "" : "none";
   }
 }
 
@@ -656,7 +690,21 @@ function set_tabs_style(style) {
 }
 
 function restoreFocus() {
+  // Do not steal focus from text-entry controls. The stat panel uses an
+  // <input> for verb search, and mouseup/keyup events bubble to document.
+  // Focusing the map here would immediately blur the search box after every
+  // click or keystroke.
+  var active = document.activeElement;
+  if (active && (active.tagName == "INPUT" || active.tagName == "TEXTAREA" || active.isContentEditable)) {
+    return;
+  }
+
   run_after_focus(function () {
+    // The active element may have changed while the timeout was waiting.
+    var current = document.activeElement;
+    if (current && (current.tagName == "INPUT" || current.tagName == "TEXTAREA" || current.isContentEditable)) {
+      return;
+    }
     Byond.winset("map", {
       focus: true,
     });
