@@ -37,12 +37,31 @@ SUBSYSTEM_DEF(statpanels)
 		var/true_round_time = "[ROUND_TIME()]"
 		if(SSticker.HasRoundStarted())
 			true_round_time = "[DisplayTimeText(world.time - SSticker.round_start_time, 1)]"
+
+		var/day_of_week = "Unknown"
+		switch(GLOB.dayspassed)
+			if(1)
+				day_of_week = "Dies Lunae"
+			if(2)
+				day_of_week = "Dies Martis"
+			if(3)
+				day_of_week = "Dies Mercurii"
+			if(4)
+				day_of_week = "Dies Iovis"
+			if(5)
+				day_of_week = "Dies Veneris"
+			if(6)
+				day_of_week = "Dies Saturni"
+			if(7)
+				day_of_week = "Dies Solis"
+
 		global_data += list(
 			"Round ID: [GLOB.round_id ? GLOB.round_id : "NULL"]",
 			"Server Time: [time2text(world.timeofday, "YYYY-MM-DD hh:mm:ss", world.timezone)]",
 			"Round Time: [true_round_time]",
 			"In-Character Time: [station_time_timestamp()]",
 			"Time of Day: [GLOB.tod]",
+			"Day of the Week: [day_of_week]",
 			"Time Dilation: [round(SStime_track.time_dilation_current,1)]% AVG:([round(SStime_track.time_dilation_avg_fast,1)]%, [round(SStime_track.time_dilation_avg,1)]%, [round(SStime_track.time_dilation_avg_slow,1)]%)",
 		)
 

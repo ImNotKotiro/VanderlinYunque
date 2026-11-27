@@ -97,13 +97,13 @@
 
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/on_befriended(datum/source, mob/living/new_friend)
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, new_friend, EMOTION_HAPPY, "is new friend", 5)
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, new_friend, EMOTION_HAPPY, "es nuevo amigo!", 5)
 	// Gnomes get excited when they make friends
-	say(pick("*chirps happily*", "*does a little dance*", "Friend! Friend!"))
+	say(pick("*tararea feliz", "*hace un pequeño baile", "Amigo! Amigo!"))
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/on_unfriended(datum/source, mob/living/former_friend)
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, former_friend, EMOTION_SAD, "is no longer friend...", -5)
-	say(pick("*whimpers sadly*", "*looks dejected*", "Why friend leave?"))
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, former_friend, EMOTION_SAD, "ya no amigo...", -5)
+	say(pick("*solloza tristemente", "*se ve deprimido", "¿Porqué amigo irse?"))
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/on_attacked(datum/source, obj/item/weapon, mob/living/attacker)
 	if(!attacker)
@@ -112,14 +112,14 @@
 	// Check if this is a friend attacking us - extra sad!
 	var/friendship_check = SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHECK_LEVEL, attacker, "friend")
 	if(friendship_check)
-		SEND_SIGNAL(src, COMSIG_EMOTION_STORE, attacker, EMOTION_SAD, "hurt me!", -10)
-		say(pick("Why hurt friend?!", "*cries*", "Friend... why?"))
+		SEND_SIGNAL(src, COMSIG_EMOTION_STORE, attacker, EMOTION_SAD, "hacer daño!", -10)
+		say(pick("Porque golpear amigo?!", "*llora", "Amigo... Porque?!"))
 	else
-		SEND_SIGNAL(src, COMSIG_EMOTION_STORE, attacker, EMOTION_ANGER, "attacked me with [weapon]!", -3)
-		say(pick("*growls angrily*", "Ow! Mean!", "*hisses*"))
+		SEND_SIGNAL(src, COMSIG_EMOTION_STORE, attacker, EMOTION_ANGER, "ataco con [weapon]!", -3)
+		say(pick("*gruñe enojado", "Auch! Malo!", "*hace un bufido"))
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/on_death(datum/source)
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, null, EMOTION_SCARED, "is dying!", 0)
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, null, EMOTION_SCARED, "muere!", 0)
 
 	// Collect friends before dying - PROPERLY using befriended_refs
 	var/list/my_friends = list()
@@ -131,11 +131,11 @@
 
 	// Create death message for nearby gnomes to remember
 	var/death_message = pick(
-		"loved all friends very much",\
-		"said friends were best thing ever",\
-		"always happy when with friends",\
-		"thought friends were wonderful",\
-		"wanted friends to be happy always",\
+		"amo a sus amigos muchísimo",\
+		"dijo que sus amigos eran lo mejor",\
+		"fue feliz junto a sus amigos",\
+		"extrañara a sus amigos",\
+		"queria que sus amigos fueran felices",\
 	)
 
 	// Tell nearby gnomes about our death message
@@ -150,10 +150,10 @@
 		)
 
 		// The witnessing gnome becomes sad
-		SEND_SIGNAL(nearby_gnome, COMSIG_EMOTION_STORE, src, EMOTION_SAD, "saw friend [name] die...", -3)
+		SEND_SIGNAL(nearby_gnome, COMSIG_EMOTION_STORE, src, EMOTION_SAD, "ver amigo [name] morir...", -3)
 		nearby_gnome.say(pick("*cries for [name]*", "[name] no!", "*whimpers sadly*"))
 
-	say(pick("*death rattle*", "Tell friends... gnome loved...", "*wheezes*", "Friends... remember gnome..."))
+	say(pick("*canta una canción de luto", "Decir amigos... Querer gnomo...", "*solloza", "Amigos... Recordar gnomo..."))
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/hat()
 	hat_state = pick("spike_helm", "fungi_helm", "fungi_helm_bog", "gnome_helm", null)
@@ -161,7 +161,7 @@
 
 /mob/living/simple_animal/hostile/gnome_homunculus/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum, damage_type)
 	. = ..()
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, throwingdatum?.thrower, EMOTION_SCARED, "[throwingdatum.thrower] throw thing at me!", 0)
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, throwingdatum?.thrower, EMOTION_SCARED, "[throwingdatum.thrower] lanzarme cosa!", 0)
 
 /mob/living/simple_animal/hostile/gnome_homunculus/attackby(obj/item/item, mob/living/user, list/modifiers)
 	// Check what kind of item interaction this is
@@ -176,16 +176,16 @@
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/handle_food_gift(obj/item/reagent_containers/food/food_item, mob/living/giver)
 	SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHANGE, giver, 5)
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, giver, EMOTION_HAPPY, "gave me delicious [food_item]!", 3)
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, giver, EMOTION_HAPPY, "darme delicioso [food_item]!", 3)
 
-	say(pick("Food!", "Yum!", "Good!", "*happy chirp*"))
+	say(pick("Comida!", "Yum!", "Rico!", "*silbido alegre"))
 
 	qdel(food_item)
 	adjustBruteLoss(-5)
 
 /mob/living/simple_animal/hostile/gnome_homunculus/proc/handle_toy_interaction(obj/item/toy/toy_item, mob/living/player)
 	SEND_SIGNAL(src, COMSIG_FRIENDSHIP_CHANGE, player, 2)
-	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, player, EMOTION_FUNNY, "played with me using [toy_item]!", 2)
+	SEND_SIGNAL(src, COMSIG_EMOTION_STORE, player, EMOTION_FUNNY, "jugar conmigo con [toy_item]!", 2)
 
-	say(pick("*giggle*", "Fun!", "*bounce*", "Play!"))
+	say(pick("*se rie", "Gustar!", "*salta", "Jugar!"))
 
